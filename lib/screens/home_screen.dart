@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:motors/screens/shopping_screen.dart';
 import 'package:motors/views/products_manager_view.dart';
 import 'package:motors/views/setting_view.dart';
-import 'package:motors/views/shopping_view.dart';
 import 'package:motors/widgets/buisiness_image.dart';
 import 'package:motors/widgets/exit_widget.dart';
 import 'package:motors/widgets/vertical_line.dart';
@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   bool _isExtended = false;
 
   final List<Widget> _pages = const [
-    ShoppingView(),
+    ShoppingScreen(),
     ProductsManagerView(),
     SettingView(),
   ];
@@ -120,9 +120,9 @@ class _HomePageState extends State<HomePage> {
                         size: 40,
                       ),
                       onPressed: () {
-                        setState(() {
-                          _isExtended = !_isExtended;
-                        });
+                        // setState(() {
+                        //   _isExtended = !_isExtended;
+                        // });
                       },
                     ),
                     const BuisinessImage(),
