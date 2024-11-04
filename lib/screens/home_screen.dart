@@ -3,6 +3,7 @@ import 'package:motors/views/products_manager_view.dart';
 import 'package:motors/views/setting_view.dart';
 import 'package:motors/views/shopping_view.dart';
 import 'package:motors/widgets/buisiness_image.dart';
+import 'package:motors/widgets/exit_widget.dart';
 import 'package:motors/widgets/vertical_line.dart';
 
 class HomePage extends StatefulWidget {
@@ -30,27 +31,18 @@ class _HomePageState extends State<HomePage> {
           color: Colors.blue,
           borderRadius: BorderRadius.circular(5),
         ),
-        child: const Center(
-          child: Icon(
-            Icons.shopping_cart_rounded,
-            size: 45,
-            color: Colors.white,
-          ),
-        ),
+        child: Center(child: Image.asset("assets/icons/cashier.png")),
       ),
       icon: Container(
-        width: 60,
-        height: 50,
+        width: 65,
+        height: 65,
         decoration: BoxDecoration(
           color: const Color.fromARGB(182, 194, 192, 192),
           borderRadius: BorderRadius.circular(5),
         ),
-        child: const Center(
-            child: Icon(
-          Icons.shopping_cart_rounded,
-          size: 45,
-          color: Colors.grey,
-        )),
+        child: Center(
+          child: Center(child: Image.asset("assets/icons/cashier.png")),
+        ),
       ),
       label: const Text("Shop      "),
     ),
@@ -62,27 +54,20 @@ class _HomePageState extends State<HomePage> {
           color: Colors.blue,
           borderRadius: BorderRadius.circular(5),
         ),
-        child: const Center(
-          child: Icon(
-            Icons.add_shopping_cart,
-            size: 45,
-            color: Colors.white,
-          ),
+        child: Center(
+          child: Center(child: Image.asset("assets/icons/storage.png")),
         ),
       ),
       icon: Container(
-        width: 60,
-        height: 50,
+        width: 65,
+        height: 65,
         decoration: BoxDecoration(
           color: const Color.fromARGB(182, 194, 192, 192),
           borderRadius: BorderRadius.circular(5),
         ),
-        child: const Center(
-            child: Icon(
-          Icons.add_shopping_cart_rounded,
-          size: 45,
-          color: Colors.grey,
-        )),
+        child: Center(
+          child: Center(child: Image.asset("assets/icons/storage.png")),
+        ),
       ),
       label: const Text("Products "),
     ),
@@ -94,27 +79,20 @@ class _HomePageState extends State<HomePage> {
           color: Colors.blue,
           borderRadius: BorderRadius.circular(5),
         ),
-        child: const Center(
-          child: Icon(
-            Icons.checklist_rounded,
-            size: 45,
-            color: Colors.white,
-          ),
+        child: Center(
+          child: Center(child: Image.asset("assets/icons/orders.png")),
         ),
       ),
       icon: Container(
-        width: 60,
-        height: 50,
+        width: 65,
+        height: 65,
         decoration: BoxDecoration(
           color: const Color.fromARGB(182, 194, 192, 192),
           borderRadius: BorderRadius.circular(5),
         ),
-        child: const Center(
-            child: Icon(
-          Icons.checklist_rounded,
-          size: 35,
-          color: Colors.grey,
-        )),
+        child: Center(
+          child: Center(child: Image.asset("assets/icons/orders.png")),
+        ),
       ),
       label: const Text("Manage  "),
     ),
@@ -151,16 +129,7 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              trailing: Padding(
-                padding: const EdgeInsets.only(top: 370.0),
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.logout_rounded,
-                    size: 40,
-                  ),
-                  onPressed: () {},
-                ),
-              ),
+              trailing: const ExitWidget(),
               minExtendedWidth: 40,
               backgroundColor: Colors.white,
               onDestinationSelected: _onItemTapped,
