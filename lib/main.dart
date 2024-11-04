@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:motors/screens/home_screen.dart';
+import 'package:motors/core/screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(fontFamily: "NotoKufiArabic"),
       debugShowCheckedModeBanner: false,
       title: 'Flutter Desktop Navigation',
-      home: const HomePage(),
+      home: const HomeScreen(),
     );
   }
 }

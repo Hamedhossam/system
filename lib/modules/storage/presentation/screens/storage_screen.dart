@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class SettingView extends StatelessWidget {
-  const SettingView({super.key});
+class StorageScreen extends StatelessWidget {
+  const StorageScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
       backgroundColor: Colors.white,
-      body: Center(child: Text('Setting View')),
+      body: Center(child: Text("Products Maneger")),
     );
   }
 }

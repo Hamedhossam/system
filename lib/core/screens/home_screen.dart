@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:motors/screens/shopping_screen.dart';
-import 'package:motors/views/products_manager_view.dart';
-import 'package:motors/views/setting_view.dart';
-import 'package:motors/widgets/buisiness_image.dart';
-import 'package:motors/widgets/exit_widget.dart';
-import 'package:motors/widgets/vertical_line.dart';
+import 'package:motors/core/widgets/buisiness_image.dart';
+import 'package:motors/core/widgets/exit_widget.dart';
+import 'package:motors/core/widgets/vertical_line.dart';
+import 'package:motors/modules/shopping/presentation/widgets/shopping_screen_body.dart';
+import 'package:motors/modules/storage/presentation/screens/storage_screen.dart';
+import 'package:motors/modules/orders/presentation/screens/orders_screen.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   bool _isExtended = false;
 
   final List<Widget> _pages = const [
-    ShoppingScreen(),
-    ProductsManagerView(),
-    SettingView(),
+    ShoppingScreenBody(),
+    StorageScreen(),
+    OrdersScreen(),
   ];
   List<NavigationRailDestination> navigationDestinations = [
     NavigationRailDestination(

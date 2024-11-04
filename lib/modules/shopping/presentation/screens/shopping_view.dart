@@ -1,8 +1,8 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
-import 'package:motors/widgets/label.dart';
-import 'package:motors/widgets/shopping_screen/category_widget.dart';
+import 'package:motors/core/widgets/label.dart';
+import 'package:motors/modules/shopping/presentation/widgets/category_widget.dart';
 
 class ShoppingView extends StatelessWidget {
   const ShoppingView({super.key});
