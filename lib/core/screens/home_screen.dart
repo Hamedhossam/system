@@ -15,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
-  bool _isExtended = false;
+  // bool _isExtended = false;
 
   final List<Widget> _pages = const [
     ShoppingScreenBody(),
@@ -135,7 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onDestinationSelected: _onItemTapped,
               selectedIndex: _selectedIndex,
               indicatorColor: Colors.transparent,
-              extended: _isExtended,
+              // extended: _isExtended,
               destinations: navigationDestinations),
           const CustomizedVerticalLine(),
           Expanded(

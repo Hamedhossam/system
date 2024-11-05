@@ -13,7 +13,7 @@ class BuisinessImage extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(bottom: 10.0),
         child: Image.asset(
-          "assets/images/pngwing.com.png",
+          "assets/icons/store_logo.png",
         ),
       ),
     );
