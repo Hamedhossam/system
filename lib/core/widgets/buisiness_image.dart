@@ -8,8 +8,8 @@ class BuisinessImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 50,
-      width: 50,
+      height: 80,
+      width: 80,
       child: Padding(
         padding: const EdgeInsets.only(bottom: 10.0),
         child: Image.asset(

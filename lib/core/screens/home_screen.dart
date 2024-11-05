@@ -10,6 +10,7 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _HomeScreenState createState() => _HomeScreenState();
 }
 
@@ -110,22 +111,24 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Row(
         children: [
           NavigationRail(
-              leading: Padding(
-                padding: const EdgeInsets.only(top: 30.0),
+              leading: const Padding(
+                padding: EdgeInsets.only(top: 30.0),
                 child: Column(
                   children: [
-                    IconButton(
-                      icon: const Icon(
-                        Icons.menu_rounded,
-                        size: 40,
-                      ),
-                      onPressed: () {
-                        // setState(() {
-                        //   _isExtended = !_isExtended;
-                        // });
-                      },
-                    ),
-                    const BuisinessImage(),
+                    BuisinessImage(),
+
+                    // IconButton(
+                    //   icon: const Icon(
+                    //     Icons.menu_rounded,
+                    //     size: 40,
+                    //   ),
+                    //   onPressed: () {
+                    //     // setState(() {
+                    //     //   _isExtended = !_isExtended;
+                    //     // });
+                    //   },
+                    // ),
+                    // const BuisinessImage(),
                   ],
                 ),
               ),

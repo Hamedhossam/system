@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:motors/core/widgets/horizental_line.dart';
+import 'package:motors/modules/storage/presentation/widgets/add_product_view.dart';
+import 'package:motors/modules/storage/presentation/widgets/storage_tittle_widget.dart';
 
 class StorageScreen extends StatelessWidget {
   const StorageScreen({super.key});
@@ -7,7 +10,12 @@ class StorageScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Scaffold(
       backgroundColor: Colors.white,
-      body: Center(child: Text("Products Maneger")),
+      body: Column(
+        children: [
+          StorageTittleWidget(),
+          HorizentalLine(),
+        ],
+      ),
     );
   }
 }
