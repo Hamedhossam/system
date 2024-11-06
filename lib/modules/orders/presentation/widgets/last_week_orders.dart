@@ -106,10 +106,24 @@ class LastWeekOrders extends StatelessWidget {
                               children: [
                                 Padding(
                                   padding: EdgeInsets.only(right: 5.0),
+                                  child: Icon(Icons.date_range),
+                                ),
+                                Text(
+                                  "16/9/2002",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromARGB(255, 92, 91, 91)),
+                                ),
+                              ],
+                            ),
+                            const Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(right: 5.0),
                                   child: Icon(Icons.timer),
                                 ),
                                 Text(
-                                  "16/9/2002 03:14 AM",
+                                  "03:14 AM",
                                   style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       color: Color.fromARGB(255, 92, 91, 91)),
@@ -117,7 +131,7 @@ class LastWeekOrders extends StatelessWidget {
                               ],
                             ),
                             const SizedBox(
-                              height: 30,
+                              height: 15,
                             ),
                             Row(
                               children: [
