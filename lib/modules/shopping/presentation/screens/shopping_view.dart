@@ -26,7 +26,7 @@ class ShoppingView extends StatelessWidget {
               CategoryWidget(tittle: 'Bags', image: "assets/images/bags.jpg"),
               CategoryWidget(
                   tittle: 'Accessories',
-                  image: "assets/images/accessories.jpg"),
+                  image: "assets/images/accessories2.jpg"),
             ],
           ),
           HorizentalLine(),

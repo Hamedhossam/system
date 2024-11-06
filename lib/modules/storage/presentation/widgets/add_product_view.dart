@@ -55,7 +55,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Column(
+      child: ListView(
         children: [
           const CustomizedTextField(tittle: 'Product Name', maxLines: 1),
           const SizedBox(height: 16),
@@ -97,6 +97,14 @@ class _AddProductScreenState extends State<AddProductScreen> {
           const SizedBox(height: 16),
 
           DropdownButton<String>(
+            underline: Container(
+              height: 2,
+              color: Colors.blueAccent, // Customize underline color
+            ),
+            style: const TextStyle(color: Colors.black, fontSize: 16),
+            icon: const Icon(Icons.arrow_drop_down,
+                color: Colors.blueAccent), // Customize icon color
+            dropdownColor: Colors.white, // Dropdown background color
             value: _selectedCategory,
             hint: const Text('Select Category'),
             onChanged: (String? newValue) {
@@ -122,7 +130,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
           // const SizedBox(height: 8),
           ElevatedButton(
             onPressed: _pickImage,
-            child: const Text('Pick Image'),
+            child: const Text('Upload Image'),
           ),
           if (_imagePath != null) ...[
             const SizedBox(height: 16),
@@ -140,9 +148,22 @@ class _AddProductScreenState extends State<AddProductScreen> {
             },
           ),
           const SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: _addProduct,
-            child: const Text('Add Product'),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                child: ElevatedButton(
+                  style: const ButtonStyle(
+                      backgroundColor: WidgetStatePropertyAll(Colors.blue)),
+                  onPressed: _addProduct,
+                  child: const Text(
+                    'Submit',
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),
