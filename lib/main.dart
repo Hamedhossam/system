@@ -1,8 +1,11 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:motors/core/screens/home_screen.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter("D:/Programing/flutter/motors/storage");
+  await Hive.openBox("products_box");
   runApp(const MyApp());
 }
 

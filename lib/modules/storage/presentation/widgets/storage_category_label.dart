@@ -28,15 +28,10 @@ class StorageCategoryLabel extends StatelessWidget {
                 backgroundColor: WidgetStatePropertyAll(Colors.blue)),
             onPressed: () {
               showModalBottomSheet(
+                backgroundColor: Colors.white,
                 context: context,
                 builder: (context) {
-                  return BottomSheet(
-                    backgroundColor: Colors.white,
-                    onClosing: () {},
-                    builder: (context) {
-                      return const AddProductScreen();
-                    },
-                  );
+                  return const AddProductView();
                 },
               );
             },

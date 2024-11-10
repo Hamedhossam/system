@@ -11,19 +11,37 @@ class CheckOutView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          ShoppingCartLabel(),
-          HorizentalLine(),
-          Row(children: [Label(tittle: "Order Details")]),
-          OrderDetailsWidget(),
-          Row(children: [Label(tittle: "Items")]),
-          HorizentalLine(),
-          CartItemsListView(),
-          HorizentalLine(),
-          CustomizedButton(tittle: "continue", myColor: Colors.blue)
+          const ShoppingCartLabel(),
+          const HorizentalLine(),
+          const Row(children: [Label(tittle: "Order Details")]),
+          const OrderDetailsWidget(),
+          const Row(children: [Label(tittle: "Items")]),
+          const HorizentalLine(),
+          const CartItemsListView(),
+          const HorizentalLine(),
+          CustomizedButton(
+              tittle: "continue",
+              myColor: Colors.blue,
+              onTap: () {
+                showBottomSheet(
+                    backgroundColor: Colors.white,
+                    context: context,
+                    builder: (context) {
+                      return SizedBox(
+                        width: 500,
+                        height: 500,
+                        child: IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: const Icon(Icons.close)),
+                      );
+                    });
+              })
         ],
       ),
     );
