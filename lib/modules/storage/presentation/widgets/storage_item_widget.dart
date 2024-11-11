@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:motors/modules/shopping/data/models/product_model.dart';
 
 class StorageItemWidget extends StatelessWidget {
-  const StorageItemWidget({super.key});
-
+  const StorageItemWidget({super.key, required this.productModel});
+  final ProductModel productModel;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -19,17 +22,17 @@ class StorageItemWidget extends StatelessWidget {
               Container(
                 height: 200,
                 width: 300,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   image: DecorationImage(
                     fit: BoxFit.fill,
-                    image: AssetImage("assets/images/superstar.jpg"),
+                    image: FileImage(File(productModel.imagePath)),
                   ),
                 ),
               ),
               const SizedBox(height: 5),
-              const Text(
-                "Addidas superstar mirror",
-                style: TextStyle(
+              Text(
+                productModel.name,
+                style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),
@@ -37,48 +40,48 @@ class StorageItemWidget extends StatelessWidget {
               const SizedBox(height: 5),
               const SizedBox(height: 5),
               //! id Section
-              const Row(
+              Row(
                 children: [
-                  SizedBox(width: 5),
+                  const SizedBox(width: 5),
                   SizedBox(
                     width: 230,
                     child: Text(
                       overflow: TextOverflow.ellipsis,
-                      "Id                  : (335478)",
-                      style: TextStyle(fontSize: 14),
+                      "Id                  : (${productModel.id})",
+                      style: const TextStyle(fontSize: 14),
                     ),
                   ),
                 ],
               ),
               //! Availabe Sizes Section
-              const Row(
+              Row(
                 children: [
-                  SizedBox(width: 5),
+                  const SizedBox(width: 5),
                   SizedBox(
                     width: 230,
                     child: Text(
                       overflow: TextOverflow.ellipsis,
-                      "Available Pices : 4",
-                      style: TextStyle(fontSize: 14),
+                      "Available Pices : ${productModel.availablePieces.toString()}",
+                      style: const TextStyle(fontSize: 14),
                     ),
                   ),
                 ],
               ),
               //! Price Section
-              const Row(children: [
+              Row(children: [
                 SizedBox(
                   width: 230,
                   child: Row(
                     children: [
-                      Text(
+                      const Text(
                         overflow: TextOverflow.ellipsis,
                         "Price               : ",
                         style: TextStyle(fontSize: 14),
                       ),
                       Text(
                         overflow: TextOverflow.ellipsis,
-                        "150 L.E",
-                        style: TextStyle(
+                        productModel.price,
+                        style: const TextStyle(
                             fontSize: 14, fontWeight: FontWeight.bold),
                       ),
                     ],

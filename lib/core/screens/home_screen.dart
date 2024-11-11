@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:motors/core/widgets/buisiness_image.dart';
 import 'package:motors/core/widgets/exit_widget.dart';
 import 'package:motors/core/widgets/vertical_line.dart';
 import 'package:motors/modules/shopping/presentation/widgets/shopping_screen_body.dart';
+import 'package:motors/modules/storage/presentation/logic/storage_product_cubit/storage_products_cubit.dart';
 import 'package:motors/modules/storage/presentation/screens/storage_screen.dart';
 import 'package:motors/modules/orders/presentation/screens/orders_screen.dart';
 
@@ -18,10 +20,10 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   // bool _isExtended = false;
 
-  final List<Widget> _pages = const [
-    ShoppingScreenBody(),
-    StorageScreen(),
-    OrdersScreen(),
+  final List<Widget> _pages = [
+    const ShoppingScreenBody(),
+    const StorageScreen(),
+    const OrdersScreen(),
   ];
   List<NavigationRailDestination> navigationDestinations = [
     NavigationRailDestination(
@@ -99,6 +101,9 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
   ];
   void _onItemTapped(int index) {
+    if (index == 1) {
+      BlocProvider.of<StorageProductsCubit>(context).getAllProducts();
+    }
     setState(() {
       _selectedIndex = index;
     });

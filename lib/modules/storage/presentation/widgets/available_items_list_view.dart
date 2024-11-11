@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:motors/modules/shopping/data/models/product_model.dart';
 import 'package:motors/modules/storage/presentation/widgets/storage_item_widget.dart';
 
 class AvailableItemsListView extends StatelessWidget {
   const AvailableItemsListView({
+    required this.products,
     super.key,
   });
-
+  final List<ProductModel> products;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -15,9 +17,11 @@ class AvailableItemsListView extends StatelessWidget {
           width: 1450,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: 6,
+            itemCount: products.length,
             itemBuilder: (context, index) {
-              return const StorageItemWidget();
+              return StorageItemWidget(
+                productModel: products[index],
+              );
             },
           ),
         ),
