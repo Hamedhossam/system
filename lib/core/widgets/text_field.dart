@@ -11,6 +11,7 @@ class CustomizedTextField extends StatelessWidget {
     this.controller,
     this.keyboardType,
     this.inputFormatters,
+    this.validator,
   });
   final String tittle;
   final int maxLines;
@@ -19,6 +20,7 @@ class CustomizedTextField extends StatelessWidget {
   final TextEditingController? controller;
   final TextInputType? keyboardType;
   final List<TextInputFormatter>? inputFormatters;
+  final String? Function(String?)? validator;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -27,13 +29,7 @@ class CustomizedTextField extends StatelessWidget {
       controller: controller,
       onChanged: onChanged,
       onSaved: onSaved,
-      validator: (value) {
-        if (value?.isEmpty ?? true) {
-          return "the field is required !";
-        } else {
-          return null;
-        }
-      },
+      validator: validator,
       style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
       decoration: InputDecoration(
         labelText: tittle,
