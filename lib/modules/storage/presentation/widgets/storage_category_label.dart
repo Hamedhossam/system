@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:motors/core/widgets/label.dart';
+import 'package:motors/modules/storage/presentation/logic/adding_product_cubit/adding_product_cubit.dart';
 import 'package:motors/modules/storage/presentation/widgets/add_product_view.dart';
 
 class StorageCategoryLabel extends StatelessWidget {
@@ -31,7 +33,10 @@ class StorageCategoryLabel extends StatelessWidget {
                 backgroundColor: Colors.white,
                 context: context,
                 builder: (context) {
-                  return const AddProductView();
+                  return BlocProvider(
+                    create: (context) => AddingProductCubit(),
+                    child: const AddProductView(),
+                  );
                 },
               );
             },

@@ -3,7 +3,10 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:motors/core/widgets/text_field.dart';
+import 'package:motors/modules/shopping/data/models/product_model.dart';
+import 'package:motors/modules/storage/presentation/logic/adding_product_cubit/adding_product_cubit.dart';
 
 class AddProductView extends StatefulWidget {
   const AddProductView({super.key});
@@ -44,8 +47,10 @@ class _AddProductViewState extends State<AddProductView> {
     }
   }
 
-  void _addProduct(List<String?> availableSizes) {
+  void _addProduct(List<String?> availableSizes, ProductModel product) {
+    BlocProvider.of<AddingProductCubit>(context).addProduct(product);
     log("the list of sizes is ${availableSizes.length}");
+    Navigator.pop(context);
   }
 
   @override
@@ -190,7 +195,18 @@ class _AddProductViewState extends State<AddProductView> {
                         if (formKey.currentState!.validate()) {
                           availableSizes.length =
                               int.parse(_numberOfSizesController.text);
-                          _addProduct(availableSizes);
+                          _addProduct(
+                            availableSizes,
+                            ProductModel(
+                              name: _nameController.text,
+                              category: _selectedCategory!,
+                              id: _idController.text,
+                              imagePath: _imagePath!,
+                              price: _priceController.text,
+                              availablePieces:
+                                  int.parse(_numberOfPiecesController.text),
+                            ),
+                          );
                         }
                       },
                       child: const Text(

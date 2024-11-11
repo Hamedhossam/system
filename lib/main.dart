@@ -2,10 +2,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:motors/core/screens/home_screen.dart';
+import 'package:motors/modules/shopping/data/models/product_model.dart';
 
 void main() async {
   await Hive.initFlutter("D:/Programing/flutter/motors/storage");
-  await Hive.openBox("products_box");
+  await Hive.openBox<ProductModel>("products_box");
+  Hive.registerAdapter(ProductModelAdapter());
   runApp(const MyApp());
 }
 
