@@ -1,115 +1,55 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:motors/modules/shopping/presentation/logic/shopping_products_cubit/shopping_products_cubit.dart';
+import 'package:motors/modules/shopping/presentation/widgets/shopping_product_widget.dart';
 
-class ProductsListView extends StatelessWidget {
-  const ProductsListView({
+// ignore: must_be_immutable
+class ProductsListView extends StatefulWidget {
+  ProductsListView({
+    required this.category,
     super.key,
   });
+  String category;
+  @override
+  State<ProductsListView> createState() => _ProductsListViewState();
+}
+
+class _ProductsListViewState extends State<ProductsListView> {
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<ShoppingProductsCubit>(context).getAllProducts();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 430,
-      child: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 4, // 4 items per row
-          crossAxisSpacing: 8.0,
-          mainAxisSpacing: 8.0,
-          childAspectRatio: 0.75, // Adjust to change item height/width
-        ),
-        itemCount: 17,
-        itemBuilder: (context, index) {
-          return Card(
-            color: const Color.fromARGB(255, 235, 233, 233),
-            elevation: 4.0,
-            child: Column(
-              children: [
-                Container(
-                  height: 200,
-                  width: double.maxFinite,
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image: AssetImage("assets/images/superstar.jpg"),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 5),
-                const Text(
-                  "Addidas superstar mirror",
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(height: 5),
-                const SizedBox(height: 5),
-                //! id Section
-                const Row(
-                  children: [
-                    SizedBox(width: 5),
-                    SizedBox(
-                      width: 230,
-                      child: Text(
-                        overflow: TextOverflow.ellipsis,
-                        "Id                  : (335478)",
-                        style: TextStyle(fontSize: 14),
-                      ),
-                    ),
-                  ],
-                ),
-                //! Availabe Sizes Section
-                const Row(
-                  children: [
-                    SizedBox(width: 5),
-                    SizedBox(
-                      width: 230,
-                      child: Text(
-                        overflow: TextOverflow.ellipsis,
-                        "Available Sizes : 36/37/38/39/40/41/42",
-                        style: TextStyle(fontSize: 14),
-                      ),
-                    ),
-                  ],
-                ),
-                //! Price Section
-                const Row(
-                  children: [
-                    SizedBox(width: 5),
-                    SizedBox(
-                      width: 115,
-                      child: Text(
-                        overflow: TextOverflow.ellipsis,
-                        "Price              :",
-                        style: TextStyle(fontSize: 14),
-                      ),
-                    ),
-                    Text(
-                      overflow: TextOverflow.ellipsis,
-                      "280 Le",
-                      style:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                ElevatedButton(
-                  style: const ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(Colors.blue)),
-                  onPressed: () {},
-                  child: const Text(
-                    'Add To Cart',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ],
+    return BlocBuilder<ShoppingProductsCubit, ShoppingProductsState>(
+      builder: (context, state) {
+        if (state is ShoppingProductsSuccess) {
+          return SizedBox(
+            height: 410,
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4, // 4 items per row
+                crossAxisSpacing: 8.0,
+                mainAxisSpacing: 8.0,
+                childAspectRatio: 0.75, // Adjust to change item height/width
+              ),
+              itemCount: BlocProvider.of<ShoppingProductsCubit>(context)
+                  .getProducts(widget.category)
+                  .length,
+              itemBuilder: (context, index) {
+                return ShoppingProductWidget(
+                  productModel: BlocProvider.of<ShoppingProductsCubit>(context)
+                      .getProducts(widget.category)[index],
+                );
+              },
             ),
           );
-        },
-      ),
+        } else {
+          return const Center(child: CircularProgressIndicator());
+        }
+      },
     );
   }
 }

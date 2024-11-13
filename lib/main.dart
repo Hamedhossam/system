@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:motors/core/screens/home_screen.dart';
 import 'package:motors/modules/shopping/data/models/product_model.dart';
+import 'package:motors/modules/shopping/presentation/logic/shopping_products_cubit/shopping_products_cubit.dart';
 import 'package:motors/modules/storage/presentation/logic/adding_product_cubit/adding_product_cubit.dart';
 import 'modules/storage/presentation/logic/storage_product_cubit/storage_products_cubit.dart';
 
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => StorageProductsCubit()),
         BlocProvider(create: (context) => AddingProductCubit()),
+        BlocProvider(create: (context) => ShoppingProductsCubit()),
       ],
       child: MaterialApp(
         scrollBehavior: MyCustomScrollBehavior(),
