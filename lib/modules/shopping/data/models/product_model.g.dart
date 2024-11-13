@@ -24,13 +24,14 @@ class ProductModelAdapter extends TypeAdapter<ProductModel> {
       availableSizes: (fields[3] as List?)?.cast<String>(),
       price: fields[4] as String,
       availablePieces: fields[5] as int,
+      numAvailableSizes: fields[7] as int,
     );
   }
 
   @override
   void write(BinaryWriter writer, ProductModel obj) {
     writer
-      ..writeByte(7)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -44,7 +45,9 @@ class ProductModelAdapter extends TypeAdapter<ProductModel> {
       ..writeByte(5)
       ..write(obj.availablePieces)
       ..writeByte(6)
-      ..write(obj.category);
+      ..write(obj.category)
+      ..writeByte(7)
+      ..write(obj.numAvailableSizes);
   }
 
   @override

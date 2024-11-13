@@ -248,6 +248,12 @@ class _AddProductViewState extends State<AddProductView> {
                                 _addProduct(
                                   availableSizes,
                                   ProductModel(
+                                    availableSizes: List.filled(
+                                        int.parse(
+                                            _numberOfSizesController.text),
+                                        "0"),
+                                    numAvailableSizes: int.parse(
+                                        _numberOfSizesController.text),
                                     name: _nameController.text,
                                     category: _selectedCategory ?? "Shoes(Men)",
                                     id: _idController.text,
@@ -293,80 +299,3 @@ SnackBar customizedSnackBar(String message) {
     duration: const Duration(seconds: 2), // Duration for the SnackBar
   );
 }
-
-
-//! the Sizes list   >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-                            //   backgroundColor: Colors.white,
-                            //   context: context,
-                            //   builder: (context) {
-                            //     return Padding(
-                            //       padding: const EdgeInsets.all(8.0),
-                            //       child: SizedBox(
-                            //         height: 400,
-                            //         width: 300,
-                            //         child: Column(
-                            //           children: [
-                            //             Expanded(
-                            //               child: ListView.builder(
-                            //                 itemCount: int.parse(
-                            //                     _numberOfSizesController.text),
-                            //                 itemBuilder: (context, index) {
-                            //                   return Padding(
-                            //                     padding:
-                            //                         const EdgeInsets.all(8.0),
-                            //                     child: TextFormField(
-                            //                       onChanged: (value) =>
-                            //                           availableSizes[index] =
-                            //                               value,
-                            //                       inputFormatters: <TextInputFormatter>[
-                            //                         FilteringTextInputFormatter
-                            //                             .digitsOnly, // Only allow digits
-                            //                       ],
-                            //                       style: const TextStyle(
-                            //                         fontSize: 20,
-                            //                         fontWeight: FontWeight.bold,
-                            //                       ),
-                            //                       decoration: InputDecoration(
-                            //                         labelText:
-                            //                             "size ${index + 1}",
-                            //                         labelStyle: const TextStyle(
-                            //                           fontSize: 20,
-                            //                           fontWeight:
-                            //                               FontWeight.bold,
-                            //                         ),
-                            //                         border:
-                            //                             const OutlineInputBorder(
-                            //                           borderRadius:
-                            //                               BorderRadius.all(
-                            //                             Radius.circular(8.0),
-                            //                           ),
-                            //                         ),
-                            //                       ),
-                            //                       maxLines: 1,
-                            //                     ),
-                            //                   );
-                            //                 },
-                            //               ),
-                            //             ),
-                            //             ElevatedButton(
-                            //               style: const ButtonStyle(
-                            //                 backgroundColor:
-                            //                     WidgetStatePropertyAll(
-                            //                         Colors.blue),
-                            //               ),
-                            //               onPressed: _addProductWithSizes(
-                            //                   availableSizes),
-                            //               child: const Text(
-                            //                 "Submit",
-                            //                 style: TextStyle(
-                            //                     fontWeight: FontWeight.bold,
-                            //                     color: Colors.white),
-                            //               ),
-                            //             )
-                            //           ],
-                            //         ),
-                            //       ),
-                            //     );
-                            //   },
-                            // )
-                          
