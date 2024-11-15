@@ -3,9 +3,10 @@ import 'package:motors/core/widgets/horizental_line.dart';
 
 class OrderDetailsWidget extends StatelessWidget {
   const OrderDetailsWidget({
+    required this.date,
     super.key,
   });
-
+  final String date;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -16,9 +17,9 @@ class OrderDetailsWidget extends StatelessWidget {
           border: Border.all(color: Colors.grey),
           borderRadius: BorderRadius.circular(10),
         ),
-        child: const Column(
+        child: Column(
           children: [
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text("Order id :", style: TextStyle(fontSize: 16)),
@@ -27,14 +28,15 @@ class OrderDetailsWidget extends StatelessWidget {
                         TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               ],
             ),
-            HorizentalLine(),
+            const HorizentalLine(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text("Date :", style: TextStyle(fontSize: 16)),
+                const Text("Date :", style: TextStyle(fontSize: 16)),
                 Text(
-                  "12-10-2015",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  date,
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ],
             ),

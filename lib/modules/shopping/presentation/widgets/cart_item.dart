@@ -1,10 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:motors/modules/shopping/data/models/product_model.dart';
+import 'package:motors/modules/shopping/presentation/logic/add_to_cart/add_to_cart_cubit.dart';
 
 class CartItemWidget extends StatefulWidget {
   const CartItemWidget({
+    required this.productModel,
     super.key,
   });
-
+  final ProductModel productModel;
   @override
   State<CartItemWidget> createState() => _CartItemWidgetState();
 }
@@ -28,36 +34,33 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                 const Spacer(
                   flex: 5,
                 ),
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 50,
-                  backgroundImage: AssetImage("assets/images/superstar.jpg"),
+                  backgroundImage:
+                      FileImage(File(widget.productModel.imagePath)),
                 ),
                 const Spacer(
                   flex: 30,
                 ),
-                const Column(
+                Column(
                   children: [
                     Text(
-                      "Addidas superstar mirror",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      widget.productModel.name,
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      "#123546",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      widget.productModel.id,
+                      style: const TextStyle(
+                          fontSize: 20, fontWeight: FontWeight.bold),
                     ),
-                    Text(
-                      "(32)",
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                    // Text(
+                    //   "(32)",
+                    //   style: TextStyle(
+                    //     fontSize: 14,
+                    //     fontWeight: FontWeight.bold,
+                    //   ),
+                    // ),
                   ],
                 ),
                 const Spacer(
@@ -65,7 +68,10 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                 ),
                 IconButton(
                   color: Colors.red,
-                  onPressed: () {},
+                  onPressed: () {
+                    BlocProvider.of<AddToCartCubit>(context)
+                        .deleteProduct(widget.productModel);
+                  },
                   icon: const Icon(
                     Icons.delete_forever, size: 30,
                     // color: Colors.white,
@@ -78,76 +84,21 @@ class _CartItemWidgetState extends State<CartItemWidget> {
             ),
             const SizedBox(height: 10),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width: 100,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Container(
-                          height: 30,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.grey,
-                          ),
-                          child: IconButton(
-                            padding: const EdgeInsets.only(top: 10),
-                            iconSize: 17,
-                            icon: const Icon(
-                              Icons.maximize,
-                              color: Colors.white,
-                              size: 17,
-                            ),
-                            onPressed: () {
-                              (productQuantity == 0)
-                                  ? productQuantity = 0
-                                  : productQuantity--;
-                              setState(() {});
-                            },
-                          ),
-                        ),
-                        Text(
-                          productQuantity.toString(),
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Container(
-                          height: 30,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.blue,
-                          ),
-                          child: IconButton(
-                            padding: const EdgeInsets.only(bottom: 2),
-                            iconSize: 17,
-                            icon: const Icon(
-                              Icons.add,
-                              color: Colors.white,
-                              size: 17,
-                            ),
-                            onPressed: () {
-                              productQuantity++;
-                              setState(() {});
-                            },
-                          ),
-                        )
-                      ],
-                    ),
+                  child: Text(
+                    "${widget.productModel.numOfPiecesOrderd.toString()} X",
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.all(16.0),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    "120 L.E",
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    "${widget.productModel.price} = ${(int.parse(widget.productModel.price) * widget.productModel.numOfPiecesOrderd!).toString()}  LE",
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 )
               ],

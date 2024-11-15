@@ -19,6 +19,8 @@ class ProductModel extends HiveObject {
   final String category;
   @HiveField(7)
   int numAvailableSizes;
+  @HiveField(8)
+  int? numOfPiecesOrderd;
 
   ProductModel({
     required this.name,
@@ -26,6 +28,7 @@ class ProductModel extends HiveObject {
     required this.id,
     required this.imagePath,
     this.availableSizes,
+    this.numOfPiecesOrderd,
     required this.price,
     required this.availablePieces,
     required this.numAvailableSizes,

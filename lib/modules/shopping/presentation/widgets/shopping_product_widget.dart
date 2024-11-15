@@ -1,8 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:motors/core/widgets/customized_botton.dart';
 import 'package:motors/modules/shopping/data/models/product_model.dart';
+import 'package:motors/modules/shopping/presentation/logic/add_to_cart/add_to_cart_cubit.dart';
 
 class ShoppingProductWidget extends StatelessWidget {
   const ShoppingProductWidget({
@@ -127,22 +130,22 @@ class ShoppingProductWidget extends StatelessWidget {
         backgroundColor: Colors.white,
         context: context,
         builder: (context) {
-          return AddToCartWidget(productModel: productModel);
+          return AddToCartBottomSheet(productModel: productModel);
         });
   }
 }
 
-class AddToCartWidget extends StatefulWidget {
-  const AddToCartWidget({
+class AddToCartBottomSheet extends StatefulWidget {
+  const AddToCartBottomSheet({
     super.key,
     required this.productModel,
   });
   final ProductModel productModel;
   @override
-  State<AddToCartWidget> createState() => _AddToCartWidgetState();
+  State<AddToCartBottomSheet> createState() => _AddToCartBottomSheetState();
 }
 
-class _AddToCartWidgetState extends State<AddToCartWidget> {
+class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
   int productQuantity = 1;
   late int newAvailablePieces;
   @override
@@ -163,14 +166,26 @@ class _AddToCartWidgetState extends State<AddToCartWidget> {
         ),
       ),
       child: SizedBox(
-        height: 400,
+        height: 420,
         width: 400,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(Icons.close),
+                )
+              ],
+            ),
             CircleAvatar(
               backgroundImage: FileImage(File(widget.productModel.imagePath)),
               radius: 100,
+            ),
+            const SizedBox(
+              width: 30,
             ),
             Text(
               widget.productModel.name,
@@ -283,10 +298,21 @@ class _AddToCartWidgetState extends State<AddToCartWidget> {
                 ),
               ),
             ),
-            const SizedBox(
+            SizedBox(
               height: 50,
               width: 300,
-              child: CustomizedButton(tittle: "Add", myColor: Colors.blue),
+              child: CustomizedButton(
+                tittle: "Add",
+                myColor: Colors.blue,
+                onTap: () {
+                  DateTime now = DateTime.now();
+                  String formattedDate =
+                      DateFormat('dd/MM/yyyy HH:mm a').format(now);
+                  widget.productModel.numOfPiecesOrderd = productQuantity;
+                  BlocProvider.of<AddToCartCubit>(context)
+                      .addProduct(widget.productModel, formattedDate);
+                },
+              ),
             )
           ],
         ),
