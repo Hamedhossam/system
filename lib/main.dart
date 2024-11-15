@@ -12,11 +12,11 @@ void main() async {
   Hive.registerAdapter(ProductModelAdapter());
   await Hive.initFlutter("D:/Programing/flutter/motors/storage");
   await Hive.openBox<ProductModel>("products_box");
-  runApp(const MyApp());
+  runApp(const SystemApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class SystemApp extends StatelessWidget {
+  const SystemApp({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:motors/core/widgets/customized_botton.dart';
 import 'package:motors/modules/shopping/data/models/product_model.dart';
 
 class ShoppingProductWidget extends StatelessWidget {
@@ -104,7 +105,9 @@ class ShoppingProductWidget extends StatelessWidget {
           ElevatedButton(
             style: const ButtonStyle(
                 backgroundColor: WidgetStatePropertyAll(Colors.blue)),
-            onPressed: () {},
+            onPressed: () {
+              _addToCart(context);
+            },
             child: const Text(
               'Add To Cart',
               style: TextStyle(
@@ -115,6 +118,178 @@ class ShoppingProductWidget extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  PersistentBottomSheetController _addToCart(BuildContext context) {
+    return showBottomSheet(
+        backgroundColor: Colors.white,
+        context: context,
+        builder: (context) {
+          return AddToCartWidget(productModel: productModel);
+        });
+  }
+}
+
+class AddToCartWidget extends StatefulWidget {
+  const AddToCartWidget({
+    super.key,
+    required this.productModel,
+  });
+  final ProductModel productModel;
+  @override
+  State<AddToCartWidget> createState() => _AddToCartWidgetState();
+}
+
+class _AddToCartWidgetState extends State<AddToCartWidget> {
+  int productQuantity = 1;
+  late int newAvailablePieces;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    newAvailablePieces = widget.productModel.availablePieces - 1;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.black),
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(12),
+          topRight: Radius.circular(12),
+        ),
+      ),
+      child: SizedBox(
+        height: 400,
+        width: 400,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            CircleAvatar(
+              backgroundImage: FileImage(File(widget.productModel.imagePath)),
+              radius: 100,
+            ),
+            Text(
+              widget.productModel.name,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  "Price : ${widget.productModel.price} LE",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                Text(
+                  "Pieces : ${newAvailablePieces.toString()}",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                width: 300,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Container(
+                          height: 30,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.grey,
+                          ),
+                          child: IconButton(
+                            padding: const EdgeInsets.only(top: 10),
+                            iconSize: 17,
+                            icon: const Icon(
+                              Icons.maximize,
+                              color: Colors.white,
+                              size: 17,
+                            ),
+                            onPressed: () {
+                              if (productQuantity == 1) {
+                                productQuantity = 1;
+                              } else {
+                                productQuantity--;
+                                newAvailablePieces++;
+                              }
+                              setState(() {});
+                            },
+                          ),
+                        ),
+                        Text(
+                          productQuantity.toString(),
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Container(
+                          height: 30,
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.blue,
+                          ),
+                          child: IconButton(
+                            padding: const EdgeInsets.only(bottom: 2),
+                            iconSize: 17,
+                            icon: const Icon(
+                              Icons.add,
+                              color: Colors.white,
+                              size: 17,
+                            ),
+                            onPressed: () {
+                              if (productQuantity ==
+                                  widget.productModel.availablePieces) {
+                                productQuantity =
+                                    widget.productModel.availablePieces;
+                              } else {
+                                productQuantity++;
+                                newAvailablePieces--;
+                              }
+                              setState(() {});
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: Colors.grey)),
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "Total : ${(int.parse(widget.productModel.price) * productQuantity).toString()} LE",
+                            style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.green),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(
+              height: 50,
+              width: 300,
+              child: CustomizedButton(tittle: "Add", myColor: Colors.blue),
+            )
+          ],
+        ),
       ),
     );
   }

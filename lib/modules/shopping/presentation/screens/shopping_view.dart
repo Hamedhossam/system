@@ -20,7 +20,7 @@ class _ShoppingViewState extends State<ShoppingView> {
       backgroundColor: Colors.white,
       body: Column(
         children: [
-          const Label(tittle: "Categories"),
+          const Label(tittle: "Shopping"),
           const HorizentalLine(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
