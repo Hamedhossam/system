@@ -37,7 +37,11 @@ class AddToCartCubit extends Cubit<AddToCartState> {
       // }
       products.remove(product);
     }
-    emit(AddToCartSuccess(products: products, date: date, orderId: id));
+    if (products.isEmpty) {
+      emit(AddToCartInitial());
+    } else {
+      emit(AddToCartSuccess(products: products, date: date, orderId: id));
+    }
   }
 
   Future<bool> isExist(
@@ -60,5 +64,10 @@ class AddToCartCubit extends Cubit<AddToCartState> {
           (int.parse(products[i].price) * products[i].numOfPiecesOrderd!);
     }
     return totalCost.toString();
+  }
+
+  clearProducts() {
+    products.clear();
+    emit(AddToCartInitial());
   }
 }

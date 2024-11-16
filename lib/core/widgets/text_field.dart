@@ -34,7 +34,6 @@ class CustomizedTextField extends StatelessWidget {
       decoration: InputDecoration(
         labelText: tittle,
         labelStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        hintText: "type $tittle of your note",
         border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(8.0))),
       ),
