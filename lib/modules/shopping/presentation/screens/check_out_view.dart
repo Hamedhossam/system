@@ -25,7 +25,7 @@ class CheckOutView extends StatelessWidget {
                 const ShoppingCartLabel(),
                 const HorizentalLine(),
                 const Row(children: [Label(tittle: "Order Details")]),
-                OrderDetailsWidget(date: state.date),
+                OrderDetailsWidget(date: state.date, orderId: state.orderId),
                 const Row(children: [Label(tittle: "Items")]),
                 const HorizentalLine(),
                 CartItemsListView(products: state.products),

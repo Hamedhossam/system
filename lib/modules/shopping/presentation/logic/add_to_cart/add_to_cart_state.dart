@@ -8,7 +8,9 @@ final class AddToCartInitial extends AddToCartState {}
 final class AddToCartSuccess extends AddToCartState {
   List<ProductModel> products;
   String date;
-  AddToCartSuccess({required this.products, required this.date});
+  String orderId;
+  AddToCartSuccess(
+      {required this.products, required this.date, required this.orderId});
 }
 
 final class AddToCartLoading extends AddToCartState {}

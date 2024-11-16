@@ -4,9 +4,11 @@ import 'package:motors/core/widgets/horizental_line.dart';
 class OrderDetailsWidget extends StatelessWidget {
   const OrderDetailsWidget({
     required this.date,
+    required this.orderId,
     super.key,
   });
   final String date;
+  final String orderId;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -19,13 +21,15 @@ class OrderDetailsWidget extends StatelessWidget {
         ),
         child: Column(
           children: [
-            const Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text("Order id :", style: TextStyle(fontSize: 16)),
-                Text("#321548",
-                    style:
-                        TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                const Text("Order id :", style: TextStyle(fontSize: 16)),
+                Text(
+                  "#$orderId",
+                  style: const TextStyle(
+                      fontSize: 16, fontWeight: FontWeight.bold),
+                ),
               ],
             ),
             const HorizentalLine(),

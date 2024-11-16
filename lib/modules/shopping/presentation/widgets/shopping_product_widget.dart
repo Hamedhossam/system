@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -305,12 +306,20 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                 tittle: "Add",
                 myColor: Colors.blue,
                 onTap: () {
+                  var random = Random();
+
                   DateTime now = DateTime.now();
                   String formattedDate =
                       DateFormat('dd/MM/yyyy HH:mm a').format(now);
+                  int orderId = 100000 +
+                      random.nextInt(
+                          900000); // Generates a number between 100000 an
                   widget.productModel.numOfPiecesOrderd = productQuantity;
-                  BlocProvider.of<AddToCartCubit>(context)
-                      .addProduct(widget.productModel, formattedDate);
+                  BlocProvider.of<AddToCartCubit>(context).addProduct(
+                    widget.productModel,
+                    formattedDate,
+                    orderId.toString(),
+                  );
                 },
               ),
             )

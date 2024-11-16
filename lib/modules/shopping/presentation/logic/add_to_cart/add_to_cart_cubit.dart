@@ -8,15 +8,24 @@ class AddToCartCubit extends Cubit<AddToCartState> {
   AddToCartCubit() : super(AddToCartInitial());
   List<ProductModel> products = [];
   String date = "";
-  addProduct(ProductModel product, String dateTime) async {
+  String id = "";
+  addProduct(ProductModel product, String dateTime, String orderId) async {
     date = dateTime;
+    id = orderId;
     if (products.isEmpty) {
       emit(AddToCartInitial());
     }
-    products.add(product);
-    emit(AddToCartLoading());
-    await Future.delayed(const Duration(seconds: 1));
-    emit(AddToCartSuccess(products: products, date: date));
+    bool exist = await isExist(products, product);
+    if (exist) {
+      emit(AddToCartLoading());
+      await Future.delayed(const Duration(seconds: 1));
+      emit(AddToCartSuccess(products: products, date: date, orderId: id));
+    } else {
+      products.add(product);
+      emit(AddToCartLoading());
+      await Future.delayed(const Duration(seconds: 1));
+      emit(AddToCartSuccess(products: products, date: date, orderId: id));
+    }
   }
 
   deleteProduct(ProductModel product) async {
@@ -28,6 +37,19 @@ class AddToCartCubit extends Cubit<AddToCartState> {
       // }
       products.remove(product);
     }
-    emit(AddToCartSuccess(products: products, date: date));
+    emit(AddToCartSuccess(products: products, date: date, orderId: id));
+  }
+
+  Future<bool> isExist(
+      List<ProductModel> products, ProductModel product) async {
+    bool exist = false;
+    for (var i = 0; i < products.length; i++) {
+      if (product.name == products[i].name) {
+        // int oldQuantity = products[i].numOfPiecesOrderd!;
+        // product.numOfPiecesOrderd = product.numOfPiecesOrderd! + oldQuantity;
+        exist = true;
+      }
+    }
+    return exist;
   }
 }
