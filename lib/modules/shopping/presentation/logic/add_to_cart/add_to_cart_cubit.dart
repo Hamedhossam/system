@@ -9,6 +9,8 @@ class AddToCartCubit extends Cubit<AddToCartState> {
   List<ProductModel> products = [];
   String date = "";
   String id = "";
+  String totalCost = "";
+
   addProduct(ProductModel product, String dateTime, String orderId) async {
     date = dateTime;
     id = orderId;
@@ -17,8 +19,6 @@ class AddToCartCubit extends Cubit<AddToCartState> {
     }
     bool exist = await isExist(products, product);
     if (exist) {
-      emit(AddToCartLoading());
-      await Future.delayed(const Duration(seconds: 1));
       emit(AddToCartSuccess(products: products, date: date, orderId: id));
     } else {
       products.add(product);
@@ -51,5 +51,14 @@ class AddToCartCubit extends Cubit<AddToCartState> {
       }
     }
     return exist;
+  }
+
+  String getTotalCost() {
+    int totalCost = 0;
+    for (var i = 0; i < products.length; i++) {
+      totalCost = totalCost +
+          (int.parse(products[i].price) * products[i].numOfPiecesOrderd!);
+    }
+    return totalCost.toString();
   }
 }

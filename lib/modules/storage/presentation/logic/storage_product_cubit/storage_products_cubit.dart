@@ -60,4 +60,16 @@ class StorageProductsCubit extends Cubit<StorageProductsState> {
         return List.empty();
     }
   }
+
+  updateProducts(List<ProductModel> products) {
+    for (var i = 0; i < products.length; i++) {
+      for (var j = 0; j < allProducts.length; j++) {
+        if (products[i].name == allProducts[j].name) {
+          allProducts[j].availablePieces =
+              allProducts[j].availablePieces - products[i].numOfPiecesOrderd!;
+        }
+      }
+    }
+    emit(StorageProductsSuccess());
+  }
 }

@@ -33,13 +33,21 @@ class ShoppingProductsCubit extends Cubit<ShoppingProductsState> {
     for (var i = 0; i < allProducts.length; i++) {
       switch (allProducts[i].category) {
         case "Shoes(Men)":
-          menProducts.add(allProducts[i]);
+          (allProducts[i].availablePieces >= 1)
+              ? menProducts.add(allProducts[i])
+              : null;
         case "Shoes(Women)":
-          womenProducts.add(allProducts[i]);
+          (allProducts[i].availablePieces >= 1)
+              ? womenProducts.add(allProducts[i])
+              : null;
         case "Bags":
-          bags.add(allProducts[i]);
+          (allProducts[i].availablePieces >= 1)
+              ? bags.add(allProducts[i])
+              : null;
         case "Accessories":
-          accessories.add(allProducts[i]);
+          (allProducts[i].availablePieces >= 1)
+              ? accessories.add(allProducts[i])
+              : null;
         default:
       }
     }

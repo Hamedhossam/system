@@ -31,8 +31,8 @@ class _ProductsListViewState extends State<ProductsListView> {
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 4, // 4 items per row
-                crossAxisSpacing: 8.0,
-                mainAxisSpacing: 8.0,
+                // crossAxisSpacing: 8.0,
+                // mainAxisSpacing: 8.0,
                 childAspectRatio: 0.75, // Adjust to change item height/width
               ),
               itemCount: BlocProvider.of<ShoppingProductsCubit>(context)

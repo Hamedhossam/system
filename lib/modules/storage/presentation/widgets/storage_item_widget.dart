@@ -112,7 +112,11 @@ class StorageItemWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Container(
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.green, width: 2),
+            border: Border.all(
+                color: (productModel.availablePieces <= 1)
+                    ? Colors.red
+                    : Colors.green,
+                width: 2),
             borderRadius: BorderRadius.circular(10)),
         child: Card(
           color: const Color.fromARGB(255, 235, 233, 233),
@@ -157,14 +161,26 @@ class StorageItemWidget extends StatelessWidget {
               Row(
                 children: [
                   const SizedBox(width: 5),
-                  SizedBox(
-                    width: 230,
-                    child: Text(
-                      overflow: TextOverflow.ellipsis,
-                      "Available Pices : ${productModel.availablePieces.toString()}",
-                      style: const TextStyle(fontSize: 14),
-                    ),
-                  ),
+                  (productModel.availablePieces < 1)
+                      ? const SizedBox(
+                          width: 230,
+                          child: Text(
+                            overflow: TextOverflow.ellipsis,
+                            "( SOLD OUT ! )",
+                            style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        )
+                      : SizedBox(
+                          width: 230,
+                          child: Text(
+                            overflow: TextOverflow.ellipsis,
+                            "Available Pices : ${productModel.availablePieces.toString()}",
+                            style: const TextStyle(fontSize: 14),
+                          ),
+                        ),
                 ],
               ),
               //! Price Section

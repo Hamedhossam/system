@@ -4,9 +4,11 @@ import 'package:motors/core/widgets/customized_botton.dart';
 import 'package:motors/core/widgets/horizental_line.dart';
 import 'package:motors/core/widgets/label.dart';
 import 'package:motors/modules/shopping/presentation/logic/add_to_cart/add_to_cart_cubit.dart';
+import 'package:motors/modules/shopping/presentation/logic/shopping_products_cubit/shopping_products_cubit.dart';
 import 'package:motors/modules/shopping/presentation/widgets/cart_items_list_view.dart';
 import 'package:motors/modules/shopping/presentation/widgets/order_details_widget.dart';
 import 'package:motors/modules/shopping/presentation/widgets/shopping_cart_lable.dart';
+import 'package:motors/modules/storage/presentation/logic/storage_product_cubit/storage_products_cubit.dart';
 
 class CheckOutView extends StatelessWidget {
   const CheckOutView({super.key});
@@ -33,7 +35,14 @@ class CheckOutView extends StatelessWidget {
                 CustomizedButton(
                   tittle: "continue",
                   myColor: Colors.blue,
-                  onTap: () {},
+                  onTap: () {
+                    BlocProvider.of<StorageProductsCubit>(context)
+                        .updateProducts(state.products);
+                    BlocProvider.of<StorageProductsCubit>(context)
+                        .getAllProducts();
+                    BlocProvider.of<ShoppingProductsCubit>(context)
+                        .getAllProducts();
+                  },
                 )
               ],
             );

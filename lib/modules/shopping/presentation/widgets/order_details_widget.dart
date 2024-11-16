@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:motors/core/widgets/horizental_line.dart';
+import 'package:motors/modules/shopping/presentation/logic/add_to_cart/add_to_cart_cubit.dart';
 
 class OrderDetailsWidget extends StatelessWidget {
   const OrderDetailsWidget({
@@ -41,6 +43,20 @@ class OrderDetailsWidget extends StatelessWidget {
                   date,
                   style: const TextStyle(
                       fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
+            const HorizentalLine(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                const Text("Total Cost :", style: TextStyle(fontSize: 16)),
+                Text(
+                  "${BlocProvider.of<AddToCartCubit>(context).getTotalCost()} 💸",
+                  style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.green),
                 ),
               ],
             ),
