@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:motors/core/widgets/customized_botton.dart';
 import 'package:motors/core/widgets/text_field.dart';
 import 'package:motors/modules/orders/logic/add_order_cubit/add_order_cubit.dart';
+import 'package:motors/modules/orders/logic/orders_cubit/orders_cubit.dart';
 import 'package:motors/modules/orders/models/order_model.dart';
 import 'package:motors/modules/shopping/data/models/product_model.dart';
 import 'package:motors/modules/shopping/presentation/logic/add_to_cart/add_to_cart_cubit.dart';
@@ -75,7 +76,7 @@ class CheckOutBottomSheet extends StatelessWidget {
               height: 16,
             ),
             CustomizedButton(
-              tittle: "Finish",
+              tittle: "Print",
               myColor: Colors.blue,
               onTap: () {
                 BlocProvider.of<StorageProductsCubit>(context)
@@ -100,6 +101,7 @@ class CheckOutBottomSheet extends StatelessWidget {
                   ),
                 );
                 BlocProvider.of<AddToCartCubit>(context).clearProducts();
+                BlocProvider.of<OrdersCubit>(context).getAllOrders();
                 Navigator.pop(context);
               },
             ),
