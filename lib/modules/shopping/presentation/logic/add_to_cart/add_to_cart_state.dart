@@ -5,6 +5,7 @@ sealed class AddToCartState {}
 
 final class AddToCartInitial extends AddToCartState {}
 
+// ignore: must_be_immutable
 final class AddToCartSuccess extends AddToCartState {
   List<ProductModel> products;
   String date;

@@ -10,7 +10,6 @@ part 'orders_cubit_state.dart';
 
 class OrdersCubit extends Cubit<OrdersCubitState> {
   OrdersCubit() : super(OrdersCubitInitial());
-  //TODO THIS CUBIT WILL LOOK LIKE STORAGE PRODUCTS CUBIT SO LOOK THERE
   List<OrderModel> allOrders = [];
   List<OrderModel> todayOrders = [];
   List<OrderModel> yesterdayOrders = [];

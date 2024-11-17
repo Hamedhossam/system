@@ -21,7 +21,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
   List<OrderModel> yesterdayOrders = [];
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     BlocProvider.of<OrdersCubit>(context).getAllOrders();
     todayOrders = BlocProvider.of<OrdersCubit>(context).todayOrders;

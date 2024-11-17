@@ -151,7 +151,6 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
   late int newAvailablePieces;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     newAvailablePieces = widget.productModel.availablePieces - 1;
   }
