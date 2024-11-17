@@ -31,12 +31,14 @@ class OrderWidget extends StatelessWidget {
                     height: 160,
                     width: 200,
                     child: ListView.builder(
-                      itemCount: 10,
+                      itemCount: orderModel.products.length,
                       itemBuilder: (context, index) {
-                        return const Text(
-                          "2 x Adiddas Super Star",
-                          style: TextStyle(
+                        return Text(
+                          overflow: TextOverflow.ellipsis,
+                          orderModel.products[index],
+                          style: const TextStyle(
                               fontWeight: FontWeight.bold,
+                              fontSize: 18,
                               color: Color.fromARGB(255, 92, 91, 91)),
                         );
                       },
@@ -51,71 +53,71 @@ class OrderWidget extends StatelessWidget {
                     "#Details",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
-                  const Row(
+                  Row(
                     children: [
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(right: 5.0),
                         child: Icon(Icons.qr_code),
                       ),
                       Text(
-                        "302015",
-                        style: TextStyle(
+                        orderModel.id,
+                        style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Color.fromARGB(255, 92, 91, 91)),
                       ),
                     ],
                   ),
-                  const Row(
+                  Row(
                     children: [
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(right: 5.0),
                         child: Icon(Icons.person),
                       ),
                       Text(
-                        "hamed hossam eldin",
-                        style: TextStyle(
+                        orderModel.clientName,
+                        style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Color.fromARGB(255, 92, 91, 91)),
                       ),
                     ],
                   ),
-                  const Row(
+                  Row(
                     children: [
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(right: 5.0),
                         child: Icon(Icons.phone_android),
                       ),
                       Text(
-                        "01063876967",
-                        style: TextStyle(
+                        orderModel.clientPhone,
+                        style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Color.fromARGB(255, 92, 91, 91)),
                       ),
                     ],
                   ),
-                  const Row(
+                  Row(
                     children: [
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(right: 5.0),
                         child: Icon(Icons.date_range),
                       ),
                       Text(
-                        "16/9/2002",
-                        style: TextStyle(
+                        orderModel.date,
+                        style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Color.fromARGB(255, 92, 91, 91)),
                       ),
                     ],
                   ),
-                  const Row(
+                  Row(
                     children: [
-                      Padding(
+                      const Padding(
                         padding: EdgeInsets.only(right: 5.0),
-                        child: Icon(Icons.timer),
+                        child: Icon(Icons.attach_money),
                       ),
                       Text(
-                        "03:14 AM",
-                        style: TextStyle(
+                        "${orderModel.price.toString()} LE",
+                        style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Color.fromARGB(255, 92, 91, 91)),
                       ),
@@ -140,14 +142,15 @@ class OrderWidget extends StatelessWidget {
                         width: 20,
                       ),
                       ElevatedButton(
-                          style: const ButtonStyle(
-                            backgroundColor: WidgetStatePropertyAll(Colors.red),
-                          ),
-                          onPressed: () {},
-                          child: const Icon(
-                            Icons.replay_outlined,
-                            color: Colors.white,
-                          )),
+                        style: const ButtonStyle(
+                          backgroundColor: WidgetStatePropertyAll(Colors.red),
+                        ),
+                        onPressed: () {},
+                        child: const Icon(
+                          Icons.replay_outlined,
+                          color: Colors.white,
+                        ),
+                      ),
                     ],
                   ),
                 ],

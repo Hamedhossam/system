@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:motors/core/screens/home_screen.dart';
 import 'package:motors/modules/orders/logic/add_order_cubit/add_order_cubit.dart';
+import 'package:motors/modules/orders/logic/orders_cubit/orders_cubit.dart';
 import 'package:motors/modules/orders/models/order_model.dart';
 import 'package:motors/modules/shopping/data/models/product_model.dart';
 import 'package:motors/modules/shopping/presentation/logic/add_to_cart/add_to_cart_cubit.dart';
@@ -32,6 +33,7 @@ class SystemApp extends StatelessWidget {
         BlocProvider(create: (context) => ShoppingProductsCubit()),
         BlocProvider(create: (context) => AddToCartCubit()),
         BlocProvider(create: (context) => AddOrderCubit()),
+        BlocProvider(create: (context) => OrdersCubit()),
       ],
       child: MaterialApp(
         scrollBehavior: MyCustomScrollBehavior(),
