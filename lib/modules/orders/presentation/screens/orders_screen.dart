@@ -39,88 +39,16 @@ class _OrdersScreenState extends State<OrdersScreen> {
             const OrdersScreenTittle(),
             const HorizentalLine(),
             const OrdersLabel(tittle: 'Today'),
-            BlocBuilder<OrdersCubit, OrdersCubitState>(
-              builder: (context, state) {
-                if (state is OrdersCubitFail) {
-                  return const Center(child: Text("something went wrong !"));
-                } else {
-                  if (todayOrders.isEmpty) {
-                    return const Center(
-                      child: Text(
-                        "There is no Orders at This Time",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                    );
-                  } else {
-                    return OrdersListView(orders: todayOrders);
-                  }
-                }
-              },
-            ),
+            OrdersListView(orders: todayOrders),
             const HorizentalLine(),
             const OrdersLabel(tittle: 'Yesterday'),
-            BlocBuilder<OrdersCubit, OrdersCubitState>(
-              builder: (context, state) {
-                if (state is OrdersCubitFail) {
-                  return const Center(child: Text("something went wrong !"));
-                } else {
-                  if (yesterdayOrders.isEmpty) {
-                    return const Center(
-                      child: Text(
-                        "There is no Orders at This Time",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                    );
-                  } else {
-                    return OrdersListView(orders: yesterdayOrders);
-                  }
-                }
-              },
-            ),
+            OrdersListView(orders: yesterdayOrders),
             const HorizentalLine(),
             const OrdersLabel(tittle: 'Last Week'),
-            BlocBuilder<OrdersCubit, OrdersCubitState>(
-              builder: (context, state) {
-                if (state is OrdersCubitFail) {
-                  return const Center(child: Text("something went wrong !"));
-                } else {
-                  if (thisWeekOrders.isEmpty) {
-                    return const Center(
-                      child: Text(
-                        "There is no Orders at This Time",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                    );
-                  } else {
-                    return OrdersListView(orders: thisWeekOrders);
-                  }
-                }
-              },
-            ),
+            OrdersListView(orders: thisWeekOrders),
             const HorizentalLine(),
             const OrdersLabel(tittle: 'All'),
-            BlocBuilder<OrdersCubit, OrdersCubitState>(
-              builder: (context, state) {
-                if (state is OrdersCubitFail) {
-                  return const Center(child: Text("something went wrong !"));
-                } else {
-                  if (allOrders.isEmpty) {
-                    return const Center(
-                      child: Text(
-                        "There is no Orders at This Time",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
-                      ),
-                    );
-                  } else {
-                    return OrdersListView(orders: allOrders);
-                  }
-                }
-              },
-            ),
+            OrdersListView(orders: allOrders),
             const HorizentalLine()
           ],
         ),

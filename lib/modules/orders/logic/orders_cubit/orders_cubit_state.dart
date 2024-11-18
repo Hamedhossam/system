@@ -10,3 +10,5 @@ final class OrdersCubitSuccess extends OrdersCubitState {}
 final class OrdersCubitFail extends OrdersCubitState {}
 
 final class OrdersCubitEmpty extends OrdersCubitState {}
+
+final class OrdersSearching extends OrdersCubitState {}

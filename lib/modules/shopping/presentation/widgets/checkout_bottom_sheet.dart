@@ -8,6 +8,7 @@ import 'package:motors/modules/orders/models/order_model.dart';
 import 'package:motors/modules/shopping/data/models/product_model.dart';
 import 'package:motors/modules/shopping/presentation/logic/add_to_cart/add_to_cart_cubit.dart';
 import 'package:motors/modules/shopping/presentation/logic/shopping_products_cubit/shopping_products_cubit.dart';
+import 'package:motors/modules/shopping/presentation/widgets/printing_screen.dart';
 import 'package:motors/modules/storage/presentation/logic/storage_product_cubit/storage_products_cubit.dart';
 
 class CheckOutBottomSheet extends StatelessWidget {
@@ -126,8 +127,15 @@ class CheckOutBottomSheet extends StatelessWidget {
                     );
                     BlocProvider.of<AddToCartCubit>(context).clearProducts();
                     BlocProvider.of<OrdersCubit>(context).getAllOrders();
-
                     Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return const PillScreen();
+                        },
+                      ),
+                    );
                   }
                 },
               ),

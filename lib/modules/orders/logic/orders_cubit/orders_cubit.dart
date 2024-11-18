@@ -18,6 +18,7 @@ class OrdersCubit extends Cubit<OrdersCubitState> {
   List<OrderModel> todayOrders = [];
   List<OrderModel> yesterdayOrders = [];
   List<OrderModel> thisWeekOrders = [];
+  List<OrderModel> searchedOrders = [];
 
   String getLastWord(String input) {
     // Split the string by spaces and trim any extra whitespace
@@ -45,6 +46,17 @@ class OrdersCubit extends Cubit<OrdersCubitState> {
       }
     }
     order.delete();
+  }
+
+  getSearchedOrders(String id, List<OrderModel> orders) {
+    searchedOrders.clear();
+    emit(OrdersSearching());
+    for (var i = 0; i < orders.length; i++) {
+      if (orders[i].id.startsWith(id)) {
+        searchedOrders.add(orders[i]);
+      }
+    }
+    emit(OrdersCubitSuccess());
   }
 
   getAllOrders() {
