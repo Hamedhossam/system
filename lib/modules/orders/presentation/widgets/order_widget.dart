@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:motors/modules/orders/logic/orders_cubit/orders_cubit.dart';
 import 'package:motors/modules/orders/models/order_model.dart';
 
 class OrderWidget extends StatelessWidget {
@@ -128,29 +130,64 @@ class OrderWidget extends StatelessWidget {
                   ),
                   Row(
                     children: [
+                      const SizedBox(
+                        width: 30,
+                      ),
                       ElevatedButton(
                         style: const ButtonStyle(
                           backgroundColor: WidgetStatePropertyAll(Colors.blue),
                         ),
-                        onPressed: () {},
-                        child: const Icon(
-                          Icons.edit,
-                          color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      ElevatedButton(
-                        style: const ButtonStyle(
-                          backgroundColor: WidgetStatePropertyAll(Colors.red),
-                        ),
-                        onPressed: () {},
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                content:
+                                    const Text('⚠️ Do you want retrieval?'),
+                                actions: <Widget>[
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('No'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      BlocProvider.of<OrdersCubit>(context)
+                                          .retrieveOrder(orderModel, context);
+                                      BlocProvider.of<OrdersCubit>(context)
+                                          .getAllOrders();
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('Yes'),
+                                  ),
+                                ],
+                                backgroundColor:
+                                    Colors.white, // Dark background color
+                                // titleTextStyle: const TextStyle(color: Colors.white),
+                                // contentTextStyle: const TextStyle(color: Colors.white),
+                              );
+                            },
+                          );
+                        },
                         child: const Icon(
                           Icons.replay_outlined,
                           color: Colors.white,
                         ),
                       ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      // ElevatedButton(
+                      //   style: const ButtonStyle(
+                      //     backgroundColor: WidgetStatePropertyAll(Colors.red),
+                      //   ),
+                      //   onPressed: () {},
+                      //   child: const Icon(
+                      //     Icons.edit,
+                      //     color: Colors.white,
+                      //   ),
+                      // ),
                     ],
                   ),
                 ],

@@ -1,10 +1,14 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 import 'package:motors/modules/orders/models/order_model.dart';
+import 'package:motors/modules/shopping/data/models/product_model.dart';
+import 'package:motors/modules/storage/presentation/logic/storage_product_cubit/storage_products_cubit.dart';
 
 part 'orders_cubit_state.dart';
 
@@ -14,6 +18,34 @@ class OrdersCubit extends Cubit<OrdersCubitState> {
   List<OrderModel> todayOrders = [];
   List<OrderModel> yesterdayOrders = [];
   List<OrderModel> thisWeekOrders = [];
+
+  String getLastWord(String input) {
+    // Split the string by spaces and trim any extra whitespace
+    List<String> words = input.trim().split(' ');
+    // Return the last word if it exists
+    return words.isNotEmpty ? words.last : '';
+  }
+
+  String getFirstWord(String input) {
+    // Split the string by spaces and trim any extra whitespace
+    List<String> words = input.trim().split(' ');
+    // Return the first word if it exists
+    return words.isNotEmpty ? words.first : '';
+  }
+
+  retrieveOrder(OrderModel order, BuildContext context) {
+    List<ProductModel> products =
+        BlocProvider.of<StorageProductsCubit>(context).allProducts;
+    for (var i = 0; i < products.length; i++) {
+      for (var j = 0; j < order.products.length; j++) {
+        if (getLastWord(order.products[j]) == products[i].name) {
+          products[i].availablePieces = products[i].availablePieces +
+              int.parse(getFirstWord(order.products[j]));
+        }
+      }
+    }
+    order.delete();
+  }
 
   getAllOrders() {
     todayOrders.clear();
@@ -39,19 +71,19 @@ class OrdersCubit extends Cubit<OrdersCubitState> {
       DateTime orderDate = parseDateString(order.date);
 
       // Check for today
-      if (orderDate.year == today.year &&
-          orderDate.month == today.month &&
-          orderDate.day == today.day) {
+      if (orderDate.year == now.year &&
+          orderDate.month == now.month &&
+          orderDate.day == now.day) {
         todayOrders.add(order);
       }
       // Check for yesterday
-      else if (orderDate.year == yesterday.year &&
+      if (orderDate.year == yesterday.year &&
           orderDate.month == yesterday.month &&
           orderDate.day == yesterday.day) {
         yesterdayOrders.add(order);
       }
       // Check for this week
-      else if (orderDate.isAfter(weekStart) &&
+      if (orderDate.isAfter(weekStart) &&
           orderDate.isBefore(today.add(const Duration(days: 1)))) {
         thisWeekOrders.add(order);
       }
@@ -73,32 +105,32 @@ class OrdersCubit extends Cubit<OrdersCubitState> {
     return format.parse(dateString); // Parse the date string
   }
 
-  bool isToday(String dateString) {
-    DateTime orderDate = parseDateString(dateString);
-    DateTime today = DateTime.now();
-    return orderDate.year == today.year &&
-        orderDate.month == today.month &&
-        orderDate.day == today.day;
-  }
+  // bool isToday(String dateString) {
+  //   DateTime orderDate = parseDateString(dateString);
+  //   DateTime today = DateTime.now();
+  //   return orderDate.year == today.year &&
+  //       orderDate.month == today.month &&
+  //       orderDate.day == today.day;
+  // }
 
-  bool isYesterday(String dateString) {
-    DateTime orderDate = parseDateString(dateString);
-    DateTime yesterday = DateTime.now().subtract(const Duration(days: 1));
-    return orderDate.year == yesterday.year &&
-        orderDate.month == yesterday.month &&
-        orderDate.day == yesterday.day;
-  }
+  // bool isYesterday(String dateString) {
+  //   DateTime orderDate = parseDateString(dateString);
+  //   DateTime yesterday = DateTime.now().subtract(const Duration(days: 1));
+  //   return orderDate.year == yesterday.year &&
+  //       orderDate.month == yesterday.month &&
+  //       orderDate.day == yesterday.day;
+  // }
 
-  bool isThisWeek(String dateString) {
-    DateTime orderDate = parseDateString(dateString);
-    DateTime now = DateTime.now();
-    DateTime weekStart =
-        now.subtract(Duration(days: now.weekday - 1)); // Start of the week
-    return orderDate.isAfter(weekStart) &&
-        orderDate.isBefore(
-          now.add(
-            const Duration(days: 1),
-          ),
-        );
-  }
+  // bool isThisWeek(String dateString) {
+  //   DateTime orderDate = parseDateString(dateString);
+  //   DateTime now = DateTime.now();
+  //   DateTime weekStart =
+  //       now.subtract(Duration(days: now.weekday - 1)); // Start of the week
+  //   return orderDate.isAfter(weekStart) &&
+  //       orderDate.isBefore(
+  //         now.add(
+  //           const Duration(days: 1),
+  //         ),
+  //       );
+  // }
 }

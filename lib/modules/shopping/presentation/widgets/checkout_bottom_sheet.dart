@@ -15,13 +15,16 @@ class CheckOutBottomSheet extends StatelessWidget {
     required this.orderId,
     required this.products,
     required this.date,
+    required this.tolalCost,
     super.key,
   });
   final String orderId;
+  final String tolalCost;
   final String date;
   final List<ProductModel> products;
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +37,7 @@ class CheckOutBottomSheet extends StatelessWidget {
       height: 400,
       width: 300,
       child: Form(
+        key: formKey,
         child: Column(
           children: [
             Text(
@@ -41,9 +45,15 @@ class CheckOutBottomSheet extends StatelessWidget {
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(
-              height: 16,
+              height: 8,
             ),
             CustomizedTextField(
+              validator: (p0) {
+                if (p0 == null || p0.isEmpty) {
+                  return 'Please fill the fields';
+                }
+                return null; // Return null
+              },
               tittle: "Client Name",
               maxLines: 1,
               controller: _nameController,
@@ -52,12 +62,22 @@ class CheckOutBottomSheet extends StatelessWidget {
               height: 8,
             ),
             CustomizedTextField(
+              validator: (p0) {
+                if (p0 == null || p0.isEmpty) {
+                  return 'Please fill the fields';
+                }
+                // Check if the input has exactly 11 digits
+                if (p0.length != 11 || !RegExp(r'^\d{11}$').hasMatch(p0)) {
+                  return 'Must be exactly 11 number';
+                }
+                return null; // Return null if the input is valid
+              },
               tittle: "Phone",
               maxLines: 1,
               controller: _phoneController,
             ),
             const SizedBox(
-              height: 16,
+              height: 8,
             ),
             SizedBox(
               height: 135,
@@ -73,37 +93,44 @@ class CheckOutBottomSheet extends StatelessWidget {
               ),
             ),
             const SizedBox(
-              height: 16,
+              height: 8,
             ),
-            CustomizedButton(
-              tittle: "Print",
-              myColor: Colors.blue,
-              onTap: () {
-                BlocProvider.of<StorageProductsCubit>(context)
-                    .updateProducts(products);
-                BlocProvider.of<StorageProductsCubit>(context).getAllProducts();
-                BlocProvider.of<ShoppingProductsCubit>(context)
-                    .getAllProducts();
-                List<String> productsDetails = [];
-                for (var i = 0; i < products.length; i++) {
-                  productsDetails.add(
-                      "${products[i].numOfPiecesOrderd.toString()} X ${products[i].name}");
-                }
-                BlocProvider.of<AddOrderCubit>(context).addOrder(
-                  OrderModel(
-                    id: orderId,
-                    clientName: _nameController.text,
-                    date: date,
-                    price: int.parse(BlocProvider.of<AddToCartCubit>(context)
-                        .getTotalCost()),
-                    clientPhone: _phoneController.text,
-                    products: productsDetails,
-                  ),
-                );
-                BlocProvider.of<AddToCartCubit>(context).clearProducts();
-                BlocProvider.of<OrdersCubit>(context).getAllOrders();
-                Navigator.pop(context);
-              },
+            Expanded(
+              child: CustomizedButton(
+                tittle: "Print",
+                myColor: Colors.blue,
+                onTap: () async {
+                  if (formKey.currentState!.validate()) {
+                    BlocProvider.of<StorageProductsCubit>(context)
+                        .updateProducts(products);
+                    BlocProvider.of<StorageProductsCubit>(context)
+                        .getAllProducts();
+                    BlocProvider.of<ShoppingProductsCubit>(context)
+                        .getAllProducts();
+                    List<String> productsDetails = [];
+                    for (var i = 0; i < products.length; i++) {
+                      productsDetails.add(
+                          "${products[i].numOfPiecesOrderd.toString()} X ${products[i].name}");
+                    }
+                    BlocProvider.of<AddOrderCubit>(context).addOrder(
+                      OrderModel(
+                        id: orderId,
+                        clientName: _nameController.text,
+                        date: date,
+                        price: int.parse(
+                            BlocProvider.of<AddToCartCubit>(context)
+                                .getTotalCost()),
+                        clientPhone: _phoneController.text,
+                        products: productsDetails,
+                      ),
+                    );
+                    BlocProvider.of<AddToCartCubit>(context).clearProducts();
+                    BlocProvider.of<OrdersCubit>(context).getAllOrders();
+
+                    Navigator.pop(context);
+                  }
+                },
+              ),
             ),
           ],
         ),
