@@ -23,7 +23,6 @@ class _OrdersListViewState extends State<OrdersListView> {
   String idText = '';
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     searchedOrders = BlocProvider.of<OrdersCubit>(context).searchedOrders;
     if (searchedOrders.isEmpty) {

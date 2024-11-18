@@ -157,7 +157,7 @@ class OrderWidget extends StatelessWidget {
                                           .retrieveOrder(orderModel, context);
                                       BlocProvider.of<OrdersCubit>(context)
                                           .getAllOrders();
-                                      Navigator.of(context).pop();
+                                      Navigator.pop(context);
                                     },
                                     child: const Text('Yes'),
                                   ),
