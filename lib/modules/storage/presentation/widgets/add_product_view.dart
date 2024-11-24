@@ -1,11 +1,13 @@
-import 'dart:developer';
 import 'dart:io';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:motors/core/widgets/text_field.dart';
 import 'package:motors/modules/shopping/data/models/product_model.dart';
+import 'package:motors/modules/storage/presentation/logic/adding_brand_cubit/add_brand_cubit.dart';
 import 'package:motors/modules/storage/presentation/logic/adding_product_cubit/adding_product_cubit.dart';
 import 'package:motors/modules/storage/presentation/logic/storage_product_cubit/storage_products_cubit.dart';
 
@@ -33,8 +35,10 @@ class _AddProductViewState extends State<AddProductView> {
   ];
   List<String?> availableSizes = [];
   String? _selectedCategory = "Shoes(Men)";
+  int selectedBrand = 0;
+  String? _selectedBrand = "Addidas";
   String? _imagePath;
-
+  List<String> brands = [];
   Future<void> _pickImage() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.image,
@@ -48,10 +52,44 @@ class _AddProductViewState extends State<AddProductView> {
     }
   }
 
+  String getFirstWord(String input) {
+    // Split the string by spaces
+    List<String> words = input.split(' ');
+
+    // Check if the list has at least one word
+    if (words.isNotEmpty) {
+      return words[0]; // Return the first word
+    } else {
+      return "Shoes(Men)"; // Return an empty string if no words are found
+    }
+  }
+
+  String getSecondWord(String input) {
+    // Split the string by spaces
+    List<String> words = input.split(' ');
+
+    // Check if the list has at least one word
+    if (words.isNotEmpty) {
+      return words[1]; // Return the first word
+    } else {
+      return ''; // Return an empty string if no words are found
+    }
+  }
+
   void _addProduct(List<String?> availableSizes, ProductModel product) {
     BlocProvider.of<AddingProductCubit>(context).addProduct(product);
     BlocProvider.of<StorageProductsCubit>(context).getAllProducts();
-    log("the list of sizes is ${availableSizes.length}");
+    // log("the list of sizes is ${availableSizes.length}");
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    var random = Random();
+    int autoId = 100000 + random.nextInt(900000);
+    _idController.text = autoId.toString();
+    BlocProvider.of<AddBrandCubit>(context).getBrands();
+    brands = BlocProvider.of<AddBrandCubit>(context).menBrands;
   }
 
   @override
@@ -65,9 +103,7 @@ class _AddProductViewState extends State<AddProductView> {
         }
         if (state is AddingProductSuccess) {
           await Future.delayed(const Duration(seconds: 1));
-          // ignore: use_build_context_synchronously
-          // ignore: use_build_context_synchronously
-          // ignore: use_build_context_synchronously
+
           Navigator.pop(context);
           // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context)
@@ -75,11 +111,8 @@ class _AddProductViewState extends State<AddProductView> {
         }
         if (state is AddingProductFailure) {
           await Future.delayed(const Duration(seconds: 1));
-          // ignore: use_build_context_synchronously
-          // ignore: use_build_context_synchronously
-          // ignore: use_build_context_synchronously
+
           Navigator.pop(context);
-          // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context)
               .showSnackBar(customizedSnackBar("Error ❌"));
         }
@@ -119,7 +152,7 @@ class _AddProductViewState extends State<AddProductView> {
                       maxLines: 1,
                       controller: _nameController,
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16.h.h),
                     CustomizedTextField(
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
@@ -137,7 +170,7 @@ class _AddProductViewState extends State<AddProductView> {
                             .digitsOnly, // Only allow digits
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16.h),
                     CustomizedTextField(
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
@@ -157,7 +190,7 @@ class _AddProductViewState extends State<AddProductView> {
                             .digitsOnly, // Only allow digits
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16.h),
                     CustomizedTextField(
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
@@ -177,7 +210,7 @@ class _AddProductViewState extends State<AddProductView> {
                             .digitsOnly, // Only allow digits
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16.h),
                     CustomizedTextField(
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
@@ -197,13 +230,14 @@ class _AddProductViewState extends State<AddProductView> {
                             .digitsOnly, // Only allow digits
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16.h),
                     DropdownButton<String>(
+                      focusColor: Colors.white,
                       underline: Container(
-                        height: 2,
+                        height: 2.h,
                         color: Colors.blueAccent, // Customize underline color
                       ),
-                      style: const TextStyle(color: Colors.black, fontSize: 16),
+                      style: TextStyle(color: Colors.black, fontSize: 16.sp),
                       icon: const Icon(Icons.arrow_drop_down,
                           color: Colors.blueAccent), // Customize icon color
                       dropdownColor: Colors.white, // Dropdown background color
@@ -212,6 +246,19 @@ class _AddProductViewState extends State<AddProductView> {
                       onChanged: (String? newValue) {
                         setState(() {
                           _selectedCategory = newValue;
+                          if (_selectedCategory == ("Shoes(Men)")) {
+                            brands = BlocProvider.of<AddBrandCubit>(context)
+                                .menBrands;
+                          } else if (_selectedCategory == ("Shoes(Women)")) {
+                            brands = BlocProvider.of<AddBrandCubit>(context)
+                                .womenBrands;
+                          } else if (_selectedCategory == ("Bags")) {
+                            brands = BlocProvider.of<AddBrandCubit>(context)
+                                .bagsBrands;
+                          } else {
+                            brands = BlocProvider.of<AddBrandCubit>(context)
+                                .accessoriesBrands;
+                          }
                         });
                       },
                       items: _categories
@@ -222,17 +269,66 @@ class _AddProductViewState extends State<AddProductView> {
                         );
                       }).toList(),
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16.h),
+                    //! Brands DropDownBotton
+                    SizedBox(
+                      height: 50.h,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: brands.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              selectedBrand = index;
+                              _selectedBrand = getFirstWord(brands[index]);
+                              setState(() {});
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 8.0),
+                              child: Container(
+                                padding: const EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  color: selectedBrand == index
+                                      ? Colors.black
+                                      : Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(color: Colors.black),
+                                ),
+                                child: Row(
+                                  children: [
+                                    CircleAvatar(
+                                      backgroundColor: Colors.white,
+                                      radius: 25,
+                                      backgroundImage: FileImage(
+                                          File(getSecondWord(brands[index]))),
+                                    ),
+                                    Text(
+                                      getFirstWord(brands[index]),
+                                      style: TextStyle(
+                                          color: selectedBrand == index
+                                              ? Colors.white
+                                              : Colors.black,
+                                          fontSize: 18.sp,
+                                          fontWeight: FontWeight.bold),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
                     ElevatedButton(
                       onPressed: _pickImage,
                       child: const Text('Upload Image'),
                     ),
                     if (_imagePath != null) ...[
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16.h),
                       Image.file(File(_imagePath!),
-                          height: 100), // Display selected image
+                          height: 100.h), // Display selected image
                     ],
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16.h),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -262,6 +358,11 @@ class _AddProductViewState extends State<AddProductView> {
                                     price: _priceController.text,
                                     availablePieces: int.parse(
                                         _numberOfPiecesController.text),
+                                    brand: _selectedBrand ?? "Addidas",
+                                    priceAfterDiscount: _priceController.text,
+                                    discountPercentage: '0',
+                                    discountAmount: '0',
+                                    isPercentage: false,
                                   ),
                                 );
                               }
@@ -276,7 +377,7 @@ class _AddProductViewState extends State<AddProductView> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16.h),
                   ],
                 ),
               ),
@@ -292,8 +393,8 @@ SnackBar customizedSnackBar(String message) {
   return SnackBar(
     content: Text(
       message,
-      style: const TextStyle(
-          fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+      style: TextStyle(
+          fontSize: 20.sp, fontWeight: FontWeight.bold, color: Colors.white),
     ),
     backgroundColor: Colors.black87, // Optional: custom background color
     duration: const Duration(seconds: 2), // Duration for the SnackBar

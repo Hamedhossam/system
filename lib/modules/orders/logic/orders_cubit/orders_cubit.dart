@@ -14,8 +14,9 @@ class OrdersCubit extends Cubit<OrdersCubitState> {
   OrdersCubit() : super(OrdersCubitInitial());
   List<OrderModel> allOrders = [];
   List<OrderModel> todayOrders = [];
-  List<OrderModel> yesterdayOrders = [];
+  // List<OrderModel> yesterdayOrders = [];
   List<OrderModel> thisWeekOrders = [];
+  List<OrderModel> thisMonthOrders = [];
   List<OrderModel> searchedOrders = [];
 
   String getLastWord(String input) {
@@ -59,8 +60,9 @@ class OrdersCubit extends Cubit<OrdersCubitState> {
 
   getAllOrders() {
     todayOrders.clear();
-    yesterdayOrders.clear();
+    // yesterdayOrders.clear();
     thisWeekOrders.clear();
+    thisMonthOrders.clear;
     emit(OrdersCubitInitial());
     try {
       var ordersBox = Hive.box<OrderModel>("orders_box");
@@ -76,6 +78,8 @@ class OrdersCubit extends Cubit<OrdersCubitState> {
     DateTime today = DateTime(now.year, now.month, now.day);
     DateTime yesterday = today.subtract(const Duration(days: 1));
     DateTime weekStart = today.subtract(Duration(days: today.weekday - 1));
+    DateTime monthStart =
+        DateTime(now.year, now.month, 1); // Start of the month
 
     for (var order in allOrders) {
       DateTime orderDate = parseDateString(order.date);
@@ -90,12 +94,16 @@ class OrdersCubit extends Cubit<OrdersCubitState> {
       if (orderDate.year == yesterday.year &&
           orderDate.month == yesterday.month &&
           orderDate.day == yesterday.day) {
-        yesterdayOrders.add(order);
+        // yesterdayOrders.add(order);
       }
       // Check for this week
       if (orderDate.isAfter(weekStart) &&
           orderDate.isBefore(today.add(const Duration(days: 1)))) {
         thisWeekOrders.add(order);
+      }
+      if (orderDate.isAfter(monthStart) &&
+          orderDate.isBefore(today.add(const Duration(days: 1)))) {
+        thisMonthOrders.add(order);
       }
 
       // for (var i = allOrders.length - 1; i >= 0; i--) {

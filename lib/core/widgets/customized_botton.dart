@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomizedButton extends StatelessWidget {
   const CustomizedButton({
@@ -24,9 +25,9 @@ class CustomizedButton extends StatelessWidget {
         child: Center(
           child: Text(
             tittle,
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.white,
-              fontSize: 20,
+              fontSize: 20.sp,
               fontWeight: FontWeight.bold,
             ),
           ),

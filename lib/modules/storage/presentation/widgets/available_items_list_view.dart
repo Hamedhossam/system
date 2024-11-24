@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:motors/core/screens/home_screen.dart';
 import 'package:motors/modules/shopping/data/models/product_model.dart';
 import 'package:motors/modules/storage/presentation/widgets/storage_item_widget.dart';
 
@@ -13,8 +15,8 @@ class AvailableItemsListView extends StatelessWidget {
     return Row(
       children: [
         SizedBox(
-          height: 350,
-          width: 1450,
+          height: 400.h,
+          width: 1450.w,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: products.length,

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:motors/core/screens/home_screen.dart';
 import 'package:motors/core/widgets/customized_botton.dart';
 import 'package:motors/core/widgets/text_field.dart';
 import 'package:motors/modules/orders/logic/add_order_cubit/add_order_cubit.dart';
@@ -32,21 +34,21 @@ class CheckOutBottomSheet extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.black, width: 3),
+        border: Border.all(color: Colors.black, width: 3.w),
         borderRadius: const BorderRadius.vertical(top: Radius.circular(8)),
       ),
-      height: 400,
-      width: 300,
+      height: 420.h,
+      width: 300.w,
       child: Form(
         key: formKey,
         child: Column(
           children: [
             Text(
               "--> $orderId <--",
-              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(
-              height: 8,
+            SizedBox(
+              height: 8.h,
             ),
             CustomizedTextField(
               validator: (p0) {
@@ -59,8 +61,8 @@ class CheckOutBottomSheet extends StatelessWidget {
               maxLines: 1,
               controller: _nameController,
             ),
-            const SizedBox(
-              height: 8,
+            SizedBox(
+              height: 8.h,
             ),
             CustomizedTextField(
               validator: (p0) {
@@ -77,24 +79,24 @@ class CheckOutBottomSheet extends StatelessWidget {
               maxLines: 1,
               controller: _phoneController,
             ),
-            const SizedBox(
-              height: 8,
+            SizedBox(
+              height: 8.h,
             ),
             SizedBox(
-              height: 135,
+              height: 135.h,
               child: ListView.builder(
                 itemCount: products.length,
                 itemBuilder: (context, index) {
                   return Text(
                     "${products[index].numOfPiecesOrderd.toString()} X ${products[index].name}",
-                    style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold),
+                    style:
+                        TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold),
                   );
                 },
               ),
             ),
-            const SizedBox(
-              height: 8,
+            SizedBox(
+              height: 2.h,
             ),
             Expanded(
               child: CustomizedButton(
@@ -118,7 +120,7 @@ class CheckOutBottomSheet extends StatelessWidget {
                         id: orderId,
                         clientName: _nameController.text,
                         date: date,
-                        price: int.parse(
+                        price: double.parse(
                             BlocProvider.of<AddToCartCubit>(context)
                                 .getTotalCost()),
                         clientPhone: _phoneController.text,

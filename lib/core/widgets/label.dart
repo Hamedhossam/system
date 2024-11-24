@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Label extends StatelessWidget {
   const Label({
@@ -10,7 +11,7 @@ class Label extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       tittle,
-      style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30.sp),
     );
   }
 }

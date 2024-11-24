@@ -21,6 +21,16 @@ class ProductModel extends HiveObject {
   int numAvailableSizes;
   @HiveField(8)
   int? numOfPiecesOrderd;
+  @HiveField(9)
+  String brand;
+  @HiveField(10)
+  String priceAfterDiscount;
+  @HiveField(11)
+  String discountPercentage;
+  @HiveField(12)
+  String discountAmount;
+  @HiveField(13)
+  bool isPercentage;
 
   ProductModel({
     required this.name,
@@ -28,9 +38,14 @@ class ProductModel extends HiveObject {
     required this.id,
     required this.imagePath,
     this.availableSizes,
+    required this.brand,
     this.numOfPiecesOrderd,
     required this.price,
     required this.availablePieces,
     required this.numAvailableSizes,
+    required this.priceAfterDiscount,
+    required this.discountPercentage,
+    required this.discountAmount,
+    required this.isPercentage,
   });
 }

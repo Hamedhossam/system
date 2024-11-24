@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:motors/core/widgets/label.dart';
+import 'package:motors/modules/storage/presentation/widgets/add_brand_bottom_sheet.dart';
 import 'package:motors/modules/storage/presentation/widgets/add_product_view.dart';
 
 class StorageCategoryLabel extends StatelessWidget {
@@ -35,13 +37,34 @@ class StorageCategoryLabel extends StatelessWidget {
                 },
               );
             },
-            child: const Text(
+            child: Text(
               'Add product',
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 16.sp,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
+            ),
+          ),
+        ),
+        ElevatedButton(
+          style: const ButtonStyle(
+              backgroundColor: WidgetStatePropertyAll(Colors.blue)),
+          onPressed: () {
+            showModalBottomSheet(
+              backgroundColor: Colors.white,
+              context: context,
+              builder: (context) {
+                return AddBrandBottomSheet(category: tittle);
+              },
+            );
+          },
+          child: Text(
+            'New Brand',
+            style: TextStyle(
+              fontSize: 16.sp,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
             ),
           ),
         ),

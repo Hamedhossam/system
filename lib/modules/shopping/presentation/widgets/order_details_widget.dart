@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:motors/core/screens/home_screen.dart';
 import 'package:motors/core/widgets/horizental_line.dart';
 import 'package:motors/modules/shopping/presentation/logic/add_to_cart/add_to_cart_cubit.dart';
 
@@ -7,10 +9,12 @@ class OrderDetailsWidget extends StatelessWidget {
   const OrderDetailsWidget({
     required this.date,
     required this.orderId,
+    required this.totalCost,
     super.key,
   });
   final String date;
   final String orderId;
+  final String totalCost;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -26,11 +30,11 @@ class OrderDetailsWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const Text("Order id :", style: TextStyle(fontSize: 16)),
+                Text("Order id :", style: TextStyle(fontSize: 16.sp)),
                 Text(
                   "#$orderId",
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold),
+                  style:
+                      TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -38,11 +42,11 @@ class OrderDetailsWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const Text("Date :", style: TextStyle(fontSize: 16)),
+                Text("Date :", style: TextStyle(fontSize: 16.sp)),
                 Text(
                   date,
-                  style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold),
+                  style:
+                      TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -50,11 +54,12 @@ class OrderDetailsWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                const Text("Total Cost :", style: TextStyle(fontSize: 16)),
+                Text("Total Cost :", style: TextStyle(fontSize: 16.sp)),
                 Text(
                   "${BlocProvider.of<AddToCartCubit>(context).getTotalCost()} 💸",
-                  style: const TextStyle(
-                      fontSize: 18,
+                  // totalCost,
+                  style: TextStyle(
+                      fontSize: 18.sp,
                       fontWeight: FontWeight.bold,
                       color: Colors.green),
                 ),

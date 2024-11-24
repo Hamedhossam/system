@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:motors/core/widgets/label.dart';
 
 class OrdersLabel extends StatelessWidget {
@@ -12,7 +13,7 @@ class OrdersLabel extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 8),
       child: Row(children: [
-        SizedBox(width: 150, child: Label(tittle: tittle)),
+        SizedBox(width: 250.w, child: Label(tittle: tittle)),
       ]),
     );
   }

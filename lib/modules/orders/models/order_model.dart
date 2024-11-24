@@ -14,7 +14,7 @@ class OrderModel extends HiveObject {
   @HiveField(4)
   final String date;
   @HiveField(5)
-  final int price;
+  final double price;
 
   OrderModel({
     required this.id,

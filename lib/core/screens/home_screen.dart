@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:motors/core/widgets/buisiness_image.dart';
 import 'package:motors/core/widgets/exit_widget.dart';
 import 'package:motors/core/widgets/vertical_line.dart';
@@ -28,8 +29,8 @@ class _HomeScreenState extends State<HomeScreen> {
   List<NavigationRailDestination> navigationDestinations = [
     NavigationRailDestination(
       selectedIcon: Container(
-        width: 65,
-        height: 65,
+        width: 90.w,
+        height: 90.h,
         decoration: BoxDecoration(
           color: Colors.blue,
           borderRadius: BorderRadius.circular(5),
@@ -37,8 +38,8 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Center(child: Image.asset("assets/icons/cashier.png")),
       ),
       icon: Container(
-        width: 65,
-        height: 65,
+        width: 90.w,
+        height: 90.h,
         decoration: BoxDecoration(
           color: const Color.fromARGB(182, 194, 192, 192),
           borderRadius: BorderRadius.circular(5),
@@ -51,8 +52,8 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
     NavigationRailDestination(
       selectedIcon: Container(
-        width: 65,
-        height: 65,
+        width: 90.w,
+        height: 90.h,
         decoration: BoxDecoration(
           color: Colors.blue,
           borderRadius: BorderRadius.circular(5),
@@ -62,8 +63,8 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       icon: Container(
-        width: 65,
-        height: 65,
+        width: 90.w,
+        height: 90.h,
         decoration: BoxDecoration(
           color: const Color.fromARGB(182, 194, 192, 192),
           borderRadius: BorderRadius.circular(5),
@@ -76,8 +77,8 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
     NavigationRailDestination(
       selectedIcon: Container(
-        width: 65,
-        height: 65,
+        width: 90.w,
+        height: 90.h,
         decoration: BoxDecoration(
           color: Colors.blue,
           borderRadius: BorderRadius.circular(5),
@@ -87,8 +88,8 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       icon: Container(
-        width: 65,
-        height: 65,
+        width: 90.w,
+        height: 90.h,
         decoration: BoxDecoration(
           color: const Color.fromARGB(182, 194, 192, 192),
           borderRadius: BorderRadius.circular(5),
@@ -138,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               trailing: const ExitWidget(),
-              minExtendedWidth: 40,
+              minExtendedWidth: 40.w,
               backgroundColor: Colors.white,
               onDestinationSelected: _onItemTapped,
               selectedIndex: _selectedIndex,

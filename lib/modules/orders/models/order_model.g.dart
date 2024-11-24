@@ -20,7 +20,7 @@ class OrderModelAdapter extends TypeAdapter<OrderModel> {
       id: fields[1] as String,
       clientName: fields[2] as String,
       date: fields[4] as String,
-      price: fields[5] as int,
+      price: fields[5] as double,
       clientPhone: fields[3] as String,
       products: (fields[0] as List).cast<String>(),
     );

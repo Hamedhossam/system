@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:motors/core/screens/home_screen.dart';
 import 'package:motors/core/widgets/customized_botton.dart';
 import 'package:motors/core/widgets/text_field.dart';
 import 'package:motors/modules/orders/logic/orders_cubit/orders_cubit.dart';
@@ -41,7 +43,7 @@ class _OrdersListViewState extends State<OrdersListView> {
               Padding(
                 padding: const EdgeInsets.only(left: 8.0, right: 8),
                 child: SizedBox(
-                  width: 200,
+                  width: 200.w,
                   child: CustomizedTextField(
                     tittle: "Search with id",
                     maxLines: 1,
@@ -50,8 +52,8 @@ class _OrdersListViewState extends State<OrdersListView> {
                 ),
               ),
               SizedBox(
-                width: 200,
-                height: 55,
+                width: 200.w,
+                height: 65.h,
                 child: CustomizedButton(
                   tittle: "Search",
                   myColor: Colors.blue,
@@ -78,20 +80,28 @@ class _OrdersListViewState extends State<OrdersListView> {
               );
             } else {
               if (searchedOrders.isEmpty) {
-                return const Center(
+                return Center(
                   child: Text(
                     "There is no Orders at This Time",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style:
+                        TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
                   ),
                 );
               } else {
                 return Row(
                   children: [
                     SizedBox(
-                      height: 210,
-                      width: 1450,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
+                      height: 700.h,
+                      width: 1780.w,
+                      child: GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 3, // 4 items in a row
+                          childAspectRatio:
+                              1.5 / .8, // Aspect ratio for each item
+                          mainAxisSpacing:
+                              4.0, // Vertical spacing between items
+                        ),
                         itemCount: searchedOrders.length,
                         itemBuilder: (context, index) {
                           return OrderWidget(orderModel: searchedOrders[index]);

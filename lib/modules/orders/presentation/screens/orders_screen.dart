@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:motors/core/widgets/horizental_line.dart';
 import 'package:motors/modules/orders/logic/orders_cubit/orders_cubit.dart';
 import 'package:motors/modules/orders/models/order_model.dart';
@@ -18,7 +19,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
   List<OrderModel> todayOrders = [];
   List<OrderModel> allOrders = [];
   List<OrderModel> thisWeekOrders = [];
-  List<OrderModel> yesterdayOrders = [];
+  List<OrderModel> thisMonthOrders = [];
+  List<String> ordersCategories = ["All", "Today", "This Week", "This Month"];
+  String selectedOrderCategory = "All";
   @override
   void initState() {
     super.initState();
@@ -26,32 +29,79 @@ class _OrdersScreenState extends State<OrdersScreen> {
     todayOrders = BlocProvider.of<OrdersCubit>(context).todayOrders;
     allOrders = BlocProvider.of<OrdersCubit>(context).allOrders;
     thisWeekOrders = BlocProvider.of<OrdersCubit>(context).thisWeekOrders;
-    yesterdayOrders = BlocProvider.of<OrdersCubit>(context).yesterdayOrders;
+    thisMonthOrders = BlocProvider.of<OrdersCubit>(context).thisMonthOrders;
+
+    // yesterdayOrders = BlocProvider.of<OrdersCubit>(context).yesterdayOrders;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const OrdersScreenTittle(),
-            const HorizentalLine(),
-            const OrdersLabel(tittle: 'Today'),
-            OrdersListView(orders: todayOrders),
-            const HorizentalLine(),
-            const OrdersLabel(tittle: 'Yesterday'),
-            OrdersListView(orders: yesterdayOrders),
-            const HorizentalLine(),
-            const OrdersLabel(tittle: 'Last Week'),
-            OrdersListView(orders: thisWeekOrders),
-            const HorizentalLine(),
-            const OrdersLabel(tittle: 'All'),
-            OrdersListView(orders: allOrders),
-            const HorizentalLine()
-          ],
-        ),
+      body: Column(
+        children: [
+          const OrdersScreenTittle(),
+          const HorizentalLine(),
+          DropdownButton<String>(
+            focusColor: Colors.white,
+            underline: Container(
+              height: 2.h,
+              color: Colors.blueAccent, // Customize underline color
+            ),
+            style: TextStyle(color: Colors.black, fontSize: 16.sp),
+            icon: const Icon(Icons.arrow_drop_down,
+                color: Colors.blueAccent), // Customize icon color
+            dropdownColor: Colors.white, // Dropdown background color
+            value: selectedOrderCategory,
+            hint: const Text('Select Time'),
+            onChanged: (String? newValue) {
+              setState(() {
+                selectedOrderCategory = newValue!;
+                if (selectedOrderCategory == "All") {
+                  allOrders = allOrders;
+                } else if (selectedOrderCategory == "Today") {
+                  allOrders = todayOrders;
+                } else if (selectedOrderCategory == "This Week") {
+                  allOrders = thisWeekOrders;
+                } else if (selectedOrderCategory == "This Month") {
+                  allOrders = thisMonthOrders;
+                }
+              });
+            },
+            items:
+                ordersCategories.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(
+                  value,
+                  style:
+                      TextStyle(fontWeight: FontWeight.bold, fontSize: 30.sp),
+                ),
+              );
+            }).toList(),
+          ),
+
+          OrdersLabel(tittle: selectedOrderCategory),
+          OrdersListView(
+            orders: (selectedOrderCategory == "Today")
+                ? BlocProvider.of<OrdersCubit>(context).todayOrders
+                : (selectedOrderCategory == "This Week")
+                    ? BlocProvider.of<OrdersCubit>(context).thisWeekOrders
+                    : (selectedOrderCategory == "This Month")
+                        ? BlocProvider.of<OrdersCubit>(context).thisMonthOrders
+                        : BlocProvider.of<OrdersCubit>(context).allOrders,
+          ),
+          // const OrdersLabel(tittle: 'Today'),
+          // OrdersListView(orders: todayOrders),
+          // const HorizentalLine(),
+          // const OrdersLabel(tittle: 'Yesterday'),
+          // OrdersListView(orders: yesterdayOrders),
+          // const HorizentalLine(),
+          // const OrdersLabel(tittle: 'Last Week'),
+          // OrdersListView(orders: thisWeekOrders),
+          // const HorizentalLine(),
+          // const HorizentalLine()
+        ],
       ),
     );
   }

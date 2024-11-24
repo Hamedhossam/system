@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomizedVerticalLine extends StatelessWidget {
   const CustomizedVerticalLine({
@@ -7,10 +8,10 @@ class CustomizedVerticalLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const VerticalDivider(
+    return VerticalDivider(
       color: Color.fromARGB(94, 0, 0, 0), // Line color
       thickness: 2, // Line thickness
-      width: 5, // Space from the text
+      width: 5.w, // Space from the text
     );
   }
 }

@@ -26,10 +26,17 @@ class CheckOutView extends StatelessWidget {
                 const ShoppingCartLabel(),
                 const HorizentalLine(),
                 const Row(children: [Label(tittle: "Order Details")]),
-                OrderDetailsWidget(date: state.date, orderId: state.orderId),
+                OrderDetailsWidget(
+                  date: state.date,
+                  orderId: state.orderId,
+                  totalCost: state.totalCost,
+                ),
                 const Row(children: [Label(tittle: "Items")]),
                 const HorizentalLine(),
                 CartItemsListView(products: state.products),
+                const Spacer(
+                  flex: 8,
+                ),
                 const HorizentalLine(),
                 CustomizedButton(
                   tittle: "continue",
@@ -49,7 +56,10 @@ class CheckOutView extends StatelessWidget {
                       },
                     );
                   },
-                )
+                ),
+                const Spacer(
+                  flex: 1,
+                ),
               ],
             );
           } else {

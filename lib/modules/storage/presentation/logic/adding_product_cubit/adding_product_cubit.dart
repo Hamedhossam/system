@@ -8,13 +8,15 @@ part 'adding_product_state.dart';
 
 class AddingProductCubit extends Cubit<AddingProductState> {
   AddingProductCubit() : super(AddingProductInitial());
+
   addProduct(ProductModel product) async {
     emit(AddingProductLoading());
     try {
       var productsBox = Hive.box<ProductModel>("products_box");
       await productsBox.add(product);
       emit(AddingProductSuccess());
-      log("${product.name} has been added");
+      log("${product.brand} has been added");
+      emit(AddingProductInitial());
     } on Exception catch (e) {
       emit(AddingProductFailure());
       log(e.toString());

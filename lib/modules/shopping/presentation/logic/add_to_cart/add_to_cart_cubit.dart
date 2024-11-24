@@ -10,22 +10,38 @@ class AddToCartCubit extends Cubit<AddToCartState> {
   List<ProductModel> products = [];
   String date = "";
   String id = "";
-  String totalCost = "";
 
-  addProduct(ProductModel product, String dateTime, String orderId) async {
+  addProduct(ProductModel product, String dateTime, String orderId,
+      String cost) async {
     date = dateTime;
     id = orderId;
+    String totalCost = "0";
+    bool exist = await isExist(products, product);
+    if (exist) {
+      totalCost = (double.parse(totalCost) + double.parse(cost)).toString();
+    } else {
+      totalCost = (double.parse(totalCost) + double.parse(cost)).toString();
+    }
     if (products.isEmpty) {
       emit(AddToCartInitial());
     }
-    bool exist = await isExist(products, product);
     if (exist) {
-      emit(AddToCartSuccess(products: products, date: date, orderId: id));
+      emit(AddToCartSuccess(
+        products: products,
+        date: date,
+        orderId: id,
+        totalCost: totalCost,
+      ));
     } else {
       products.add(product);
       emit(AddToCartLoading());
       await Future.delayed(const Duration(seconds: 1));
-      emit(AddToCartSuccess(products: products, date: date, orderId: id));
+      emit(AddToCartSuccess(
+        products: products,
+        date: date,
+        orderId: id,
+        totalCost: totalCost,
+      ));
     }
   }
 
@@ -41,7 +57,12 @@ class AddToCartCubit extends Cubit<AddToCartState> {
     if (products.isEmpty) {
       emit(AddToCartInitial());
     } else {
-      emit(AddToCartSuccess(products: products, date: date, orderId: id));
+      emit(AddToCartSuccess(
+        products: products,
+        date: date,
+        orderId: id,
+        totalCost: "0",
+      ));
     }
   }
 
@@ -59,10 +80,9 @@ class AddToCartCubit extends Cubit<AddToCartState> {
   }
 
   String getTotalCost() {
-    int totalCost = 0;
+    double totalCost = 0;
     for (var i = 0; i < products.length; i++) {
-      totalCost = totalCost +
-          (int.parse(products[i].price) * products[i].numOfPiecesOrderd!);
+      totalCost = totalCost + double.parse(products[i].priceAfterDiscount);
     }
     return totalCost.toString();
   }

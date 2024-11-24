@@ -22,17 +22,22 @@ class ProductModelAdapter extends TypeAdapter<ProductModel> {
       id: fields[1] as String,
       imagePath: fields[2] as String,
       availableSizes: (fields[3] as List?)?.cast<String>(),
+      brand: fields[9] as String,
       numOfPiecesOrderd: fields[8] as int?,
       price: fields[4] as String,
       availablePieces: fields[5] as int,
       numAvailableSizes: fields[7] as int,
+      priceAfterDiscount: fields[10] as String,
+      discountPercentage: fields[11] as String,
+      discountAmount: fields[12] as String,
+      isPercentage: fields[13] as bool,
     );
   }
 
   @override
   void write(BinaryWriter writer, ProductModel obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(14)
       ..writeByte(0)
       ..write(obj.name)
       ..writeByte(1)
@@ -50,7 +55,17 @@ class ProductModelAdapter extends TypeAdapter<ProductModel> {
       ..writeByte(7)
       ..write(obj.numAvailableSizes)
       ..writeByte(8)
-      ..write(obj.numOfPiecesOrderd);
+      ..write(obj.numOfPiecesOrderd)
+      ..writeByte(9)
+      ..write(obj.brand)
+      ..writeByte(10)
+      ..write(obj.priceAfterDiscount)
+      ..writeByte(11)
+      ..write(obj.discountPercentage)
+      ..writeByte(12)
+      ..write(obj.discountAmount)
+      ..writeByte(13)
+      ..write(obj.isPercentage);
   }
 
   @override

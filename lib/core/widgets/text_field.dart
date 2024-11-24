@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:motors/core/screens/home_screen.dart';
 
 class CustomizedTextField extends StatelessWidget {
   const CustomizedTextField({
@@ -33,10 +35,10 @@ class CustomizedTextField extends StatelessWidget {
       onChanged: onChanged,
       onSaved: onSaved,
       validator: validator,
-      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+      style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
       decoration: InputDecoration(
         labelText: tittle,
-        labelStyle: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        labelStyle: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
         border: const OutlineInputBorder(
             borderRadius: BorderRadius.all(Radius.circular(8.0))),
       ),

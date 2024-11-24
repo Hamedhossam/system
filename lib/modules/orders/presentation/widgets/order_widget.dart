@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:motors/core/screens/home_screen.dart';
 import 'package:motors/modules/orders/logic/orders_cubit/orders_cubit.dart';
 import 'package:motors/modules/orders/models/order_model.dart';
+import 'package:motors/modules/shopping/presentation/logic/shopping_products_cubit/shopping_products_cubit.dart';
+import 'package:motors/modules/storage/presentation/logic/storage_product_cubit/storage_products_cubit.dart';
 
 class OrderWidget extends StatelessWidget {
   const OrderWidget({
@@ -15,8 +19,8 @@ class OrderWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8.0),
       child: Container(
         decoration: BoxDecoration(
-            border:
-                Border.all(color: const Color.fromARGB(255, 0, 0, 0), width: 2),
+            border: Border.all(
+                color: const Color.fromARGB(255, 0, 0, 0), width: 2.w),
             borderRadius: BorderRadius.circular(10)),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -25,22 +29,23 @@ class OrderWidget extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "#Products",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  Text(
+                    "Products",
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
                   ),
                   SizedBox(
-                    height: 160,
-                    width: 200,
+                    height: 160.h,
+                    width: 250.w,
                     child: ListView.builder(
                       itemCount: orderModel.products.length,
                       itemBuilder: (context, index) {
                         return Text(
                           overflow: TextOverflow.ellipsis,
                           orderModel.products[index],
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 18,
+                              fontSize: 20.sp,
                               color: Color.fromARGB(255, 92, 91, 91)),
                         );
                       },
@@ -51,9 +56,10 @@ class OrderWidget extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "#Details",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                  Text(
+                    "Details",
+                    style:
+                        TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
                   ),
                   Row(
                     children: [
@@ -125,13 +131,13 @@ class OrderWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 15,
+                  SizedBox(
+                    height: 15.h,
                   ),
                   Row(
                     children: [
-                      const SizedBox(
-                        width: 30,
+                      SizedBox(
+                        width: 30.w,
                       ),
                       ElevatedButton(
                         style: const ButtonStyle(
@@ -157,6 +163,13 @@ class OrderWidget extends StatelessWidget {
                                           .retrieveOrder(orderModel, context);
                                       BlocProvider.of<OrdersCubit>(context)
                                           .getAllOrders();
+                                      BlocProvider.of<ShoppingProductsCubit>(
+                                              context)
+                                          .getAllProducts();
+                                      BlocProvider.of<StorageProductsCubit>(
+                                              context)
+                                          .getAllProducts();
+
                                       Navigator.pop(context);
                                     },
                                     child: const Text('Yes'),
@@ -175,8 +188,8 @@ class OrderWidget extends StatelessWidget {
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(
-                        width: 10,
+                      SizedBox(
+                        width: 10.w,
                       ),
                       // ElevatedButton(
                       //   style: const ButtonStyle(

@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:motors/core/screens/home_screen.dart';
 import 'package:motors/modules/shopping/data/models/product_model.dart';
 import 'package:motors/modules/storage/presentation/logic/storage_product_cubit/storage_products_cubit.dart';
 
@@ -44,8 +46,8 @@ class StorageItemWidget extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: SizedBox(
-            height: 400,
-            width: 300,
+            height: 400.h,
+            width: 300.w,
             child: Column(
               children: [
                 Expanded(
@@ -61,14 +63,14 @@ class StorageItemWidget extends StatelessWidget {
                             FilteringTextInputFormatter
                                 .digitsOnly, // Only allow digits
                           ],
-                          style: const TextStyle(
-                            fontSize: 20,
+                          style: TextStyle(
+                            fontSize: 20.sp,
                             fontWeight: FontWeight.bold,
                           ),
                           decoration: InputDecoration(
                             labelText: "size ${index + 1}",
-                            labelStyle: const TextStyle(
-                              fontSize: 20,
+                            labelStyle: TextStyle(
+                              fontSize: 20.sp,
                               fontWeight: FontWeight.bold,
                             ),
                             border: const OutlineInputBorder(
@@ -116,7 +118,7 @@ class StorageItemWidget extends StatelessWidget {
                 color: (productModel.availablePieces <= 1)
                     ? Colors.red
                     : Colors.green,
-                width: 2),
+                width: 2.w),
             borderRadius: BorderRadius.circular(10)),
         child: Card(
           color: const Color.fromARGB(255, 235, 233, 233),
@@ -124,8 +126,8 @@ class StorageItemWidget extends StatelessWidget {
           child: Column(
             children: [
               Container(
-                height: 200,
-                width: 300,
+                height: 200.h,
+                width: 300.w,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     fit: BoxFit.fill,
@@ -133,26 +135,26 @@ class StorageItemWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(height: 5),
+              SizedBox(height: 5.h),
               Text(
                 productModel.name,
-                style: const TextStyle(
-                  fontSize: 14,
+                style: TextStyle(
+                  fontSize: 14.sp,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const SizedBox(height: 5),
-              const SizedBox(height: 5),
+              SizedBox(height: 5.h),
+              SizedBox(height: 5.h),
               //! id Section
               Row(
                 children: [
-                  const SizedBox(width: 5),
+                  SizedBox(width: 5.w),
                   SizedBox(
-                    width: 230,
+                    width: 230.w,
                     child: Text(
                       overflow: TextOverflow.ellipsis,
                       "Id                  : (${productModel.id})",
-                      style: const TextStyle(fontSize: 14),
+                      style: TextStyle(fontSize: 14.sp),
                     ),
                   ),
                 ],
@@ -160,25 +162,27 @@ class StorageItemWidget extends StatelessWidget {
               //! Availabe Sizes Section
               Row(
                 children: [
-                  const SizedBox(width: 5),
+                  SizedBox(width: 5.w),
                   (productModel.availablePieces < 1)
-                      ? const SizedBox(
-                          width: 230,
-                          child: Text(
-                            overflow: TextOverflow.ellipsis,
-                            "( SOLD OUT ! )",
-                            style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.red,
-                                fontWeight: FontWeight.bold),
+                      ? SizedBox(
+                          width: 230.w,
+                          child: Center(
+                            child: Text(
+                              overflow: TextOverflow.ellipsis,
+                              "( SOLD OUT ! )",
+                              style: TextStyle(
+                                  fontSize: 14.sp,
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
                         )
                       : SizedBox(
-                          width: 230,
+                          width: 230.w,
                           child: Text(
                             overflow: TextOverflow.ellipsis,
                             "Available Pices : ${productModel.availablePieces.toString()}",
-                            style: const TextStyle(fontSize: 14),
+                            style: TextStyle(fontSize: 14.sp),
                           ),
                         ),
                 ],
@@ -186,25 +190,25 @@ class StorageItemWidget extends StatelessWidget {
               //! Price Section
               Row(children: [
                 SizedBox(
-                  width: 230,
+                  width: 230.w,
                   child: Row(
                     children: [
-                      const Text(
+                      Text(
                         overflow: TextOverflow.ellipsis,
                         "Price               : ",
-                        style: TextStyle(fontSize: 14),
+                        style: TextStyle(fontSize: 14.sp),
                       ),
                       Text(
                         overflow: TextOverflow.ellipsis,
-                        productModel.price,
-                        style: const TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.bold),
+                        "${productModel.price} LE",
+                        style: TextStyle(
+                            fontSize: 14.sp, fontWeight: FontWeight.bold),
                       ),
                     ],
                   ),
                 ),
               ]),
-              const SizedBox(height: 10),
+              SizedBox(height: 10.h),
               Row(
                 children: [
                   ElevatedButton(
@@ -213,17 +217,17 @@ class StorageItemWidget extends StatelessWidget {
                     onPressed: () {
                       _editProduct(context);
                     },
-                    child: const Text(
+                    child: Text(
                       'edit',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    width: 50,
+                  SizedBox(
+                    width: 50.w,
                   ),
                   ElevatedButton(
                     style: const ButtonStyle(
@@ -231,10 +235,10 @@ class StorageItemWidget extends StatelessWidget {
                     onPressed: () {
                       _showDeleteDialog(context);
                     },
-                    child: const Text(
+                    child: Text(
                       'delete',
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 16.sp,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),

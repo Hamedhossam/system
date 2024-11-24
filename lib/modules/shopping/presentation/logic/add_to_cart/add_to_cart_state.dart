@@ -10,8 +10,12 @@ final class AddToCartSuccess extends AddToCartState {
   List<ProductModel> products;
   String date;
   String orderId;
+  String totalCost;
   AddToCartSuccess(
-      {required this.products, required this.date, required this.orderId});
+      {required this.products,
+      required this.date,
+      required this.orderId,
+      required this.totalCost});
 }
 
 final class AddToCartLoading extends AddToCartState {}

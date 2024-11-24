@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:motors/core/screens/home_screen.dart';
 import 'package:motors/core/widgets/label.dart';
 
 class OrdersScreenTittle extends StatelessWidget {
@@ -14,8 +16,8 @@ class OrdersScreenTittle extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(top: 3.0),
           child: SizedBox(
-              height: 40,
-              width: 40,
+              height: 40.h,
+              width: 40.w,
               child: Image.asset("assets/icons/orders.png")),
         ),
         const Padding(

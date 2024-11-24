@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pdf/pdf.dart';
 import 'package:printing/printing.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -40,7 +41,7 @@ Future<Uint8List> _generatePdf(PdfPageFormat format, String title) async {
                 child: pw.Text(title, style: pw.TextStyle(font: font)),
               ),
             ),
-            pw.SizedBox(height: 20),
+            pw.SizedBox(height: 20.h),
             pw.Flexible(
               child:
                   pw.Image(pw.MemoryImage(imageBytes), width: 100, height: 100),

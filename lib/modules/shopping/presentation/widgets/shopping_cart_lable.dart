@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:motors/core/screens/home_screen.dart';
 import 'package:motors/core/widgets/label.dart';
 
 class ShoppingCartLabel extends StatelessWidget {
@@ -12,8 +14,8 @@ class ShoppingCartLabel extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
-            height: 40,
-            width: 40,
+            height: 40.h,
+            width: 40.w,
             child: Image.asset("assets/icons/shopping_cart.png")),
         const Label(tittle: " Cart"),
       ],
