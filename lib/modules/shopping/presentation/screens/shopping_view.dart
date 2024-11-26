@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:motors/core/screens/home_screen.dart';
 import 'package:motors/core/widgets/horizental_line.dart';
 import 'package:motors/core/widgets/label.dart';
 import 'package:motors/modules/shopping/data/models/product_model.dart';
@@ -137,7 +136,7 @@ class _ShoppingViewState extends State<ShoppingView> {
                   child: Padding(
                     padding: const EdgeInsets.only(right: 8.0),
                     child: Container(
-                      padding: EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         color: selectedBrand == index
                             ? Colors.black

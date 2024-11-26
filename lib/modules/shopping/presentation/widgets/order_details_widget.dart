@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:motors/core/screens/home_screen.dart';
 import 'package:motors/core/widgets/horizental_line.dart';
 import 'package:motors/modules/shopping/presentation/logic/add_to_cart/add_to_cart_cubit.dart';
 

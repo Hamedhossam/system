@@ -61,6 +61,41 @@ class StorageProductsCubit extends Cubit<StorageProductsState> {
     }
   }
 
+  String getPrice(String productName) {
+    String price = "";
+    for (var i = 0; i < allProducts.length; i++) {
+      if (allProducts[i].name.contains(productName)) {
+        price = allProducts[i].price;
+        break;
+      }
+    }
+    return price;
+  }
+
+  String getPriceAfterDiscount(String productName) {
+    String price = "";
+    for (var i = 0; i < allProducts.length; i++) {
+      if (allProducts[i].name.contains(productName)) {
+        price = "${allProducts[i].priceAfterDiscount} LE";
+        break;
+      }
+    }
+    return price;
+  }
+
+  String getDiscount(String productName) {
+    String dicount = "";
+    for (var i = 0; i < allProducts.length; i++) {
+      if (allProducts[i].name.contains(productName)) {
+        dicount = (allProducts[i].isPercentage)
+            ? "- ${allProducts[i].discountPercentage}%"
+            : "- ${allProducts[i].discountAmount} LE";
+        break;
+      }
+    }
+    return dicount;
+  }
+
   updateProducts(List<ProductModel> products) {
     for (var i = 0; i < products.length; i++) {
       for (var j = 0; j < allProducts.length; j++) {

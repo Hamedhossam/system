@@ -151,4 +151,15 @@ class OrdersCubit extends Cubit<OrdersCubitState> {
   //         ),
   //       );
   // }
+
+  String getTotalCost(String id) {
+    String cost = "";
+    for (var i = 0; i < allOrders.length; i++) {
+      if (allOrders[i].id == id) {
+        cost = allOrders[i].price.toString();
+        break;
+      }
+    }
+    return cost;
+  }
 }

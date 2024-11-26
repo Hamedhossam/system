@@ -39,7 +39,7 @@ class _ProductsListViewState extends State<ProductsListView> {
                   crossAxisCount: 4, // 4 items per row
                   // crossAxisSpacing: 8.0,
                   // mainAxisSpacing: 8.0,
-                  childAspectRatio: 0.82, // Adjust to change item height/width
+                  childAspectRatio: 0.79, // Adjust to change item height/width
                 ),
                 itemCount: BlocProvider.of<ShoppingProductsCubit>(context)
                     .getProducts(widget.category, widget.brand)

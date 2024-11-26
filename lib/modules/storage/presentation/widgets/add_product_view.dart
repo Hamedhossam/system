@@ -104,6 +104,7 @@ class _AddProductViewState extends State<AddProductView> {
         if (state is AddingProductSuccess) {
           await Future.delayed(const Duration(seconds: 1));
 
+          // ignore: use_build_context_synchronously
           Navigator.pop(context);
           // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context)
@@ -112,7 +113,9 @@ class _AddProductViewState extends State<AddProductView> {
         if (state is AddingProductFailure) {
           await Future.delayed(const Duration(seconds: 1));
 
+          // ignore: use_build_context_synchronously
           Navigator.pop(context);
+          // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context)
               .showSnackBar(customizedSnackBar("Error ❌"));
         }

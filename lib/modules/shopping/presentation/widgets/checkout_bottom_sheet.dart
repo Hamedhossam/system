@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:motors/core/screens/home_screen.dart';
 import 'package:motors/core/widgets/customized_botton.dart';
 import 'package:motors/core/widgets/text_field.dart';
 import 'package:motors/modules/orders/logic/add_order_cubit/add_order_cubit.dart';
@@ -28,7 +27,6 @@ class CheckOutBottomSheet extends StatelessWidget {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -134,7 +132,18 @@ class CheckOutBottomSheet extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return const PillScreen();
+                          return PillScreen(
+                            orderModel: OrderModel(
+                              id: orderId,
+                              clientName: _nameController.text,
+                              date: date,
+                              price: double.parse(
+                                  BlocProvider.of<AddToCartCubit>(context)
+                                      .getTotalCost()),
+                              clientPhone: _phoneController.text,
+                              products: productsDetails,
+                            ),
+                          );
                         },
                       ),
                     );

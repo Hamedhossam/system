@@ -9,7 +9,7 @@ class CustomizedVerticalLine extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return VerticalDivider(
-      color: Color.fromARGB(94, 0, 0, 0), // Line color
+      color: const Color.fromARGB(94, 0, 0, 0), // Line color
       thickness: 2, // Line thickness
       width: 5.w, // Space from the text
     );

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:motors/core/screens/home_screen.dart';
 import 'package:motors/core/widgets/horizental_line.dart';
 import 'package:motors/modules/storage/presentation/logic/storage_product_cubit/storage_products_cubit.dart';
 import 'package:motors/modules/storage/presentation/widgets/available_items_list_view.dart';
@@ -34,7 +33,7 @@ class _StorageScreenState extends State<StorageScreen> {
             buildCategorySection(
                 context, "Shoes(Men)", "assets/images/shoes_men.jpg"),
             Padding(
-              padding: EdgeInsets.only(top: 10.0),
+              padding: const EdgeInsets.only(top: 10.0),
               child: SizedBox(width: 600.w, child: const HorizentalLine()),
             ),
             buildCategorySection(
@@ -45,7 +44,7 @@ class _StorageScreenState extends State<StorageScreen> {
             ),
             buildCategorySection(context, "Bags", "assets/images/bags.jpg"),
             Padding(
-              padding: EdgeInsets.only(top: 10.0),
+              padding: const EdgeInsets.only(top: 10.0),
               child: SizedBox(width: 600.w, child: const HorizentalLine()),
             ),
             buildCategorySection(

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:motors/core/screens/home_screen.dart';
 import 'package:motors/core/widgets/customized_botton.dart';
 import 'package:motors/core/widgets/horizental_line.dart';
 import 'package:motors/core/widgets/text_field.dart';
@@ -330,11 +329,14 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                         widget.productModel.isPercentage = true;
                         widget.productModel.discountPercentage =
                             discountController.text;
-                        widget.productModel.discountAmount = "0";
-                      } else {
                         widget.productModel.discountAmount =
                             discountController.text;
-                        widget.productModel.discountPercentage = "0";
+                      } else {
+                        widget.productModel.isPercentage = false;
+                        widget.productModel.discountAmount =
+                            discountController.text;
+                        widget.productModel.discountPercentage =
+                            discountController.text;
                       }
                       BlocProvider.of<AddToCartCubit>(context).addProduct(
                         widget.productModel,

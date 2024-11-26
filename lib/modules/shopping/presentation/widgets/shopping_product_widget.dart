@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:motors/core/screens/home_screen.dart';
 import 'package:motors/modules/shopping/data/models/product_model.dart';
 import 'package:motors/modules/shopping/presentation/widgets/add_to_cart_bottom_sheet.dart';
 

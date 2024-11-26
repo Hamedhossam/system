@@ -11,15 +11,15 @@ class ExitWidget extends StatelessWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text("Exit"),
-          content: Text("Do you want to exit?"),
+          title: const Text("Exit"),
+          content: const Text("Do you want to exit?"),
           actions: <Widget>[
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
                 SystemNavigator.pop(); // Close the app
               },
-              child: Text("No"),
+              child: const Text("No"),
             ),
             TextButton(
               onPressed: () {
@@ -27,7 +27,7 @@ class ExitWidget extends StatelessWidget {
                 // Implement exit functionality here, if needed
                 // For example, you can call SystemNavigator.pop();
               },
-              child: Text("Yes"),
+              child: const Text("Yes"),
             ),
           ],
         );

@@ -57,15 +57,16 @@ class _OrdersScreenState extends State<OrdersScreen> {
             onChanged: (String? newValue) {
               setState(() {
                 selectedOrderCategory = newValue!;
-                if (selectedOrderCategory == "All") {
-                  allOrders = allOrders;
-                } else if (selectedOrderCategory == "Today") {
-                  allOrders = todayOrders;
-                } else if (selectedOrderCategory == "This Week") {
-                  allOrders = thisWeekOrders;
-                } else if (selectedOrderCategory == "This Month") {
-                  allOrders = thisMonthOrders;
-                }
+                BlocProvider.of<OrdersCubit>(context).getAllOrders();
+                // if (selectedOrderCategory == "All") {
+                //   allOrders = allOrders;
+                // } else if (selectedOrderCategory == "Today") {
+                //   allOrders = todayOrders;
+                // } else if (selectedOrderCategory == "This Week") {
+                //   allOrders = thisWeekOrders;
+                // } else if (selectedOrderCategory == "This Month") {
+                //   allOrders = thisMonthOrders;
+                // }
               });
             },
             items:
@@ -82,15 +83,48 @@ class _OrdersScreenState extends State<OrdersScreen> {
           ),
 
           OrdersLabel(tittle: selectedOrderCategory),
-          OrdersListView(
-            orders: (selectedOrderCategory == "Today")
-                ? BlocProvider.of<OrdersCubit>(context).todayOrders
-                : (selectedOrderCategory == "This Week")
-                    ? BlocProvider.of<OrdersCubit>(context).thisWeekOrders
-                    : (selectedOrderCategory == "This Month")
-                        ? BlocProvider.of<OrdersCubit>(context).thisMonthOrders
-                        : BlocProvider.of<OrdersCubit>(context).allOrders,
+          BlocBuilder<OrdersCubit, OrdersCubitState>(
+            builder: (context, state) {
+              if (state is OrdersCubitSuccess) {
+                if ((selectedOrderCategory == "Today")) {
+                  return OrdersListView(
+                      orders:
+                          BlocProvider.of<OrdersCubit>(context).todayOrders);
+                } else if ((selectedOrderCategory == "This Week")) {
+                  return OrdersListView(
+                      orders:
+                          BlocProvider.of<OrdersCubit>(context).thisWeekOrders);
+                } else if ((selectedOrderCategory == "This Month")) {
+                  return OrdersListView(
+                      orders: BlocProvider.of<OrdersCubit>(context)
+                          .thisMonthOrders);
+                } else {
+                  return OrdersListView(
+                      orders: BlocProvider.of<OrdersCubit>(context).allOrders);
+                }
+              } else {
+                return Center(
+                  child: Text(
+                    "There is no Orders at This Time",
+                    style:
+                        TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
+                  ),
+                );
+              }
+            },
           ),
+
+          /*
+          OrdersListView(
+                orders: (selectedOrderCategory == "Today")
+                    ? BlocProvider.of<OrdersCubit>(context).todayOrders
+                    : (selectedOrderCategory == "This Week")
+                        ? BlocProvider.of<OrdersCubit>(context).thisWeekOrders
+                        : (selectedOrderCategory == "This Month")
+                            ? BlocProvider.of<OrdersCubit>(context)
+                                .thisMonthOrders
+                            : BlocProvider.of<OrdersCubit>(context).allOrders,
+              );*/
           // const OrdersLabel(tittle: 'Today'),
           // OrdersListView(orders: todayOrders),
           // const HorizentalLine(),

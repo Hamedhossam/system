@@ -4,7 +4,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:motors/core/screens/home_screen.dart';
 import 'package:motors/core/widgets/customized_botton.dart';
 import 'package:motors/core/widgets/text_field.dart';
 import 'package:motors/modules/storage/presentation/logic/adding_brand_cubit/add_brand_cubit.dart';
@@ -36,7 +35,7 @@ class _AddBrandBottomSheetState extends State<AddBrandBottomSheet> {
     }
   }
 
-  TextEditingController _brandNameController = TextEditingController();
+  final TextEditingController _brandNameController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
@@ -47,6 +46,7 @@ class _AddBrandBottomSheetState extends State<AddBrandBottomSheet> {
         listener: (context, state) async {
           if (state is AddBrandSuccess) {
             await Future.delayed(const Duration(seconds: 1));
+            // ignore: use_build_context_synchronously
             Navigator.pop(context);
             // ignore: use_build_context_synchronously
             ScaffoldMessenger.of(context)
@@ -54,7 +54,9 @@ class _AddBrandBottomSheetState extends State<AddBrandBottomSheet> {
           }
           if (state is AddBrandFail) {
             await Future.delayed(const Duration(seconds: 1));
+            // ignore: use_build_context_synchronously
             Navigator.pop(context);
+            // ignore: use_build_context_synchronously
             ScaffoldMessenger.of(context)
                 .showSnackBar(customizedSnackBar("Error ❌"));
           }
