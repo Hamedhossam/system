@@ -114,7 +114,13 @@ class _OrdersScreenState extends State<OrdersScreen> {
             },
           ),
 
-          /*
+         
+        ],
+      ),
+    );
+  }
+}
+/* /*
           OrdersListView(
                 orders: (selectedOrderCategory == "Today")
                     ? BlocProvider.of<OrdersCubit>(context).todayOrders
@@ -134,9 +140,4 @@ class _OrdersScreenState extends State<OrdersScreen> {
           // const OrdersLabel(tittle: 'Last Week'),
           // OrdersListView(orders: thisWeekOrders),
           // const HorizentalLine(),
-          // const HorizentalLine()
-        ],
-      ),
-    );
-  }
-}
+          // const HorizentalLine()*/

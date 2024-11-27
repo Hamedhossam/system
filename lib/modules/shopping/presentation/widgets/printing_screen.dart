@@ -64,6 +64,7 @@ Future<Uint8List> _generatePdf(
   pdf.addPage(
     pw.Page(
       pageFormat: PdfPageFormat.roll80,
+      //PdfPageFormat(7.5 / 2.54 * 72, 23 / 2.54 * 72),
       build: (_) {
         return pw.Column(
           crossAxisAlignment: pw.CrossAxisAlignment.center,
@@ -76,7 +77,7 @@ Future<Uint8List> _generatePdf(
                 "Saeed St, after Sedqi intersecion under Adams Cafe - 1st coridor on the left ",
                 textAlign: pw.TextAlign.center),
             pw.Text("[ Tanta - 3111 ]", textAlign: pw.TextAlign.center),
-            pw.Text("Mobile : 01006042910", textAlign: pw.TextAlign.center),
+            pw.Text("Mobile : 01550062911", textAlign: pw.TextAlign.center),
             pw.SizedBox(height: 10),
             // Horizontal line
             pw.Divider(),
@@ -106,93 +107,100 @@ Future<Uint8List> _generatePdf(
             // Horizontal line
             pw.Divider(),
             // Table
-            pw.Table(
-              columnWidths: const {
-                // 0: pw.FixedColumnWidth(20), // ID column width
-                0: pw.FixedColumnWidth(40), // Product Name column width
-                1: pw.FixedColumnWidth(20), // Price column width
-                2: pw.FixedColumnWidth(20), // Discount column width
-                3: pw.FixedColumnWidth(20), // Total column width
-              },
-              border: pw.TableBorder.all(),
-              children: [
-                // Header row
-                pw.TableRow(children: [
-                  // pw.Padding(
-                  //     padding: const pw.EdgeInsets.all(8), child: pw.Text('#')),
-                  pw.Padding(
-                      padding: const pw.EdgeInsets.all(8),
-                      child: pw.Text(
-                        'Products Details',
-                        style: const pw.TextStyle(fontSize: 8),
-                      )),
-                  pw.Padding(
-                      padding: const pw.EdgeInsets.all(8),
-                      child: pw.Text(
-                        'Price',
-                        style: const pw.TextStyle(fontSize: 8),
-                      )),
-                  pw.Padding(
-                      padding: const pw.EdgeInsets.all(8),
-                      child: pw.Text(
-                        'Disc%',
-                        style: const pw.TextStyle(fontSize: 8),
-                      )),
-                  pw.Padding(
-                      padding: const pw.EdgeInsets.all(8),
-                      child: pw.Text(
-                        'Total',
-                        style: const pw.TextStyle(fontSize: 8),
-                      )),
-                ]),
-                // Data rows
-                ...List.generate(order.products.length, (index) {
-                  return pw.TableRow(children: [
+            pw.Padding(
+              padding: const pw.EdgeInsets.only(
+                right: 9,
+              ),
+              child: pw.Table(
+                columnWidths: const {
+                  // 0: pw.FixedColumnWidth(20), // ID column width
+                  0: pw.FixedColumnWidth(40), // Product Name column width
+                  1: pw.FixedColumnWidth(20), // Price column width
+                  2: pw.FixedColumnWidth(20), // Discount column width
+                  3: pw.FixedColumnWidth(20), // Total column width
+                },
+                border: pw.TableBorder.all(),
+                children: [
+                  // Header row
+                  pw.TableRow(children: [
                     // pw.Padding(
-                    //   padding: const pw.EdgeInsets.all(8),
-                    //   child: pw.Text((index + 1).toString()),
-                    // ),
+                    //     padding: const pw.EdgeInsets.all(8), child: pw.Text('#')),
                     pw.Padding(
-                      padding: const pw.EdgeInsets.all(8),
-                      child: pw.Text(
-                        order.products[index],
-                        style: const pw.TextStyle(fontSize: 8),
-                      ),
-                    ),
+                        padding: const pw.EdgeInsets.all(8),
+                        child: pw.Text(
+                          'Products Details',
+                          style: const pw.TextStyle(fontSize: 8),
+                        )),
                     pw.Padding(
-                      padding: const pw.EdgeInsets.all(8),
-                      child: pw.Text(
-                        "${(double.parse(getFirstWord(order.products[index])) * double.parse(BlocProvider.of<StorageProductsCubit>(context).getPrice(removeFirstTwoWords(order.products[index])))).toString()} LE",
-                        style: const pw.TextStyle(fontSize: 8),
-                      ),
-                    ),
+                        padding: const pw.EdgeInsets.all(8),
+                        child: pw.Text(
+                          'Price',
+                          style: const pw.TextStyle(fontSize: 8),
+                        )),
                     pw.Padding(
-                      padding: const pw.EdgeInsets.all(8),
-                      child: pw.Text(
-                        BlocProvider.of<StorageProductsCubit>(context)
-                            .getDiscount(
-                                removeFirstTwoWords(order.products[index])),
-                        style: const pw.TextStyle(fontSize: 8),
-                      ),
-                    ),
+                        padding: const pw.EdgeInsets.all(8),
+                        child: pw.Text(
+                          'Disc%',
+                          style: const pw.TextStyle(fontSize: 8),
+                        )),
                     pw.Padding(
-                      padding: const pw.EdgeInsets.all(8),
-                      child: pw.Text(
-                        BlocProvider.of<StorageProductsCubit>(context)
-                            .getPriceAfterDiscount(
-                                removeFirstTwoWords(order.products[index])),
-                        style: const pw.TextStyle(fontSize: 8),
+                        padding: const pw.EdgeInsets.all(8),
+                        child: pw.Text(
+                          'Total',
+                          style: const pw.TextStyle(fontSize: 8),
+                        )),
+                  ]),
+                  // Data rows
+                  ...List.generate(order.products.length, (index) {
+                    return pw.TableRow(children: [
+                      // pw.Padding(
+                      //   padding: const pw.EdgeInsets.all(8),
+                      //   child: pw.Text((index + 1).toString()),
+                      // ),
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(8),
+                        child: pw.Text(
+                          order.products[index],
+                          style: const pw.TextStyle(fontSize: 8),
+                        ),
                       ),
-                    ),
-                  ]);
-                }),
-              ],
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(8),
+                        child: pw.Text(
+                          "${(double.parse(getFirstWord(order.products[index])) * double.parse(BlocProvider.of<StorageProductsCubit>(context).getPrice(removeFirstTwoWords(order.products[index])))).toString()} LE",
+                          style: const pw.TextStyle(fontSize: 7),
+                        ),
+                      ),
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(8),
+                        child: pw.Text(
+                          BlocProvider.of<StorageProductsCubit>(context)
+                              .getDiscount(
+                                  removeFirstTwoWords(order.products[index])),
+                          style: const pw.TextStyle(fontSize: 7),
+                        ),
+                      ),
+                      pw.Padding(
+                        padding: const pw.EdgeInsets.all(8),
+                        child: pw.Text(
+                          BlocProvider.of<StorageProductsCubit>(context)
+                              .getPriceAfterDiscount(
+                                  removeFirstTwoWords(order.products[index])),
+                          style: const pw.TextStyle(fontSize: 7),
+                        ),
+                      ),
+                    ]);
+                  }),
+                ],
+              ),
             ),
             pw.SizedBox(height: 5),
             pw.Align(
               alignment: pw.Alignment.centerRight,
               child: pw.Text(
-                  'Total cost :  ${BlocProvider.of<OrdersCubit>(context).getTotalCost(order.id)} LE'),
+                'Total cost :  ${BlocProvider.of<OrdersCubit>(context).getTotalCost(order.id)} LE   ',
+                style: const pw.TextStyle(fontSize: 8),
+              ),
             ),
             pw.SizedBox(height: 10),
             // Horizontal line
