@@ -24,6 +24,7 @@ class StorageProductsCubit extends Cubit<StorageProductsState> {
     try {
       var productsBox = Hive.box<ProductModel>("products_box");
       allProducts = productsBox.values.toList();
+      allProducts = allProducts.reversed.toList(); //!
       log(allProducts.length.toString());
       emit(StorageProductsSuccess());
     } on Exception catch (e) {
@@ -96,12 +97,13 @@ class StorageProductsCubit extends Cubit<StorageProductsState> {
     return dicount;
   }
 
-  updateProducts(List<ProductModel> products) {
+  updateProducts(List<ProductModel> products) async {
     for (var i = 0; i < products.length; i++) {
       for (var j = 0; j < allProducts.length; j++) {
         if (products[i].name == allProducts[j].name) {
           allProducts[j].availablePieces =
               allProducts[j].availablePieces - products[i].numOfPiecesOrderd!;
+          await allProducts[j].save();
         }
       }
     }

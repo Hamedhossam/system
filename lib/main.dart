@@ -17,7 +17,8 @@ import 'modules/storage/presentation/logic/storage_product_cubit/storage_product
 void main() async {
   Hive.registerAdapter(ProductModelAdapter());
   Hive.registerAdapter(OrderModelAdapter());
-  await Hive.initFlutter("D:/Programing/flutter/motors/storage");
+  await Hive.initFlutter("C:/Users/hp/Downloads/storage");
+  // await Hive.initFlutter("C:/Users/hp/Downloads/storage");
   await Hive.openBox<ProductModel>("products_box");
   await Hive.openBox<OrderModel>("orders_box");
   await Hive.openBox<String>("brands_box");

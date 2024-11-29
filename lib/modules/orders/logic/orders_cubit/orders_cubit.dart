@@ -41,6 +41,7 @@ class OrdersCubit extends Cubit<OrdersCubitState> {
         if (getLastWord(order.products[j]) == products[i].name) {
           products[i].availablePieces = products[i].availablePieces +
               int.parse(getFirstWord(order.products[j]));
+          products[i].save();
         }
       }
     }
