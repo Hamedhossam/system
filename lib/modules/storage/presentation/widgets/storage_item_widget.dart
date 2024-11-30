@@ -168,7 +168,7 @@ class StorageItemWidget extends StatelessWidget {
               Row(
                 children: [
                   productModel.availablePieces == 0
-                      ? SizedBox()
+                      ? const SizedBox()
                       : ElevatedButton(
                           style: const ButtonStyle(
                               backgroundColor:
@@ -265,9 +265,9 @@ class _EditProductBottomSheetState extends State<EditProductBottomSheet> {
               onPressed: _pickImage,
               child: const Text('Upload Image'),
             ),
-            if (_imagePath != null) ...[
+            ...[
               SizedBox(height: 16.h),
-              Image.file(File(_imagePath!),
+              Image.file(File(_imagePath),
                   height: 100.h), // Display selected image
             ],
             SizedBox(height: 16.h),
@@ -341,9 +341,12 @@ class _EditProductBottomSheetState extends State<EditProductBottomSheet> {
               onPressed: () async {
                 widget.productModel.imagePath = _imagePath;
                 await widget.productModel.save();
+                // ignore: use_build_context_synchronously
                 BlocProvider.of<StorageProductsCubit>(context).getAllProducts();
+                // ignore: use_build_context_synchronously
                 BlocProvider.of<ShoppingProductsCubit>(context)
                     .getAllProducts();
+                // ignore: use_build_context_synchronously
                 Navigator.pop(context);
               },
               child: const Text(

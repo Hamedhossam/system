@@ -104,6 +104,7 @@ class StorageProductsCubit extends Cubit<StorageProductsState> {
           allProducts[j].availablePieces =
               allProducts[j].availablePieces - products[i].numOfPiecesOrderd!;
           await allProducts[j].save();
+          break;
         }
       }
     }

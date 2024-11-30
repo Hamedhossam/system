@@ -1,10 +1,6 @@
-import 'dart:io';
-
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:motors/core/widgets/label.dart';
-import 'package:motors/core/widgets/text_field.dart';
 import 'package:motors/modules/storage/presentation/widgets/add_brand_bottom_sheet.dart';
 import 'package:motors/modules/storage/presentation/widgets/add_product_view.dart';
 
@@ -111,25 +107,10 @@ class EditBrandsBottomSheet extends StatefulWidget {
 }
 
 class _EditBrandsBottomSheetState extends State<EditBrandsBottomSheet> {
-  String _imagePath = "";
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-  }
-
-  Future<void> _pickImage() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      type: FileType.image,
-    );
-
-    if (result != null) {
-      setState(() {
-        _imagePath =
-            result.files.single.path!; // Get the path of the selected image
-      });
-    }
   }
 
   @override

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:motors/modules/orders/logic/orders_cubit/orders_cubit.dart';
 import 'package:motors/modules/orders/models/order_model.dart';
 import 'package:motors/modules/storage/presentation/logic/storage_product_cubit/storage_products_cubit.dart';
@@ -57,10 +58,9 @@ Future<Uint8List> _generatePdf(
   //     BlocProvider.of<StorageProductsCubit>(context).allProducts;
   const String storeIconPath = 'assets/icons/00.png'; // Path to your icon
   final ByteData imageData = await rootBundle.load(storeIconPath);
-  final Uint8List imageBytes = imageData.buffer.asUint8List();
-  final Uint8List image1 = await loadImage("assets/icons/store_logo.png");
-  final Uint8List image2 = await loadImage("assets/icons/store_logo.png");
-  final Uint8List image3 = await loadImage("assets/icons/store_logo.png");
+  imageData.buffer.asUint8List();
+  final Uint8List image1 = await loadImage("assets/images/logo.png");
+  final Uint8List image2 = await loadImage("assets/images/QrCode.png");
   pdf.addPage(
     pw.Page(
       pageFormat: PdfPageFormat.roll80,
@@ -71,7 +71,6 @@ Future<Uint8List> _generatePdf(
           children: [
             // Logo
             pw.Image(pw.MemoryImage(image1), height: 200, width: 200),
-            pw.SizedBox(height: 10),
             // Address
             pw.Text(
                 "Saeed St, after Sedqi intersecion under Adams Cafe - 1st coridor on the left ",
@@ -216,17 +215,16 @@ Future<Uint8List> _generatePdf(
               mainAxisAlignment: pw.MainAxisAlignment.spaceEvenly,
               children: [
                 pw.Image(
-                  pw.MemoryImage(image1),
-                  height: 100,
-                  width: 100,
-                ),
-                pw.SizedBox(width: 10),
-                pw.Image(
-                  pw.MemoryImage(image1),
+                  pw.MemoryImage(image2),
                   height: 100,
                   width: 100,
                 ),
               ],
+            ),
+            pw.Text(
+              textAlign: pw.TextAlign.center,
+              'Developed by Alpha Softwares (0106387697)',
+              style: pw.TextStyle(fontSize: 8.sp),
             ),
           ],
         );
