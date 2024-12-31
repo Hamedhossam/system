@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -10,6 +11,7 @@ import 'package:motors/core/widgets/horizental_line.dart';
 import 'package:motors/core/widgets/text_field.dart';
 import 'package:motors/modules/shopping/data/models/product_model.dart';
 import 'package:motors/modules/shopping/presentation/logic/add_to_cart/add_to_cart_cubit.dart';
+import 'package:motors/modules/shopping/presentation/widgets/shopping_product_widget.dart';
 
 class AddToCartBottomSheet extends StatefulWidget {
   const AddToCartBottomSheet({
@@ -23,6 +25,7 @@ class AddToCartBottomSheet extends StatefulWidget {
 
 class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
   int productQuantity = 1;
+  List<String> selectedSizes = [];
   late int newAvailablePieces;
   String selectedDiscountMethod = "percentage";
   List<String> methods = ["percentage", "amount"];
@@ -30,6 +33,9 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
   double discountPercentage = 0;
   bool isPercentage = true;
   TextEditingController discountController = TextEditingController();
+  TextEditingController size1Controller = TextEditingController();
+  TextEditingController size2Controller = TextEditingController();
+  TextEditingController size3Controller = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey();
   double applyDiscount(double discountPercentage, double total) {
     return total - (total * (discountPercentage / 100));
@@ -40,6 +46,9 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
     super.initState();
     newAvailablePieces = widget.productModel.availablePieces - 1;
     discountController.text = "0";
+    size1Controller.text = '0';
+    size2Controller.text = '0';
+    size3Controller.text = '0';
   }
 
   @override
@@ -53,8 +62,8 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
         ),
       ),
       child: SizedBox(
-        height: 600.h,
-        width: 500.w,
+        height: 700.h,
+        width: 550.w,
         child: SingleChildScrollView(
           child: Form(
             key: formKey,
@@ -76,7 +85,7 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                   ],
                 ),
                 Container(
-                  height: 180.h,
+                  height: 150.h,
                   width: double.maxFinite,
                   decoration: BoxDecoration(
                       image: DecorationImage(
@@ -100,6 +109,36 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                       "Pieces : ${newAvailablePieces.toString()}",
                       style: TextStyle(
                           fontSize: 20.sp, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Text(
+                      'Sizes : ',
+                      style: TextStyle(
+                          fontSize: 20.sp, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 30.h,
+                      width: 280.w,
+                      child: ListView.builder(
+                        itemCount: widget.productModel.availableSizes!.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) => SizeBall(
+                          child: Text(
+                            overflow: TextOverflow.ellipsis,
+                            widget.productModel.availableSizes == null
+                                ? "(no sizes) "
+                                : widget.productModel.availableSizes![index],
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -301,48 +340,104 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                 SizedBox(height: 20.h),
                 SizedBox(
                   height: 60.h,
+                  // width: 200.w,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      SizedBox(
+                        width: 100.w,
+                        height: 60.h,
+                        child: CustomizedTextField(
+                          onSaved: (p0) => selectedSizes.add(p0 ?? '0'),
+                          controller: size1Controller,
+                          validator: (p0) {
+                            if (p0!.isEmpty) {
+                              return 'Please Enter Size';
+                            }
+                            return null;
+                          },
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          tittle: 'Size1',
+                          maxLines: 1,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 100.w,
+                        height: 60.h,
+                        child: CustomizedTextField(
+                          onSaved: (p0) => selectedSizes.add(p0 ?? '0'),
+                          controller: size2Controller,
+                          validator: (p0) {
+                            if (p0!.isEmpty) {
+                              return 'Please Enter Size';
+                            }
+                            return null;
+                          },
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          tittle: 'Size2',
+                          maxLines: 1,
+                        ),
+                      ),
+                      SizedBox(
+                        width: 100.w,
+                        height: 60.h,
+                        child: CustomizedTextField(
+                          onSaved: (p0) => selectedSizes.add(p0 ?? '0'),
+                          controller: size3Controller,
+                          validator: (p0) {
+                            if (p0!.isEmpty) {
+                              return 'Please Enter Size';
+                            }
+                            return null;
+                          },
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          tittle: 'Size3',
+                          maxLines: 1,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                SizedBox(
+                  height: 60.h,
                   width: 200.w,
                   child: CustomizedButton(
                     tittle: "Add",
                     myColor: Colors.blue,
                     onTap: () {
-                      var random = Random();
-                      DateTime now = DateTime.now();
-                      String formattedDate =
-                          DateFormat('dd/MM/yyyy HH:mm a').format(now);
-                      int orderId = 100000 +
-                          random.nextInt(
-                              900000); // Generates a number between 100000 an
-                      widget.productModel.numOfPiecesOrderd = productQuantity;
-                      widget.productModel.priceAfterDiscount = (isPercentage)
-                          ? applyDiscount(
-                                  discountPercentage,
-                                  (int.parse(widget.productModel.price) *
-                                          productQuantity)
-                                      .toDouble())
-                              .toString()
-                          : ((int.parse(widget.productModel.price) *
-                                      productQuantity) -
-                                  discountAmount)
-                              .toString();
-                      if (isPercentage) {
-                        widget.productModel.isPercentage = true;
-                        widget.productModel.discountPercentage =
-                            discountController.text;
-                        widget.productModel.discountAmount =
-                            discountController.text;
-                      } else {
-                        widget.productModel.isPercentage = false;
-                        widget.productModel.discountAmount =
-                            discountController.text;
-                        widget.productModel.discountPercentage =
-                            discountController.text;
-                      }
-                      BlocProvider.of<AddToCartCubit>(context).addProduct(
-                        widget.productModel,
-                        formattedDate,
-                        orderId.toString(),
-                        (isPercentage)
+                      if (formKey.currentState!.validate()) {
+                        formKey.currentState!.save();
+                        if (widget.productModel.availableSizes != null) {
+                          for (var i = 0; i < selectedSizes.length; i++) {
+                            for (var j = 0;
+                                j < widget.productModel.availableSizes!.length;
+                                j++) {
+                              if (selectedSizes[i] ==
+                                  widget.productModel.availableSizes?[j]) {
+                                widget.productModel.availableSizes?.remove(
+                                    widget.productModel.availableSizes?[j]);
+                                widget.productModel.save();
+                              }
+                            }
+                          }
+                        }
+
+                        var random = Random();
+                        DateTime now = DateTime.now();
+                        String formattedDate =
+                            DateFormat('dd/MM/yyyy HH:mm a').format(now);
+                        int orderId = 100000 +
+                            random.nextInt(
+                                900000); // Generates a number between 100000 an
+                        widget.productModel.numOfPiecesOrderd = productQuantity;
+                        widget.productModel.priceAfterDiscount = (isPercentage)
                             ? applyDiscount(
                                     discountPercentage,
                                     (int.parse(widget.productModel.price) *
@@ -352,9 +447,38 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                             : ((int.parse(widget.productModel.price) *
                                         productQuantity) -
                                     discountAmount)
-                                .toString(),
-                      );
-                      Navigator.pop(context);
+                                .toString();
+                        if (isPercentage) {
+                          widget.productModel.isPercentage = true;
+                          widget.productModel.discountPercentage =
+                              discountController.text;
+                          widget.productModel.discountAmount =
+                              discountController.text;
+                        } else {
+                          widget.productModel.isPercentage = false;
+                          widget.productModel.discountAmount =
+                              discountController.text;
+                          widget.productModel.discountPercentage =
+                              discountController.text;
+                        }
+                        BlocProvider.of<AddToCartCubit>(context).addProduct(
+                          widget.productModel,
+                          formattedDate,
+                          orderId.toString(),
+                          (isPercentage)
+                              ? applyDiscount(
+                                      discountPercentage,
+                                      (int.parse(widget.productModel.price) *
+                                              productQuantity)
+                                          .toDouble())
+                                  .toString()
+                              : ((int.parse(widget.productModel.price) *
+                                          productQuantity) -
+                                      discountAmount)
+                                  .toString(),
+                        );
+                        Navigator.pop(context);
+                      }
                     },
                   ),
                 )

@@ -87,7 +87,7 @@ class ShoppingProductWidget extends StatelessWidget {
                 height: 30.h,
                 width: 140.w,
                 child: ListView.builder(
-                  itemCount: productModel.numAvailableSizes,
+                  itemCount: productModel.availableSizes!.length,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) => SizeBall(
                     child: Text(

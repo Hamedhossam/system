@@ -36,6 +36,7 @@ class CustomizedTextField extends StatelessWidget {
       validator: validator,
       style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
       decoration: InputDecoration(
+        errorStyle: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
         labelText: tittle,
         labelStyle: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
         border: const OutlineInputBorder(
