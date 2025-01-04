@@ -421,9 +421,9 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                                 j++) {
                               if (selectedSizes[i] ==
                                   widget.productModel.availableSizes?[j]) {
-                                widget.productModel.availableSizes?.remove(
-                                    widget.productModel.availableSizes?[j]);
+                                widget.productModel.availableSizes?.removeAt(j);
                                 widget.productModel.save();
+                                break;
                               }
                             }
                           }
