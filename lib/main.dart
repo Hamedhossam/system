@@ -19,7 +19,6 @@ void main() async {
   Hive.registerAdapter(OrderModelAdapter());
   await Hive.initFlutter("E:/System/Storage");
   // await Hive.initFlutter("C:/Users/hp/Downloads/storage");
-  // await Hive.initFlutter("D:/storage");
   await Hive.openBox<ProductModel>("products_box");
   await Hive.openBox<OrderModel>("orders_box");
   await Hive.openBox<String>("brands_box");
