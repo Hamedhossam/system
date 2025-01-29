@@ -14,6 +14,7 @@ class CustomizedTextField extends StatelessWidget {
     this.inputFormatters,
     this.validator,
     this.onSubmit,
+    this.suffixIcon,
   });
   final String tittle;
   final int maxLines;
@@ -24,6 +25,7 @@ class CustomizedTextField extends StatelessWidget {
   final List<TextInputFormatter>? inputFormatters;
   final String? Function(String?)? validator;
   final String? Function(String?)? onSubmit;
+  final Widget? suffixIcon;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -36,6 +38,7 @@ class CustomizedTextField extends StatelessWidget {
       validator: validator,
       style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
       decoration: InputDecoration(
+        suffixIcon: suffixIcon,
         errorStyle: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold),
         labelText: tittle,
         labelStyle: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),

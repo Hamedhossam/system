@@ -158,10 +158,10 @@ class OrderWidget extends StatelessWidget {
                                   ),
                                   TextButton(
                                     onPressed: () {
-                                      BlocProvider.of<OrdersCubit>(context)
-                                          .retrieveOrder(orderModel, context);
-                                      BlocProvider.of<OrdersCubit>(context)
-                                          .getAllOrders();
+                                      // BlocProvider.of<OrdersCubit>(context)
+                                      //     .retrieveOrder(orderModel, context);
+                                      // BlocProvider.of<OrdersCubit>(context)
+                                      //     .getAllOrders();
                                       BlocProvider.of<ShoppingProductsCubit>(
                                               context)
                                           .getAllProducts();

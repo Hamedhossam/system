@@ -12,107 +12,112 @@ part 'orders_cubit_state.dart';
 
 class OrdersCubit extends Cubit<OrdersCubitState> {
   OrdersCubit() : super(OrdersCubitInitial());
-  List<OrderModel> allOrders = [];
-  List<OrderModel> todayOrders = [];
-  // List<OrderModel> yesterdayOrders = [];
-  List<OrderModel> thisWeekOrders = [];
-  List<OrderModel> thisMonthOrders = [];
-  List<OrderModel> searchedOrders = [];
+  List<OrderModel> orders = [];
 
-  String getLastWord(String input) {
-    // Split the string by spaces and trim any extra whitespace
-    List<String> words = input.trim().split(' ');
-    // Return the last word if it exists
-    return words.isNotEmpty ? words.last : '';
-  }
-
-  String getFirstWord(String input) {
-    // Split the string by spaces and trim any extra whitespace
-    List<String> words = input.trim().split(' ');
-    // Return the first word if it exists
-    return words.isNotEmpty ? words.first : '';
-  }
-
-//TODO:fix methis method retrieve order
-  retrieveOrder(OrderModel order, BuildContext context) {
-    List<ProductModel> products =
-        BlocProvider.of<StorageProductsCubit>(context).allProducts;
-    for (var product in products) {
-      for (var item in order.products) {
-        if (product.name == item) {}
-      }
-    }
-    order.delete();
-    emit(OrdersCubitSuccess());
-  }
-
-  getSearchedOrders(String id, List<OrderModel> orders) {
-    searchedOrders.clear();
+  getAllOrders() async {
+    orders.clear();
     emit(OrdersSearching());
-    for (var i = 0; i < orders.length; i++) {
-      if (orders[i].id.startsWith(id)) {
-        searchedOrders.add(orders[i]);
-      }
-    }
-    emit(OrdersCubitSuccess());
-  }
+    await Future.delayed(const Duration(milliseconds: 500));
 
-  getAllOrders() {
-    todayOrders.clear();
-    // yesterdayOrders.clear();
-    thisWeekOrders.clear();
-    thisMonthOrders.clear;
-    emit(OrdersCubitInitial());
     try {
       var ordersBox = Hive.box<OrderModel>("orders_box");
-      allOrders = ordersBox.values.toList();
-      allOrders = allOrders.reversed.toList();
-      // log(allOrders.length.toString());
-      emit(OrdersCubitSuccess());
+      orders = ordersBox.values.toList();
+      orders = orders.reversed.toList();
+      if (orders.isEmpty) {
+        emit(OrdersCubitEmpty());
+      } else {
+        emit(OrdersCubitSuccess(orders));
+      }
     } on Exception catch (e) {
       emit(OrdersCubitFail());
       log(e.toString());
     }
-    DateTime now = DateTime.now();
-    DateTime today = DateTime(now.year, now.month, now.day);
-    DateTime yesterday = today.subtract(const Duration(days: 1));
-    DateTime weekStart = today.subtract(Duration(days: today.weekday - 1));
-    DateTime monthStart =
-        DateTime(now.year, now.month, 1); // Start of the month
+  }
 
-    for (var order in allOrders) {
-      DateTime orderDate = parseDateString(order.date);
+  getfilteredOrders(String query) async {
+    orders.clear();
+    emit(OrdersSearching());
+    await Future.delayed(const Duration(milliseconds: 500));
 
-      // Check for today
-      if (orderDate.year == now.year &&
-          orderDate.month == now.month &&
-          orderDate.day == now.day) {
-        todayOrders.add(order);
+    try {
+      var ordersBox = Hive.box<OrderModel>("orders_box");
+      orders = ordersBox.values.toList();
+      orders = orders.reversed.toList();
+      orders = orders.where((element) => element.id.contains(query)).toList();
+      if (orders.isEmpty) {
+        emit(OrdersCubitEmpty());
+      } else {
+        emit(OrdersCubitSuccess(orders));
       }
-      // Check for yesterday
-      if (orderDate.year == yesterday.year &&
-          orderDate.month == yesterday.month &&
-          orderDate.day == yesterday.day) {
-        // yesterdayOrders.add(order);
-      }
-      // Check for this week
-      if (orderDate.isAfter(weekStart) &&
-          orderDate.isBefore(today.add(const Duration(days: 1)))) {
-        thisWeekOrders.add(order);
-      }
-      if (orderDate.isAfter(monthStart) &&
-          orderDate.isBefore(today.add(const Duration(days: 1)))) {
-        thisMonthOrders.add(order);
-      }
+    } on Exception catch (e) {
+      emit(OrdersCubitFail());
+      log(e.toString());
+    }
+  }
 
-      // for (var i = allOrders.length - 1; i >= 0; i--) {
-      //   if (isToday(allOrders[i].date)) {
-      //     todayOrders.add(allOrders[i]);
-      //   } else if (isYesterday(allOrders[i].date)) {
-      //     yesterdayOrders.add(allOrders[i]);
-      //   } else if (isThisWeek(allOrders[i].date)) {
-      //     thisWeekOrders.add(allOrders[i]);
-      //   }
+  void getTimePeriodOrders(String period) async {
+    orders.clear();
+    emit(OrdersSearching());
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    try {
+      var ordersBox = Hive.box<OrderModel>("orders_box");
+      orders = ordersBox.values.toList();
+      orders = orders.reversed.toList();
+      DateTime now = DateTime.now();
+
+      if (period == "All") {
+        // No change needed, orders already contains all orders
+      } else if (period == "Today") {
+        orders = orders.where((element) {
+          DateTime orderDate = parseDateString(element.date);
+          return orderDate.year == now.year &&
+              orderDate.month == now.month &&
+              orderDate.day == now.day;
+        }).toList();
+      } else if (period == "This Week") {
+        orders = orders.where((element) {
+          DateTime orderDate = parseDateString(element.date);
+          return orderDate
+                  .isAfter(now.subtract(Duration(days: now.weekday - 1))) &&
+              orderDate
+                  .isBefore(now.add(const Duration(days: 1))); // Include today
+        }).toList();
+      } else if (period == "This Month") {
+        orders = orders.where((element) {
+          DateTime orderDate = parseDateString(element.date);
+          return orderDate.year == now.year && orderDate.month == now.month;
+        }).toList();
+      }
+      // if (period == "All") {
+      //   orders = orders;
+      // } else if (period == "Today") {
+      //   orders = orders
+      //       .where((element) =>
+      //           parseDateString(element.date).day == DateTime.now().day)
+      //       .toList();
+      // } else if (period == "This Week") {
+      //   orders = orders
+      //       .where((element) =>
+      //           parseDateString(element.date).isAfter(DateTime.now().subtract(
+      //             const Duration(days: 7),
+      //           )))
+      //       .toList();
+      // } else if (period == "This Month") {
+      //   orders = orders
+      //       .where((element) =>
+      //           parseDateString(element.date).month == DateTime.now().month)
+      //       .toList();
+      // }
+
+      if (orders.isEmpty) {
+        emit(OrdersCubitEmpty());
+      } else {
+        emit(OrdersCubitSuccess(orders));
+      }
+    } on Exception catch (e) {
+      emit(OrdersCubitFail());
+      log(e.toString());
     }
   }
 
@@ -122,43 +127,28 @@ class OrdersCubit extends Cubit<OrdersCubitState> {
     return format.parse(dateString); // Parse the date string
   }
 
-  // bool isToday(String dateString) {
-  //   DateTime orderDate = parseDateString(dateString);
-  //   DateTime today = DateTime.now();
-  //   return orderDate.year == today.year &&
-  //       orderDate.month == today.month &&
-  //       orderDate.day == today.day;
-  // }
-
-  // bool isYesterday(String dateString) {
-  //   DateTime orderDate = parseDateString(dateString);
-  //   DateTime yesterday = DateTime.now().subtract(const Duration(days: 1));
-  //   return orderDate.year == yesterday.year &&
-  //       orderDate.month == yesterday.month &&
-  //       orderDate.day == yesterday.day;
-  // }
-
-  // bool isThisWeek(String dateString) {
-  //   DateTime orderDate = parseDateString(dateString);
-  //   DateTime now = DateTime.now();
-  //   DateTime weekStart =
-  //       now.subtract(Duration(days: now.weekday - 1)); // Start of the week
-  //   return orderDate.isAfter(weekStart) &&
-  //       orderDate.isBefore(
-  //         now.add(
-  //           const Duration(days: 1),
-  //         ),
-  //       );
-  // }
+  String getLastWord(String input) {
+    // Split the string by spaces and trim any extra whitespace
+    List<String> words = input.trim().split(' ');
+    // Return the last word if it exists
+    return words.isNotEmpty ? words.last : '';
+  }
 
   String getTotalCost(String id) {
     String cost = "";
-    for (var i = 0; i < allOrders.length; i++) {
-      if (allOrders[i].id == id) {
-        cost = allOrders[i].price.toString();
+    for (var i = 0; i < orders.length; i++) {
+      if (orders[i].id == id) {
+        cost = orders[i].price.toString();
         break;
       }
     }
     return cost;
+  }
+
+  String getFirstWord(String input) {
+    // Split the string by spaces and trim any extra whitespace
+    List<String> words = input.trim().split(' ');
+    // Return the first word if it exists
+    return words.isNotEmpty ? words.first : '';
   }
 }
