@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:motors/core/widgets/label.dart';
 import 'package:motors/core/widgets/text_field.dart';
 import 'package:motors/modules/shopping/data/models/product_model.dart';
 import 'package:motors/modules/shopping/presentation/logic/shopping_products_cubit/shopping_products_cubit.dart';
@@ -44,7 +45,6 @@ class StorageItemWidget extends StatelessWidget {
   PersistentBottomSheetController _editProduct(BuildContext context) {
     TextEditingController nameController =
         TextEditingController(text: productModel.name);
-
     TextEditingController availablePicesController =
         TextEditingController(text: productModel.availablePieces.toString());
     TextEditingController priceController =
@@ -144,26 +144,28 @@ class StorageItemWidget extends StatelessWidget {
                 ],
               ),
               //! Price Section
-              Row(children: [
-                SizedBox(
-                  width: 230.w,
-                  child: Row(
-                    children: [
-                      Text(
-                        overflow: TextOverflow.ellipsis,
-                        "Price               : ",
-                        style: TextStyle(fontSize: 14.sp),
-                      ),
-                      Text(
-                        overflow: TextOverflow.ellipsis,
-                        "${productModel.price} LE",
-                        style: TextStyle(
-                            fontSize: 14.sp, fontWeight: FontWeight.bold),
-                      ),
-                    ],
+              Row(
+                children: [
+                  SizedBox(
+                    width: 230.w,
+                    child: Row(
+                      children: [
+                        Text(
+                          overflow: TextOverflow.ellipsis,
+                          "Price               : ",
+                          style: TextStyle(fontSize: 14.sp),
+                        ),
+                        Text(
+                          overflow: TextOverflow.ellipsis,
+                          "${productModel.price} LE",
+                          style: TextStyle(
+                              fontSize: 14.sp, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ]),
+                ],
+              ),
               SizedBox(height: 10.h),
               Row(
                 children: [
@@ -232,6 +234,7 @@ class EditProductBottomSheet extends StatefulWidget {
 
 class _EditProductBottomSheetState extends State<EditProductBottomSheet> {
   String _imagePath = "";
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   void initState() {
     // TODO: implement initState
@@ -257,105 +260,128 @@ class _EditProductBottomSheetState extends State<EditProductBottomSheet> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
-        height: 600.h,
+        height: 1050.h,
         width: 500.w,
-        child: Column(
-          children: [
-            ElevatedButton(
-              onPressed: _pickImage,
-              child: const Text('Upload Image'),
-            ),
-            ...[
+        child: Form(
+          key: formKey,
+          child: Column(
+            children: [
+              ElevatedButton(
+                onPressed: _pickImage,
+                child: const Text('Upload Image'),
+              ),
+              ...[
+                SizedBox(height: 16.h),
+                Image.file(File(_imagePath),
+                    height: 100.h), // Display selected image
+              ],
               SizedBox(height: 16.h),
-              Image.file(File(_imagePath),
-                  height: 100.h), // Display selected image
-            ],
-            SizedBox(height: 16.h),
-            CustomizedTextField(
-              onChanged: (value) => widget.productModel.name = value,
-              tittle: "name",
-              maxLines: 1,
-              controller: widget.nameController,
-            ),
-            SizedBox(
-              height: 16.h,
-            ),
-            CustomizedTextField(
-              tittle: "available Pices",
-              maxLines: 1,
-              controller: widget.availablePicesController,
-              onChanged: (value) =>
-                  widget.productModel.availablePieces = int.parse(value),
-            ),
-            SizedBox(
-              height: 16.h,
-            ),
-            CustomizedTextField(
-              tittle: "price",
-              maxLines: 1,
-              controller: widget.priceController,
-              onChanged: (value) => widget.productModel.price = value,
-            ),
-            SizedBox(
-              height: 16.h,
-            ),
-            Expanded(
-              child: ListView.builder(
-                itemCount: widget.productModel.numAvailableSizes,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextFormField(
-                      onChanged: (value) =>
-                          widget.productModel.availableSizes![index] = value,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter
-                            .digitsOnly, // Only allow digits
-                      ],
-                      style: TextStyle(
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      decoration: InputDecoration(
-                        labelText: "size ${index + 1}",
-                        labelStyle: TextStyle(
+              CustomizedTextField(
+                onChanged: (value) => widget.productModel.name = value,
+                tittle: "name",
+                maxLines: 1,
+                controller: widget.nameController,
+                validator: (p0) {
+                  if (p0!.isEmpty) {
+                    return "name is required";
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 16.h),
+              Label(
+                  tittle:
+                      "available Pices :  ${widget.productModel.availablePieces.toString()} "),
+              SizedBox(height: 16.h),
+              CustomizedTextField(
+                tittle: "price",
+                maxLines: 1,
+                controller: widget.priceController,
+                onChanged: (value) => widget.productModel.price = value,
+                validator: (p0) {
+                  if (p0!.isEmpty) {
+                    return "name is required";
+                  }
+                  return null;
+                },
+              ),
+              SizedBox(height: 16.h),
+              const Label(tittle: "Set sizes"),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: widget.productModel.availablePieces,
+                  itemBuilder: (context, index) {
+                    TextEditingController sizeController =
+                        TextEditingController();
+                    sizeController.text =
+                        widget.productModel.availableSizes![index];
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                        controller: sizeController,
+                        validator: (p0) {
+                          if (p0!.isEmpty) {
+                            return "field is required";
+                          }
+                          return null;
+                        },
+                        onSaved: (value) => widget
+                            .productModel.availableSizes![index] = value ?? '0',
+                        inputFormatters: <TextInputFormatter>[
+                          FilteringTextInputFormatter
+                              .digitsOnly, // Only allow digits
+                        ],
+                        style: TextStyle(
                           fontSize: 20.sp,
                           fontWeight: FontWeight.bold,
                         ),
-                        border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(8.0),
+                        decoration: InputDecoration(
+                          labelText: "size ${index + 1}",
+                          labelStyle: TextStyle(
+                            fontSize: 20.sp,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          border: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(8.0),
+                            ),
                           ),
                         ),
+                        maxLines: 1,
                       ),
-                      maxLines: 1,
-                    ),
-                  );
+                    );
+                  },
+                ),
+              ),
+              ElevatedButton(
+                style: const ButtonStyle(
+                  backgroundColor: WidgetStatePropertyAll(Colors.blue),
+                ),
+                onPressed: () async {
+                  if (formKey.currentState!.validate()) {
+                    formKey.currentState!.save();
+                    // widget.productModel.imagePath = _imagePath;
+                    // Navigator.pop(context);
+                    widget.productModel.imagePath = _imagePath;
+                    await widget.productModel.save();
+                    // ignore: use_build_context_synchronously
+                    BlocProvider.of<StorageProductsCubit>(context)
+                        .getAllProducts();
+                    // ignore: use_build_context_synchronously
+                    BlocProvider.of<ShoppingProductsCubit>(context)
+                        .getAllProducts();
+                    // ignore: use_build_context_synchronously
+                    Navigator.pop(context);
+                  }
                 },
-              ),
-            ),
-            ElevatedButton(
-              style: const ButtonStyle(
-                backgroundColor: WidgetStatePropertyAll(Colors.blue),
-              ),
-              onPressed: () async {
-                widget.productModel.imagePath = _imagePath;
-                await widget.productModel.save();
-                // ignore: use_build_context_synchronously
-                BlocProvider.of<StorageProductsCubit>(context).getAllProducts();
-                // ignore: use_build_context_synchronously
-                BlocProvider.of<ShoppingProductsCubit>(context)
-                    .getAllProducts();
-                // ignore: use_build_context_synchronously
-                Navigator.pop(context);
-              },
-              child: const Text(
-                "Submit",
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
-              ),
-            )
-          ],
+                child: const Text(
+                  "Submit",
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.white),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

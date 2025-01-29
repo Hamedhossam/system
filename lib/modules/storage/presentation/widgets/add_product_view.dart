@@ -350,7 +350,7 @@ class _AddProductViewState extends State<AddProductView> {
                                     availableSizes: List.filled(
                                         growable: true,
                                         int.parse(
-                                            _numberOfSizesController.text),
+                                            _numberOfPiecesController.text),
                                         "0"),
                                     numAvailableSizes: int.parse(
                                         _numberOfSizesController.text),

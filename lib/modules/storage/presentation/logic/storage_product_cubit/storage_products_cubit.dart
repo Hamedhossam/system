@@ -24,7 +24,7 @@ class StorageProductsCubit extends Cubit<StorageProductsState> {
     try {
       var productsBox = Hive.box<ProductModel>("products_box");
       allProducts = productsBox.values.toList();
-      allProducts = allProducts.reversed.toList(); //!
+      allProducts = allProducts.reversed.toList();
       log(allProducts.length.toString());
       emit(StorageProductsSuccess());
     } on Exception catch (e) {
@@ -103,6 +103,7 @@ class StorageProductsCubit extends Cubit<StorageProductsState> {
         if (products[i].name == allProducts[j].name) {
           allProducts[j].availablePieces =
               allProducts[j].availablePieces - products[i].numOfPiecesOrderd!;
+
           // // if (allProducts[j].availableSizes != null) {
           ////   allProducts[j].availableSizes!.length--;
           //// }

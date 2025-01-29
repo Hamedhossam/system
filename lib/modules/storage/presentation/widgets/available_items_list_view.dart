@@ -15,7 +15,7 @@ class AvailableItemsListView extends StatelessWidget {
       children: [
         SizedBox(
           height: 400.h,
-          width: 1450.w,
+          width: 1730.w,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: products.length,

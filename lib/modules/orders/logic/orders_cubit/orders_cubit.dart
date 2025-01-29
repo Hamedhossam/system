@@ -1,18 +1,16 @@
 import 'dart:developer';
-
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:motors/modules/orders/models/order_model.dart';
 import 'package:motors/modules/shopping/data/models/product_model.dart';
-import 'package:motors/modules/storage/presentation/logic/storage_product_cubit/storage_products_cubit.dart';
-
 part 'orders_cubit_state.dart';
 
 class OrdersCubit extends Cubit<OrdersCubitState> {
   OrdersCubit() : super(OrdersCubitInitial());
   List<OrderModel> orders = [];
+  List<ProductModel> allProducts = [];
 
   getAllOrders() async {
     orders.clear();
@@ -115,6 +113,37 @@ class OrdersCubit extends Cubit<OrdersCubitState> {
       } else {
         emit(OrdersCubitSuccess(orders));
       }
+    } on Exception catch (e) {
+      emit(OrdersCubitFail());
+      log(e.toString());
+    }
+  }
+
+  void returnOrder(OrderModel order) async {
+    emit(OrdersSearching());
+    await Future.delayed(const Duration(milliseconds: 500));
+    try {
+      var productsBox = Hive.box<ProductModel>("products_box");
+      allProducts = productsBox.values.toList();
+      allProducts = allProducts.reversed.toList();
+      for (var i = 0; i < allProducts.length; i++) {
+        for (var j = 0; j < order.products.length; j++) {
+          if (allProducts[i].name == getLastWord(order.products[j])) {
+            allProducts[i].availablePieces = allProducts[i].availablePieces +
+                int.parse(getFirstWord(order.products[j]));
+            List<String> returnedList = List.generate(
+              allProducts[i].numOfPiecesOrderd!,
+              growable: true,
+              (index) => '0',
+            );
+            allProducts[i].availableSizes!.addAll(returnedList);
+            allProducts[i].numOfPiecesOrderd = 0;
+            allProducts[i].save();
+          }
+        }
+      }
+      await order.delete();
+      emit(OrdersCubitSuccess(orders));
     } on Exception catch (e) {
       emit(OrdersCubitFail());
       log(e.toString());
