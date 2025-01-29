@@ -33,19 +33,17 @@ class OrdersCubit extends Cubit<OrdersCubitState> {
     return words.isNotEmpty ? words.first : '';
   }
 
+//TODO:fix methis method retrieve order
   retrieveOrder(OrderModel order, BuildContext context) {
     List<ProductModel> products =
         BlocProvider.of<StorageProductsCubit>(context).allProducts;
-    for (var i = 0; i < products.length; i++) {
-      for (var j = 0; j < order.products.length; j++) {
-        if (getLastWord(order.products[j]) == products[i].name) {
-          products[i].availablePieces = products[i].availablePieces +
-              int.parse(getFirstWord(order.products[j]));
-          products[i].save();
-        }
+    for (var product in products) {
+      for (var item in order.products) {
+        if (product.name == item) {}
       }
     }
     order.delete();
+    emit(OrdersCubitSuccess());
   }
 
   getSearchedOrders(String id, List<OrderModel> orders) {

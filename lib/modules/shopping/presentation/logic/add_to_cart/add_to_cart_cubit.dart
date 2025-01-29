@@ -11,8 +11,8 @@ class AddToCartCubit extends Cubit<AddToCartState> {
   String date = "";
   String id = "";
 
-  addProduct(ProductModel product, String dateTime, String orderId,
-      String cost) async {
+  addProduct(ProductModel product, String dateTime, String orderId, String cost,
+      List<String> selectedSizes) async {
     date = dateTime;
     id = orderId;
     String totalCost = "0";

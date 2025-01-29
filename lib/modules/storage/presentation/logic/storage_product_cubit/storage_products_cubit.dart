@@ -103,14 +103,27 @@ class StorageProductsCubit extends Cubit<StorageProductsState> {
         if (products[i].name == allProducts[j].name) {
           allProducts[j].availablePieces =
               allProducts[j].availablePieces - products[i].numOfPiecesOrderd!;
-          // if (allProducts[j].availableSizes != null) {
-          //   allProducts[j].availableSizes!.length--;
-          // }
+          // // if (allProducts[j].availableSizes != null) {
+          ////   allProducts[j].availableSizes!.length--;
+          //// }
           await allProducts[j].save();
           break;
         }
       }
     }
+    // for (var product in products) {
+    //   if (product.availableSizes != null) {
+    //     for (var i = 0; i < selectedSizes.length; i++) {
+    //       for (var j = 0; j < product.availableSizes!.length; j++) {
+    //         if (selectedSizes[i] == product.availableSizes?[j]) {
+    //           product.availableSizes?.removeAt(j);
+    //           product.save();
+    //           break;
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
     emit(StorageProductsSuccess());
   }
 }

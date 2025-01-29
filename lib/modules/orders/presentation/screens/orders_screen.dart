@@ -55,19 +55,18 @@ class _OrdersScreenState extends State<OrdersScreen> {
             value: selectedOrderCategory,
             hint: const Text('Select Time'),
             onChanged: (String? newValue) {
-              setState(() {
-                selectedOrderCategory = newValue!;
-                BlocProvider.of<OrdersCubit>(context).getAllOrders();
-                // if (selectedOrderCategory == "All") {
-                //   allOrders = allOrders;
-                // } else if (selectedOrderCategory == "Today") {
-                //   allOrders = todayOrders;
-                // } else if (selectedOrderCategory == "This Week") {
-                //   allOrders = thisWeekOrders;
-                // } else if (selectedOrderCategory == "This Month") {
-                //   allOrders = thisMonthOrders;
-                // }
-              });
+              selectedOrderCategory = newValue!;
+              if (selectedOrderCategory == "All") {
+                allOrders = allOrders;
+              } else if (selectedOrderCategory == "Today") {
+                allOrders = todayOrders;
+              } else if (selectedOrderCategory == "This Week") {
+                allOrders = thisWeekOrders;
+              } else if (selectedOrderCategory == "This Month") {
+                allOrders = thisMonthOrders;
+              }
+              BlocProvider.of<OrdersCubit>(context).getAllOrders();
+              setState(() {});
             },
             items:
                 ordersCategories.map<DropdownMenuItem<String>>((String value) {
@@ -81,15 +80,12 @@ class _OrdersScreenState extends State<OrdersScreen> {
               );
             }).toList(),
           ),
-
           OrdersLabel(tittle: selectedOrderCategory),
           BlocBuilder<OrdersCubit, OrdersCubitState>(
             builder: (context, state) {
               if (state is OrdersCubitSuccess) {
                 if ((selectedOrderCategory == "Today")) {
-                  return OrdersListView(
-                      orders:
-                          BlocProvider.of<OrdersCubit>(context).todayOrders);
+                  return OrdersListView(orders: allOrders);
                 } else if ((selectedOrderCategory == "This Week")) {
                   return OrdersListView(
                       orders:
@@ -113,8 +109,6 @@ class _OrdersScreenState extends State<OrdersScreen> {
               }
             },
           ),
-
-         
         ],
       ),
     );

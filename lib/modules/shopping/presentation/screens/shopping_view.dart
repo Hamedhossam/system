@@ -130,7 +130,6 @@ class _ShoppingViewState extends State<ShoppingView> {
                   onTap: () {
                     selectedBrand = index;
                     selectedBrandName = getFirstWord(brands[index]);
-
                     setState(() {});
                   },
                   child: Padding(

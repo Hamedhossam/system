@@ -24,6 +24,7 @@ class ShoppingProductsCubit extends Cubit<ShoppingProductsState> {
     try {
       var productsBox = Hive.box<ProductModel>("products_box");
       allProducts = productsBox.values.toList();
+      allProducts = allProducts.reversed.toList();
       log(allProducts.length.toString());
       emit(ShoppingProductsSuccess());
     } on Exception catch (e) {

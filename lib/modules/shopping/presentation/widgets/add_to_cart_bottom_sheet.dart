@@ -338,12 +338,133 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                   ),
                 ),
                 SizedBox(height: 20.h),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: SizedBox(
+                    height: 100.h,
+                    // width: 200.w,
+                    child: SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: List.generate(productQuantity, (index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 8.0),
+                            child: SizedBox(
+                              width: 130.w,
+                              height: 80.h,
+                              child: CustomizedTextField(
+                                onSaved: (p0) => selectedSizes.add(p0 ?? '0'),
+                                validator: (p0) {
+                                  if (p0!.isEmpty) {
+                                    return 'Please Enter Size';
+                                  } else if (!widget
+                                      .productModel.availableSizes!
+                                      .contains(p0)) {
+                                    return 'not exist';
+                                  }
+                                  return null;
+                                },
+                                inputFormatters: [
+                                  FilteringTextInputFormatter.digitsOnly,
+                                ],
+                                tittle: 'Size ${index + 1}',
+                                maxLines: 1,
+                              ),
+                            ),
+                          );
+                        }),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20.h),
                 SizedBox(
                   height: 60.h,
-                  // width: 200.w,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
+                  width: 200.w,
+                  child: CustomizedButton(
+                    tittle: "Add",
+                    myColor: Colors.blue,
+                    onTap: () {
+                      if (formKey.currentState!.validate()) {
+                        formKey.currentState!.save();
+                        //TODO: remove this method and make it after payment
+                        if (widget.productModel.availableSizes != null) {
+                          for (var i = 0; i < selectedSizes.length; i++) {
+                            for (var j = 0;
+                                j < widget.productModel.availableSizes!.length;
+                                j++) {
+                              if (selectedSizes[i] ==
+                                  widget.productModel.availableSizes?[j]) {
+                                widget.productModel.availableSizes?.removeAt(j);
+                                widget.productModel.save();
+                                break;
+                              }
+                            }
+                          }
+                        }
+                        var random = Random();
+                        DateTime now = DateTime.now();
+                        String formattedDate =
+                            DateFormat('dd/MM/yyyy HH:mm a').format(now);
+                        int orderId = 100000 +
+                            random.nextInt(
+                                900000); // Generates a number between 100000 an
+                        widget.productModel.numOfPiecesOrderd = productQuantity;
+                        widget.productModel.priceAfterDiscount = (isPercentage)
+                            ? applyDiscount(
+                                    discountPercentage,
+                                    (int.parse(widget.productModel.price) *
+                                            productQuantity)
+                                        .toDouble())
+                                .toString()
+                            : ((int.parse(widget.productModel.price) *
+                                        productQuantity) -
+                                    discountAmount)
+                                .toString();
+                        if (isPercentage) {
+                          widget.productModel.isPercentage = true;
+                          widget.productModel.discountPercentage =
+                              discountController.text;
+                          widget.productModel.discountAmount =
+                              discountController.text;
+                        } else {
+                          widget.productModel.isPercentage = false;
+                          widget.productModel.discountAmount =
+                              discountController.text;
+                          widget.productModel.discountPercentage =
+                              discountController.text;
+                        }
+                        BlocProvider.of<AddToCartCubit>(context).addProduct(
+                          widget.productModel,
+                          formattedDate,
+                          orderId.toString(),
+                          (isPercentage)
+                              ? applyDiscount(
+                                      discountPercentage,
+                                      (int.parse(widget.productModel.price) *
+                                              productQuantity)
+                                          .toDouble())
+                                  .toString()
+                              : ((int.parse(widget.productModel.price) *
+                                          productQuantity) -
+                                      discountAmount)
+                                  .toString(),
+                          selectedSizes,
+                        );
+                        Navigator.pop(context);
+                      }
+                    },
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+/*[
                       SizedBox(
                         width: 100.w,
                         height: 60.h,
@@ -401,92 +522,4 @@ class _AddToCartBottomSheetState extends State<AddToCartBottomSheet> {
                           maxLines: 1,
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                SizedBox(height: 20.h),
-                SizedBox(
-                  height: 60.h,
-                  width: 200.w,
-                  child: CustomizedButton(
-                    tittle: "Add",
-                    myColor: Colors.blue,
-                    onTap: () {
-                      if (formKey.currentState!.validate()) {
-                        formKey.currentState!.save();
-                        if (widget.productModel.availableSizes != null) {
-                          for (var i = 0; i < selectedSizes.length; i++) {
-                            for (var j = 0;
-                                j < widget.productModel.availableSizes!.length;
-                                j++) {
-                              if (selectedSizes[i] ==
-                                  widget.productModel.availableSizes?[j]) {
-                                widget.productModel.availableSizes?.removeAt(j);
-                                widget.productModel.save();
-                                break;
-                              }
-                            }
-                          }
-                        }
-
-                        var random = Random();
-                        DateTime now = DateTime.now();
-                        String formattedDate =
-                            DateFormat('dd/MM/yyyy HH:mm a').format(now);
-                        int orderId = 100000 +
-                            random.nextInt(
-                                900000); // Generates a number between 100000 an
-                        widget.productModel.numOfPiecesOrderd = productQuantity;
-                        widget.productModel.priceAfterDiscount = (isPercentage)
-                            ? applyDiscount(
-                                    discountPercentage,
-                                    (int.parse(widget.productModel.price) *
-                                            productQuantity)
-                                        .toDouble())
-                                .toString()
-                            : ((int.parse(widget.productModel.price) *
-                                        productQuantity) -
-                                    discountAmount)
-                                .toString();
-                        if (isPercentage) {
-                          widget.productModel.isPercentage = true;
-                          widget.productModel.discountPercentage =
-                              discountController.text;
-                          widget.productModel.discountAmount =
-                              discountController.text;
-                        } else {
-                          widget.productModel.isPercentage = false;
-                          widget.productModel.discountAmount =
-                              discountController.text;
-                          widget.productModel.discountPercentage =
-                              discountController.text;
-                        }
-                        BlocProvider.of<AddToCartCubit>(context).addProduct(
-                          widget.productModel,
-                          formattedDate,
-                          orderId.toString(),
-                          (isPercentage)
-                              ? applyDiscount(
-                                      discountPercentage,
-                                      (int.parse(widget.productModel.price) *
-                                              productQuantity)
-                                          .toDouble())
-                                  .toString()
-                              : ((int.parse(widget.productModel.price) *
-                                          productQuantity) -
-                                      discountAmount)
-                                  .toString(),
-                        );
-                        Navigator.pop(context);
-                      }
-                    },
-                  ),
-                )
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
+                    ],*/
