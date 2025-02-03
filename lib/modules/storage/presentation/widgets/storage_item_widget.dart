@@ -289,9 +289,33 @@ class _EditProductBottomSheetState extends State<EditProductBottomSheet> {
                 },
               ),
               SizedBox(height: 16.h),
-              Label(
-                  tittle:
-                      "available Pices :  ${widget.productModel.availablePieces.toString()} "),
+              CustomizedTextField(
+                tittle: "available Pices",
+                maxLines: 1,
+                controller: widget.availablePicesController,
+                onChanged: (value) => setState(() {
+                  if (value.isEmpty) {
+                    widget.productModel.availablePieces = 0;
+                  } else {
+                    widget.productModel.availablePieces = int.parse(value);
+                    if (widget.productModel.availablePieces >
+                        widget.productModel.availableSizes!.length) {
+                      List<String> sizes = List.generate(
+                        widget.productModel.availablePieces -
+                            widget.productModel.availableSizes!.length,
+                        (index) => '0',
+                      );
+                      widget.productModel.availableSizes!.addAll(sizes);
+                    }
+                  }
+                }),
+                validator: (p0) {
+                  if (p0!.isEmpty) {
+                    return "field is required";
+                  }
+                  return null;
+                },
+              ),
               SizedBox(height: 16.h),
               CustomizedTextField(
                 tittle: "price",
@@ -363,6 +387,13 @@ class _EditProductBottomSheetState extends State<EditProductBottomSheet> {
                     // widget.productModel.imagePath = _imagePath;
                     // Navigator.pop(context);
                     widget.productModel.imagePath = _imagePath;
+                    List<int> sortedNumbers = widget
+                        .productModel.availableSizes!
+                        .map(int.parse)
+                        .toList()
+                      ..sort();
+                    widget.productModel.availableSizes =
+                        sortedNumbers.map((e) => e.toString()).toList();
                     await widget.productModel.save();
                     // ignore: use_build_context_synchronously
                     BlocProvider.of<StorageProductsCubit>(context)

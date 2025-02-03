@@ -137,8 +137,12 @@ class OrdersCubit extends Cubit<OrdersCubitState> {
               (index) => '0',
             );
             allProducts[i].availableSizes!.addAll(returnedList);
+            List<int> sortedNumbers =
+                allProducts[i].availableSizes!.map(int.parse).toList()..sort();
+            allProducts[i].availableSizes =
+                sortedNumbers.map((e) => e.toString()).toList();
             allProducts[i].numOfPiecesOrderd = 0;
-            allProducts[i].save();
+            await allProducts[i].save();
           }
         }
       }

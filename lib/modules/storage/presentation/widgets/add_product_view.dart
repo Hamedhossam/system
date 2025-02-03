@@ -136,9 +136,9 @@ class _AddProductViewState extends State<AddProductView> {
             },
           );
         } else {
-          return Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SingleChildScrollView(
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
               child: Form(
                 key: formKey,
                 child: Column(
@@ -147,6 +147,10 @@ class _AddProductViewState extends State<AddProductView> {
                       validator: (value) {
                         if (value?.isEmpty ?? true) {
                           return "the field is required !";
+                        } else if (BlocProvider.of<StorageProductsCubit>(
+                                context)
+                            .isExist(_nameController.text)) {
+                          return "this name already exist";
                         } else {
                           return null;
                         }
