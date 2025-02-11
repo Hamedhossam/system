@@ -4,13 +4,13 @@
 #define MyAppName "System"
 #define MyAppVersion "1.5"
 #define MyAppPublisher "Hamed Hossam"
-#define MyAppURL "01063876967"
-#define MyAppExeName "system.exe"
+#define MyAppURL "00000000000"
+#define MyAppExeName "motors.exe"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{E484240C-505F-45B2-A2DA-1F2B7EA00642}
+AppId={{D39E3F61-163D-4A36-A4F6-6699927ED861}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}

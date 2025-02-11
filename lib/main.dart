@@ -17,19 +17,17 @@ import 'modules/storage/presentation/logic/storage_product_cubit/storage_product
 void main() async {
   Hive.registerAdapter(ProductModelAdapter());
   Hive.registerAdapter(OrderModelAdapter());
-  await Hive.initFlutter("E:/System/Storage");
-  // await Hive.initFlutter("D:/Storage");
+  // await Hive.initFlutter("E:/System/Storage");
+  await Hive.initFlutter("D:/Storage");
   await Hive.openBox<ProductModel>("products_box");
   await Hive.openBox<OrderModel>("orders_box");
   await Hive.openBox<String>("brands_box");
   runApp(
-    ScreenUtilInit(
-      designSize: const Size(1920, 1080),
+    const ScreenUtilInit(
+      designSize: Size(1920, 1080),
       minTextAdapt: true,
       splitScreenMode: true,
-      builder: (context, child) {
-        return const SystemApp();
-      },
+      child: SystemApp(),
     ),
   );
 }

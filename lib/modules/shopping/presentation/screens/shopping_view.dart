@@ -49,7 +49,37 @@ class _ShoppingViewState extends State<ShoppingView> {
     }
   }
 
+  String removeLastTwoWords(String input) {
+    // Split the string into words
+    List<String> words = input.split(' ');
+
+    // Check if there are at least two words
+    if (words.length <= 2) {
+      return ''; // Return an empty string if there are not enough words
+    }
+
+    // Remove the last two words and join the remaining words back into a string
+    return words.sublist(0, words.length - 2).join(' ');
+  }
+
+  String wordBeforeLast(String input) {
+    // Split the string into words
+    List<String> words = input.split(' ');
+
+    // Check if there are at least two words
+    if (words.length < 2) {
+      return ''; // Return an empty string if there are not enough words
+    }
+
+    // Return the word before the last
+    return words[words.length - 2];
+  }
+
   @override
+
+  /// Initializes the state of the `_ShoppingViewState` widget.
+  ///
+  /// This method is called once when the state is created. It performs the
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -129,7 +159,7 @@ class _ShoppingViewState extends State<ShoppingView> {
                 return GestureDetector(
                   onTap: () {
                     selectedBrand = index;
-                    selectedBrandName = getFirstWord(brands[index]);
+                    selectedBrandName = removeLastTwoWords(brands[index]);
                     setState(() {});
                   },
                   child: Padding(
@@ -149,10 +179,10 @@ class _ShoppingViewState extends State<ShoppingView> {
                             backgroundColor: Colors.white,
                             radius: 35.h,
                             backgroundImage:
-                                FileImage(File(getSecondWord(brands[index]))),
+                                FileImage(File(wordBeforeLast(brands[index]))),
                           ),
                           Text(
-                            getFirstWord(brands[index]),
+                            removeLastTwoWords(brands[index]),
                             style: TextStyle(
                                 color: selectedBrand == index
                                     ? Colors.white
@@ -171,7 +201,7 @@ class _ShoppingViewState extends State<ShoppingView> {
           ProductsListView(
             products: products,
             category: category,
-            brand: getFirstWord(selectedBrandName),
+            brand: selectedBrandName,
           )
         ],
       ),

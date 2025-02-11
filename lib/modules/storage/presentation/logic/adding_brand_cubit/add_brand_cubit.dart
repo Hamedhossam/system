@@ -68,4 +68,53 @@ class AddBrandCubit extends Cubit<AddBrandState> {
       emit(AddBrandFail());
     }
   }
+
+  Future<void> deleteBrand({required String brandName}) async {
+    try {
+      var brandsBox = Hive.box<String>("brands_box");
+      var brandsList = brandsBox.values.toList();
+      for (var i = 0; i < brandsList.length; i++) {
+        if (brandsList[i].contains(brandName)) {
+          await brandsBox.deleteAt(i);
+        }
+      }
+      emit(AddBrandSuccess());
+    } catch (e) {
+      log('Error: ${e.toString()}');
+      emit(AddBrandFail());
+    }
+  }
+
+  Future<void> editBrand(
+      {required String brandName,
+      required String newBrandName,
+      required String newImagePath,
+      required String category}) async {
+    try {
+      var brandsBox = Hive.box<String>("brands_box");
+      var brandsList = brandsBox.values.toList();
+      for (var i = 0; i < brandsList.length; i++) {
+        if (brandsList[i].contains(brandName)) {
+          await brandsBox.putAt(i, "$newBrandName $newImagePath $category");
+        }
+      }
+      emit(AddBrandSuccess());
+    } catch (e) {
+      log('Error: ${e.toString()}');
+      emit(AddBrandFail());
+    }
+  }
+
+  String removeLastTwoWords(String input) {
+    // Split the string into words
+    List<String> words = input.split(' ');
+
+    // Check if there are at least two words
+    if (words.length <= 2) {
+      return ''; // Return an empty string if there are not enough words
+    }
+
+    // Remove the last two words and join the remaining words back into a string
+    return words.sublist(0, words.length - 2).join(' ');
+  }
 }

@@ -128,16 +128,16 @@ class StorageProductsCubit extends Cubit<StorageProductsState> {
     emit(StorageProductsSuccess());
   }
 
-  bool isExist(String productName) {
-    bool exist = false;
-    var productsBox = Hive.box<ProductModel>("products_box");
-    allProducts = productsBox.values.toList();
-    for (var i = 0; i < allProducts.length; i++) {
-      if (allProducts[i].name == productName) {
-        exist = true;
-        break;
-      }
-    }
-    return exist;
-  }
+  // bool isExist(String productName) {
+  //   bool exist = false;
+  //   var productsBox = Hive.box<ProductModel>("products_box");
+  //   allProducts = productsBox.values.toList();
+  //   for (var i = 0; i < allProducts.length; i++) {
+  //     if (allProducts[i].name == productName) {
+  //       exist = true;
+  //       break;
+  //     }
+  //   }
+  //   return exist;
+  // }
 }
