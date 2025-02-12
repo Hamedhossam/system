@@ -336,6 +336,15 @@ class _EditProductBottomSheetState extends State<EditProductBottomSheet> {
                   itemBuilder: (context, index) {
                     TextEditingController sizeController =
                         TextEditingController();
+                    if (widget.productModel.availableSizes!.length <
+                        widget.productModel.availablePieces) {
+                      List<String> tempSizes = List.generate(
+                        widget.productModel.availablePieces -
+                            widget.productModel.availableSizes!.length,
+                        (index) => '0',
+                      );
+                      widget.productModel.availableSizes!.addAll(tempSizes);
+                    }
                     sizeController.text =
                         widget.productModel.availableSizes![index];
                     return Padding(

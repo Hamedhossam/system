@@ -95,18 +95,18 @@ class _CartItemWidgetState extends State<CartItemWidget> {
                   ),
                 ),
                 Text(
-                  "${widget.productModel.price} = ${(int.parse(widget.productModel.price) * widget.productModel.numOfPiecesOrderd!).toString()} LE",
+                  "${widget.productModel.price} = ${widget.productModel.priceAfterDiscount} LE",
                   style:
                       TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
                 ),
                 SizedBox(
-                  width: 220.w,
+                  width: 200.w,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
                       (widget.productModel.isPercentage)
-                          ? "(Discount : ${widget.productModel.discountPercentage} %)"
-                          : "(Discount : ${widget.productModel.discountAmount} LE)",
+                          ? "(Dis. : ${widget.productModel.discountPercentage} %)"
+                          : "(Dis.: ${widget.productModel.discountAmount} LE)",
                       style: TextStyle(
                           fontSize: 20.sp,
                           fontWeight: FontWeight.bold,
