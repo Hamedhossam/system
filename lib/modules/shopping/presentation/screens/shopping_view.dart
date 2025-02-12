@@ -81,7 +81,6 @@ class _ShoppingViewState extends State<ShoppingView> {
   ///
   /// This method is called once when the state is created. It performs the
   void initState() {
-    // TODO: implement initState
     super.initState();
     BlocProvider.of<AddBrandCubit>(context).getBrands();
     BlocProvider.of<StorageProductsCubit>(context).getAllProducts();

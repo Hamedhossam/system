@@ -1,6 +1,4 @@
 import 'dart:io';
-import 'dart:math';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -161,7 +159,6 @@ class _EditBrandsBottomSheetState extends State<EditBrandsBottomSheet> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     BlocProvider.of<AddBrandCubit>(context).getBrands();
     switch (widget.category) {
@@ -183,7 +180,7 @@ class _EditBrandsBottomSheetState extends State<EditBrandsBottomSheet> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.all(8.0),
+      padding: const EdgeInsets.all(8.0),
       child: Column(
         children: [
           Row(
@@ -221,7 +218,6 @@ class _EditBrandsBottomSheetState extends State<EditBrandsBottomSheet> {
                             size: 30.h,
                             color: Colors.blue,
                           ),
-                          //TODO:  ناقص التعديل ع صورة البراند
                           onPressed: () {
                             final TextEditingController brandNameController =
                                 TextEditingController();
@@ -360,21 +356,26 @@ class _EditBrandsBottomSheetState extends State<EditBrandsBottomSheet> {
                           onPressed: () async {
                             await BlocProvider.of<AddBrandCubit>(context)
                                 .deleteBrand(brandName: brands[index]);
+                            // ignore: use_build_context_synchronously
                             BlocProvider.of<AddBrandCubit>(context).getBrands();
                             switch (widget.category) {
                               case "Shoes(Men)":
+                                // ignore: use_build_context_synchronously
                                 brands = BlocProvider.of<AddBrandCubit>(context)
                                     .menBrands;
                                 break;
                               case "Shoes(Women)":
+                                // ignore: use_build_context_synchronously
                                 brands = BlocProvider.of<AddBrandCubit>(context)
                                     .womenBrands;
                                 break;
                               case "Bags":
+                                // ignore: use_build_context_synchronously
                                 brands = BlocProvider.of<AddBrandCubit>(context)
                                     .bagsBrands;
                                 break;
                               case "Accessories":
+                                // ignore: use_build_context_synchronously
                                 brands = BlocProvider.of<AddBrandCubit>(context)
                                     .accessoriesBrands;
                                 break;

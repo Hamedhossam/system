@@ -237,7 +237,6 @@ class _EditProductBottomSheetState extends State<EditProductBottomSheet> {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _imagePath = widget.productModel.imagePath;
   }

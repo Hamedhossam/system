@@ -104,9 +104,6 @@ class StorageProductsCubit extends Cubit<StorageProductsState> {
           allProducts[j].availablePieces =
               allProducts[j].availablePieces - products[i].numOfPiecesOrderd!;
 
-          // // if (allProducts[j].availableSizes != null) {
-          ////   allProducts[j].availableSizes!.length--;
-          //// }
           await allProducts[j].save();
           break;
         }
