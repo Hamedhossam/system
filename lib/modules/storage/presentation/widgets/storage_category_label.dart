@@ -124,9 +124,9 @@ class _EditBrandsBottomSheetState extends State<EditBrandsBottomSheet> {
     );
 
     if (result != null) {
+      imagePath = result.files.single.path!;
       setState(() {
-        imagePath =
-            result.files.single.path!; // Get the path of the selected image
+        // Get the path of the selected image
       });
     }
   }
@@ -269,7 +269,6 @@ class _EditBrandsBottomSheetState extends State<EditBrandsBottomSheet> {
                                       //     });
                                       //   }
                                       // }
-
                                       return Form(
                                         key: formKey,
                                         child: Padding(
@@ -308,7 +307,9 @@ class _EditBrandsBottomSheetState extends State<EditBrandsBottomSheet> {
                                                 ),
                                                 SizedBox(height: 8.h),
                                                 ElevatedButton(
-                                                  onPressed: pickImage,
+                                                  onPressed: () {
+                                                    pickImage();
+                                                  },
                                                   child: const Text(
                                                       'Upload Image'),
                                                 ),

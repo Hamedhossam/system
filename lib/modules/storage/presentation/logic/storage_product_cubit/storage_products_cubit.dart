@@ -97,32 +97,60 @@ class StorageProductsCubit extends Cubit<StorageProductsState> {
     return dicount;
   }
 
-  updateProducts(List<ProductModel> products) async {
-    for (var i = 0; i < products.length; i++) {
-      for (var j = 0; j < allProducts.length; j++) {
-        if (products[i].name == allProducts[j].name) {
-          allProducts[j].availablePieces =
-              allProducts[j].availablePieces - products[i].numOfPiecesOrderd!;
+  deductTheNumberOfPiecesOfProducts(List<ProductModel> products) async {
+    var productsBox = Hive.box<ProductModel>("products_box");
+    allProducts = productsBox.values.toList();
 
-          await allProducts[j].save();
-          break;
+    // Create a map for quick access
+    var productsMap = {for (var product in products) product.name: product};
+
+    for (var product in allProducts) {
+      // Check if the current product exists in the ordered products
+      if (productsMap.containsKey(product.name)) {
+        var orderedProduct = productsMap[product.name];
+        if (orderedProduct != null) {
+          // Calculate new available pieces
+          var newAvailablePieces =
+              product.availablePieces - orderedProduct.numOfPiecesOrderd!;
+
+          if (newAvailablePieces >= 0) {
+            product.availablePieces = newAvailablePieces;
+            await product.save();
+          } else {
+            // Handle the case where you would go negative
+            print('Not enough available pieces for ${product.name}');
+          }
         }
       }
     }
-    // for (var product in products) {
-    //   if (product.availableSizes != null) {
-    //     for (var i = 0; i < selectedSizes.length; i++) {
-    //       for (var j = 0; j < product.availableSizes!.length; j++) {
-    //         if (selectedSizes[i] == product.availableSizes?[j]) {
-    //           product.availableSizes?.removeAt(j);
-    //           product.save();
-    //           break;
-    //         }
+
+    // deductTheNumberOfPiecesOfProducts(List<ProductModel> products) async {
+    //   var productsBox = Hive.box<ProductModel>("products_box");
+    //   allProducts = productsBox.values.toList();
+    //   for (var i = 0; i < allProducts.length; i++) {
+    //     for (var j = 0; j < products.length; j++) {
+    //       if (allProducts[i].name == products[j].name) {
+    //         allProducts[i].availablePieces =
+    //             allProducts[i].availablePieces - products[j].numOfPiecesOrderd!;
+    //         await allProducts[i].save();
     //       }
     //     }
     //   }
-    // }
+
     emit(StorageProductsSuccess());
+  }
+
+  ProductModel? getProductByName(String name) {
+    List<ProductModel> products;
+    var productsBox = Hive.box<ProductModel>("products_box");
+    products = productsBox.values.toList();
+    products = allProducts.reversed.toList();
+    for (var i = 0; i < products.length; i++) {
+      if (products[i].name == name) {
+        return products[i];
+      }
+    }
+    return null;
   }
 
   // bool isExist(String productName) {

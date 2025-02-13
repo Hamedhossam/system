@@ -45,6 +45,13 @@ String getFirstWord(String input) {
   return input.split(' ').first;
 }
 
+String getLastWord(String input) {
+  // Split the string by spaces and trim any extra whitespace
+  List<String> words = input.trim().split(' ');
+  // Return the last word if it exists
+  return words.isNotEmpty ? words.last : '';
+}
+
 Future<Uint8List> loadImage(String path) async {
   final ByteData data = await rootBundle.load(path);
   return data.buffer.asUint8List();
@@ -166,7 +173,7 @@ Future<Uint8List> _generatePdf(
                       pw.Padding(
                         padding: const pw.EdgeInsets.all(8),
                         child: pw.Text(
-                          "${(double.parse(getFirstWord(order.products[index])) * double.parse(BlocProvider.of<StorageProductsCubit>(context).getPrice(removeFirstTwoWords(order.products[index])))).toString()} LE",
+                          "${(double.parse(getFirstWord(order.products[index])) * double.parse(BlocProvider.of<StorageProductsCubit>(context).getProductByName(getLastWord(order.products[index]))!.price)).toString()} LE",
                           style: const pw.TextStyle(fontSize: 7),
                         ),
                       ),
@@ -174,8 +181,11 @@ Future<Uint8List> _generatePdf(
                         padding: const pw.EdgeInsets.all(8),
                         child: pw.Text(
                           BlocProvider.of<StorageProductsCubit>(context)
-                              .getDiscount(
-                                  removeFirstTwoWords(order.products[index])),
+                                  .getProductByName(
+                                      getLastWord(order.products[index]))!
+                                  .isPercentage
+                              ? '${BlocProvider.of<StorageProductsCubit>(context).getProductByName(getLastWord(order.products[index]))!.discountPercentage} %'
+                              : '${BlocProvider.of<StorageProductsCubit>(context).getProductByName(getLastWord(order.products[index]))!.discountPercentage} LE',
                           style: const pw.TextStyle(fontSize: 7),
                         ),
                       ),
@@ -183,8 +193,9 @@ Future<Uint8List> _generatePdf(
                         padding: const pw.EdgeInsets.all(8),
                         child: pw.Text(
                           BlocProvider.of<StorageProductsCubit>(context)
-                              .getPriceAfterDiscount(
-                                  removeFirstTwoWords(order.products[index])),
+                              .getProductByName(
+                                  getLastWord(order.products[index]))!
+                              .priceAfterDiscount,
                           style: const pw.TextStyle(fontSize: 7),
                         ),
                       ),
@@ -197,7 +208,7 @@ Future<Uint8List> _generatePdf(
             pw.Align(
               alignment: pw.Alignment.centerRight,
               child: pw.Text(
-                'Total cost :  ${BlocProvider.of<OrdersCubit>(context).getTotalCost(order.id)} LE   ',
+                'Total cost :  ${order.price.toString()} LE   ',
                 style: const pw.TextStyle(fontSize: 8),
               ),
             ),

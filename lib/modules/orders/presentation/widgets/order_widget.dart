@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:motors/modules/orders/logic/orders_cubit/orders_cubit.dart';
 import 'package:motors/modules/orders/models/order_model.dart';
+import 'package:motors/modules/shopping/presentation/logic/add_to_cart/add_to_cart_cubit.dart';
 import 'package:motors/modules/shopping/presentation/logic/shopping_products_cubit/shopping_products_cubit.dart';
 import 'package:motors/modules/shopping/presentation/widgets/printing_screen.dart';
 import 'package:motors/modules/storage/presentation/logic/storage_product_cubit/storage_products_cubit.dart';
@@ -195,7 +196,7 @@ class OrderWidget extends StatelessWidget {
                         style: const ButtonStyle(
                           backgroundColor: WidgetStatePropertyAll(Colors.blue),
                         ),
-                        onPressed: () {
+                        onPressed: () async {
                           Navigator.push(
                             context,
                             MaterialPageRoute(

@@ -154,6 +154,13 @@ class OrdersCubit extends Cubit<OrdersCubitState> {
     }
   }
 
+  String getLastOrderPrice() {
+    var ordersBox = Hive.box<OrderModel>("orders_box");
+    var ordersList = ordersBox.values.toList();
+    ordersList = ordersList.reversed.toList();
+    return ordersList[0].price.toString();
+  }
+
   DateTime parseDateString(String dateString) {
     // Define the date format
     final DateFormat format = DateFormat("dd/MM/yyyy hh:mm a");

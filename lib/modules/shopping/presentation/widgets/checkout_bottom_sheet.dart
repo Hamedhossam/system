@@ -103,7 +103,7 @@ class CheckOutBottomSheet extends StatelessWidget {
                 onTap: () async {
                   if (formKey.currentState!.validate()) {
                     BlocProvider.of<StorageProductsCubit>(context)
-                        .updateProducts(products);
+                        .deductTheNumberOfPiecesOfProducts(products);
                     BlocProvider.of<StorageProductsCubit>(context)
                         .getAllProducts();
                     BlocProvider.of<ShoppingProductsCubit>(context)
@@ -138,8 +138,8 @@ class CheckOutBottomSheet extends StatelessWidget {
                               clientName: _nameController.text,
                               date: date,
                               price: double.parse(
-                                  BlocProvider.of<AddToCartCubit>(context)
-                                      .getTotalCost()),
+                                  BlocProvider.of<OrdersCubit>(context)
+                                      .getLastOrderPrice()),
                               clientPhone: _phoneController.text,
                               products: productsDetails,
                             ),

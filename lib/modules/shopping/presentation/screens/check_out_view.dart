@@ -47,8 +47,7 @@ class CheckOutView extends StatelessWidget {
                       context: context,
                       builder: (context) {
                         return CheckOutBottomSheet(
-                          tolalCost: BlocProvider.of<AddToCartCubit>(context)
-                              .getTotalCost(),
+                          tolalCost: state.totalCost,
                           orderId: state.orderId,
                           products: state.products,
                           date: state.date,
